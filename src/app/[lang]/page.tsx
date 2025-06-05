@@ -15,12 +15,6 @@ import Head from "next/head";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-interface HomeProps {
-  readonly params: {
-    lang: string;
-  };
-}
-
 const metadataByLang = {
   en: {
     title: "Onnasoft | Smart Digital Solutions",
@@ -49,10 +43,16 @@ const metadataByLang = {
   },
 };
 
+interface HomeProps {
+  readonly params: Promise<{
+    lang: string;
+  }>;
+}
+
 export default async function Home({ params }: HomeProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const lang = params.lang || acceptLanguage || "en";
+  const lang = (await params).lang || acceptLanguage || "en";
   const language = Object.keys(metadataByLang).includes(lang) ? lang : "en";
 
   if (!language) {

@@ -286,11 +286,11 @@ const translations = {
   },
 };
 
-interface Props {
+interface WhyChooseUsProps {
   language: string;
 }
 
-const WhyChooseUs: React.FC<Props> = ({ language }) => {
+const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
   const t =
     translations[language as keyof typeof translations] || translations.en;
 

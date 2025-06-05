@@ -31,15 +31,15 @@ export default async function Home({ params }: { params: { lang: string } }) {
         <Services language={language} />
         <Mission language={language} />
         <WhyChooseUs language={language} />
-        <WorkProcess />
-        <TechStack />
-        <Projects />
-        <ClientTypes />
-        <Testimonials />
-        <FAQ />
-        <Contact />
+        <WorkProcess language={language} />
+        <TechStack language={language} />
+        <Projects language={language} />
+        <ClientTypes language={language} />
+        <Testimonials language={language} />
+        <FAQ language={language} />
+        <Contact language={language} />
       </main>
-      <Footer />
+      <Footer language={language} />
     </div>
   );
 }

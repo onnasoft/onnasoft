@@ -1,25 +1,138 @@
-const Contact = () => {
+import React from "react";
+
+const translations = {
+  en: {
+    sectionTitle: "Contact Us",
+    sectionDescription:
+      "We're ready to help you transform your ideas into innovative digital solutions. Tell us about your project and discover how we can collaborate.",
+    subtitle: "Let's Talk",
+    subtitleDescription:
+      "Complete the form and we'll get back to you as soon as possible. We're eager to learn about your challenges and explore how we can help you achieve your goals.",
+    phoneLabel: "Phone",
+    phoneValue: "+34 123 456 789",
+    emailLabel: "Email",
+    emailValue: "info@onnasoft.com",
+    locationLabel: "Location",
+    locationValue: "Madrid, Spain",
+    form: {
+      name: "Name",
+      email: "Email",
+      subject: "Subject",
+      message: "Message",
+      send: "Send Message",
+    },
+  },
+  es: {
+    sectionTitle: "Contáctanos",
+    sectionDescription:
+      "Estamos listos para ayudarte a transformar tus ideas en soluciones digitales innovadoras. Cuéntanos sobre tu proyecto y descubre cómo podemos colaborar.",
+    subtitle: "Hablemos",
+    subtitleDescription:
+      "Completa el formulario y te responderemos lo antes posible. Estamos entusiasmados por conocer tus desafíos y explorar cómo ayudarte a alcanzar tus objetivos.",
+    phoneLabel: "Teléfono",
+    phoneValue: "+34 123 456 789",
+    emailLabel: "Correo electrónico",
+    emailValue: "info@onnasoft.com",
+    locationLabel: "Ubicación",
+    locationValue: "Madrid, España",
+    form: {
+      name: "Nombre",
+      email: "Correo electrónico",
+      subject: "Asunto",
+      message: "Mensaje",
+      send: "Enviar mensaje",
+    },
+  },
+  fr: {
+    sectionTitle: "Contactez-nous",
+    sectionDescription:
+      "Nous sommes prêts à vous aider à transformer vos idées en solutions numériques innovantes. Parlez-nous de votre projet et découvrez comment nous pouvons collaborer.",
+    subtitle: "Discutons-en",
+    subtitleDescription:
+      "Remplissez le formulaire et nous vous répondrons dès que possible. Nous sommes impatients de connaître vos défis et de voir comment nous pouvons vous aider à atteindre vos objectifs.",
+    phoneLabel: "Téléphone",
+    phoneValue: "+34 123 456 789",
+    emailLabel: "Email",
+    emailValue: "info@onnasoft.com",
+    locationLabel: "Localisation",
+    locationValue: "Madrid, Espagne",
+    form: {
+      name: "Nom",
+      email: "Email",
+      subject: "Sujet",
+      message: "Message",
+      send: "Envoyer le message",
+    },
+  },
+  ja: {
+    sectionTitle: "お問い合わせ",
+    sectionDescription:
+      "アイデアを革新的なデジタルソリューションに変えるお手伝いをいたします。プロジェクトについて教えてください。共に協力できる方法を探しましょう。",
+    subtitle: "話しましょう",
+    subtitleDescription:
+      "フォームにご記入いただければ、できるだけ早くご連絡いたします。あなたの課題を理解し、目標達成のためにどう支援できるかを考えます。",
+    phoneLabel: "電話",
+    phoneValue: "+34 123 456 789",
+    emailLabel: "メール",
+    emailValue: "info@onnasoft.com",
+    locationLabel: "所在地",
+    locationValue: "スペイン、マドリード",
+    form: {
+      name: "名前",
+      email: "メール",
+      subject: "件名",
+      message: "メッセージ",
+      send: "メッセージを送信",
+    },
+  },
+  zh: {
+    sectionTitle: "联系我们",
+    sectionDescription:
+      "我们随时准备帮助您将想法转化为创新的数字解决方案。告诉我们您的项目，探索我们如何合作。",
+    subtitle: "让我们交流",
+    subtitleDescription:
+      "填写表格后我们将尽快与您联系。我们期待了解您的挑战，并探索如何帮助您实现目标。",
+    phoneLabel: "电话",
+    phoneValue: "+34 123 456 789",
+    emailLabel: "电子邮件",
+    emailValue: "info@onnasoft.com",
+    locationLabel: "位置",
+    locationValue: "西班牙，马德里",
+    form: {
+      name: "姓名",
+      email: "电子邮件",
+      subject: "主题",
+      message: "留言",
+      send: "发送信息",
+    },
+  },
+};
+
+interface FAQProps {
+  readonly language: string;
+}
+
+const Contact: React.FC<FAQProps> = ({ language }) => {
+  const t =
+    translations[language as keyof typeof translations] || translations.en;
+
   return (
     <section id="contact" className="section bg-white">
       <div className="container mx-auto">
         <div className="mx-auto">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">Contact Us</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              {t.sectionTitle}
+            </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              We're ready to help you transform your ideas into innovative
-              digital solutions. Tell us about your project and discover how we
-              can collaborate.
+              {t.sectionDescription}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
-              <h3 className="text-2xl font-bold mb-4">Let's Talk</h3>
-              <p className="text-gray-600 mb-6">
-                Complete the form and we'll get back to you as soon as possible.
-                We're eager to learn about your challenges and explore how we
-                can help you achieve your goals.
-              </p>
+              <h3 className="text-2xl font-bold mb-4">{t.subtitle}</h3>
+              <p className="text-gray-600 mb-6">{t.subtitleDescription}</p>
 
               <div className="space-y-4">
                 <div className="flex items-center">
@@ -40,8 +153,8 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium">Phone</p>
-                    <p className="text-gray-600">+34 123 456 789</p>
+                    <p className="font-medium">{t.phoneLabel}</p>
+                    <p className="text-gray-600">{t.phoneValue}</p>
                   </div>
                 </div>
 
@@ -64,8 +177,8 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium">Email</p>
-                    <p className="text-gray-600">info@onnasoft.com</p>
+                    <p className="font-medium">{t.emailLabel}</p>
+                    <p className="text-gray-600">{t.emailValue}</p>
                   </div>
                 </div>
 
@@ -88,8 +201,8 @@ const Contact = () => {
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium">Location</p>
-                    <p className="text-gray-600">Madrid, Spain</p>
+                    <p className="font-medium">{t.locationLabel}</p>
+                    <p className="text-gray-600">{t.locationValue}</p>
                   </div>
                 </div>
               </div>
@@ -102,7 +215,7 @@ const Contact = () => {
                     htmlFor="name"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Name
+                    {t.form.name}
                   </label>
                   <input
                     type="text"
@@ -118,7 +231,7 @@ const Contact = () => {
                     htmlFor="email"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Email
+                    {t.form.email}
                   </label>
                   <input
                     type="email"
@@ -134,7 +247,7 @@ const Contact = () => {
                     htmlFor="subject"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Subject
+                    {t.form.subject}
                   </label>
                   <input
                     type="text"
@@ -150,7 +263,7 @@ const Contact = () => {
                     htmlFor="message"
                     className="block text-sm font-medium text-gray-700 mb-1"
                   >
-                    Message
+                    {t.form.message}
                   </label>
                   <textarea
                     id="message"
@@ -162,7 +275,7 @@ const Contact = () => {
                 </div>
 
                 <button type="submit" className="btn-primary w-full">
-                  Send Message
+                  {t.form.send}
                 </button>
               </form>
             </div>

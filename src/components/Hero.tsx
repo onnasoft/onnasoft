@@ -40,7 +40,11 @@ const translations: Record<string, Record<string, string>> = {
   },
 };
 
-const Hero: React.FC<{ language: string }> = ({ language }) => {
+interface HeroProps {
+  readonly language: string;
+}
+
+const Hero: React.FC<HeroProps> = ({ language }) => {
   const t = translations[language] || translations.en;
 
   return (

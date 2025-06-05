@@ -12,9 +12,9 @@ const translations = {
     process: "Process",
     contact: "Contact",
     contactTitle: "Contact",
-    location: "Madrid, Spain",
-    phone: "+34 123 456 789",
-    email: "info@onnasoft.com",
+    location: process.env.NEXT_PUBLIC_PHONE_NUMBER || "Madrid, Spain",
+    phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
+    email: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     privacy: "Privacy Policy",
     terms: "Terms of Service",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. All rights reserved.`,
@@ -30,8 +30,8 @@ const translations = {
     contact: "Contacto",
     contactTitle: "Contacto",
     location: "Madrid, España",
-    phone: "+34 123 456 789",
-    email: "info@onnasoft.com",
+    phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
+    email: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     privacy: "Política de Privacidad",
     terms: "Términos del Servicio",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. Todos los derechos reservados.`,
@@ -47,8 +47,8 @@ const translations = {
     contact: "Contact",
     contactTitle: "Contact",
     location: "Madrid, Espagne",
-    phone: "+34 123 456 789",
-    email: "info@onnasoft.com",
+    phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
+    email: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     privacy: "Politique de Confidentialité",
     terms: "Conditions d'Utilisation",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. Tous droits réservés.`,
@@ -64,8 +64,8 @@ const translations = {
     contact: "お問い合わせ",
     contactTitle: "連絡先",
     location: "スペイン、マドリード",
-    phone: "+34 123 456 789",
-    email: "info@onnasoft.com",
+    phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
+    email: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     privacy: "プライバシーポリシー",
     terms: "利用規約",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. 無断転載を禁じます。`,
@@ -81,8 +81,8 @@ const translations = {
     contact: "联系",
     contactTitle: "联系方式",
     location: "西班牙，马德里",
-    phone: "+34 123 456 789",
-    email: "info@onnasoft.com",
+    phone: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
+    email: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     privacy: "隐私政策",
     terms: "服务条款",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. 保留所有权利。`,
@@ -107,7 +107,8 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
             <p className="text-gray-400 mb-4">{t.description}</p>
             <div className="flex space-x-4">
               <Link
-                href="/"
+                target="_blank"
+                href={process.env.NEXT_PUBLIC_LINKEDIN_URL || ""}
                 className="text-gray-400 hover:text-primary transition-colors"
               >
                 <svg
@@ -134,7 +135,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href="#"
+                  href="/"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.home}
@@ -239,16 +240,10 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
           <p className="text-gray-400 text-sm">{t.copyright}</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
-              href="#"
+              href={process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL || ""}
               className="text-gray-400 hover:text-primary text-sm transition-colors"
             >
               {t.privacy}
-            </Link>
-            <Link
-              href="#"
-              className="text-gray-400 hover:text-primary text-sm transition-colors"
-            >
-              {t.terms}
             </Link>
           </div>
         </div>

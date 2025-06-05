@@ -14,6 +14,7 @@ import WorkProcess from "@/components/WorkProcess";
 
 export default async function Home() {
   const language = "en";
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar language={language} />
@@ -30,7 +31,7 @@ export default async function Home() {
         <FAQ language={language} />
         <Contact language={language} />
       </main>
-      <Footer />
+      <Footer language={language} />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import ContactForm from "./forms/ContactForm";
 
 const translations = {
   en: {
@@ -9,18 +10,11 @@ const translations = {
     subtitleDescription:
       "Complete the form and we'll get back to you as soon as possible. We're eager to learn about your challenges and explore how we can help you achieve your goals.",
     phoneLabel: "Phone",
-    phoneValue: "+34 123 456 789",
+    phoneValue: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
     emailLabel: "Email",
-    emailValue: "info@onnasoft.com",
+    emailValue: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     locationLabel: "Location",
-    locationValue: "Madrid, Spain",
-    form: {
-      name: "Name",
-      email: "Email",
-      subject: "Subject",
-      message: "Message",
-      send: "Send Message",
-    },
+    locationValue: process.env.NEXT_PUBLIC_LOCATION || "Madrid, Spain",
   },
   es: {
     sectionTitle: "Contáctanos",
@@ -30,18 +24,11 @@ const translations = {
     subtitleDescription:
       "Completa el formulario y te responderemos lo antes posible. Estamos entusiasmados por conocer tus desafíos y explorar cómo ayudarte a alcanzar tus objetivos.",
     phoneLabel: "Teléfono",
-    phoneValue: "+34 123 456 789",
+    phoneValue: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
     emailLabel: "Correo electrónico",
-    emailValue: "info@onnasoft.com",
+    emailValue: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     locationLabel: "Ubicación",
-    locationValue: "Madrid, España",
-    form: {
-      name: "Nombre",
-      email: "Correo electrónico",
-      subject: "Asunto",
-      message: "Mensaje",
-      send: "Enviar mensaje",
-    },
+    locationValue: process.env.NEXT_PUBLIC_LOCATION || "Madrid, Spain",
   },
   fr: {
     sectionTitle: "Contactez-nous",
@@ -51,18 +38,11 @@ const translations = {
     subtitleDescription:
       "Remplissez le formulaire et nous vous répondrons dès que possible. Nous sommes impatients de connaître vos défis et de voir comment nous pouvons vous aider à atteindre vos objectifs.",
     phoneLabel: "Téléphone",
-    phoneValue: "+34 123 456 789",
+    phoneValue: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
     emailLabel: "Email",
-    emailValue: "info@onnasoft.com",
+    emailValue: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     locationLabel: "Localisation",
-    locationValue: "Madrid, Espagne",
-    form: {
-      name: "Nom",
-      email: "Email",
-      subject: "Sujet",
-      message: "Message",
-      send: "Envoyer le message",
-    },
+    locationValue: process.env.NEXT_PUBLIC_LOCATION || "Madrid, Spain",
   },
   ja: {
     sectionTitle: "お問い合わせ",
@@ -72,18 +52,11 @@ const translations = {
     subtitleDescription:
       "フォームにご記入いただければ、できるだけ早くご連絡いたします。あなたの課題を理解し、目標達成のためにどう支援できるかを考えます。",
     phoneLabel: "電話",
-    phoneValue: "+34 123 456 789",
+    phoneValue: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
     emailLabel: "メール",
-    emailValue: "info@onnasoft.com",
+    emailValue: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     locationLabel: "所在地",
-    locationValue: "スペイン、マドリード",
-    form: {
-      name: "名前",
-      email: "メール",
-      subject: "件名",
-      message: "メッセージ",
-      send: "メッセージを送信",
-    },
+    locationValue: process.env.NEXT_PUBLIC_LOCATION || "Madrid, Spain",
   },
   zh: {
     sectionTitle: "联系我们",
@@ -93,18 +66,11 @@ const translations = {
     subtitleDescription:
       "填写表格后我们将尽快与您联系。我们期待了解您的挑战，并探索如何帮助您实现目标。",
     phoneLabel: "电话",
-    phoneValue: "+34 123 456 789",
+    phoneValue: process.env.NEXT_PUBLIC_PHONE_NUMBER || "+34 123 456 789",
     emailLabel: "电子邮件",
-    emailValue: "info@onnasoft.com",
+    emailValue: process.env.NEXT_PUBLIC_EMAIL || "info@onnasoft.com",
     locationLabel: "位置",
-    locationValue: "西班牙，马德里",
-    form: {
-      name: "姓名",
-      email: "电子邮件",
-      subject: "主题",
-      message: "留言",
-      send: "发送信息",
-    },
+    locationValue: process.env.NEXT_PUBLIC_LOCATION || "Madrid, Spain",
   },
 };
 
@@ -152,9 +118,17 @@ const Contact: React.FC<FAQProps> = ({ language }) => {
                       <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                     </svg>
                   </div>
+
                   <div>
                     <p className="font-medium">{t.phoneLabel}</p>
-                    <p className="text-gray-600">{t.phoneValue}</p>
+                    <a
+                      href={`https://wa.me/${t.phoneValue.replace(/\D/g, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-gray-600 hover:text-primary transition-colors"
+                    >
+                      {t.phoneValue}
+                    </a>
                   </div>
                 </div>
 
@@ -178,7 +152,12 @@ const Contact: React.FC<FAQProps> = ({ language }) => {
                   </div>
                   <div>
                     <p className="font-medium">{t.emailLabel}</p>
-                    <p className="text-gray-600">{t.emailValue}</p>
+                    <a
+                      href={`mailto:${t.emailValue}`}
+                      className="text-gray-600 hover:text-primary transition-colors"
+                    >
+                      {t.emailValue}
+                    </a>
                   </div>
                 </div>
 
@@ -209,75 +188,7 @@ const Contact: React.FC<FAQProps> = ({ language }) => {
             </div>
 
             <div>
-              <form action="/api/contact" method="POST" className="space-y-4">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.form.name}
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.form.email}
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.form.subject}
-                  </label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    required
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    {t.form.message}
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={5}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    required
-                  ></textarea>
-                </div>
-
-                <button type="submit" className="btn-primary w-full">
-                  {t.form.send}
-                </button>
-              </form>
+              <ContactForm language={language} />
             </div>
           </div>
         </div>

@@ -14,7 +14,13 @@ import WorkProcess from "@/components/WorkProcess";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export default async function Home({ params }: { params: { lang: string } }) {
+interface HomeProps {
+  readonly params: {
+    lang: string;
+  };
+}
+
+export default async function Home({ params }: HomeProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const language = params.lang || acceptLanguage;

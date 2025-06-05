@@ -11,6 +11,7 @@ import TechStack from "@/components/TechStack";
 import Testimonials from "@/components/Testimonials";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WorkProcess from "@/components/WorkProcess";
+import Head from "next/head";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -20,17 +21,54 @@ interface HomeProps {
   };
 }
 
+const metadataByLang = {
+  en: {
+    title: "Onnasoft | Smart Digital Solutions",
+    description:
+      "We turn ideas into scalable digital products. Web development, backend, DevOps, and AI-powered solutions.",
+  },
+  es: {
+    title: "Onnasoft | Soluciones digitales inteligentes",
+    description:
+      "Convertimos ideas en productos digitales escalables. Desarrollo web, backend, DevOps y soluciones con IA.",
+  },
+  ja: {
+    title: "Onnasoft | スマートデジタルソリューション",
+    description:
+      "アイデアをスケーラブルなデジタル製品に変換します。ウェブ開発、バックエンド、DevOps、AIソリューション。",
+  },
+  fr: {
+    title: "Onnasoft | Solutions numériques intelligentes",
+    description:
+      "Nous transformons les idées en produits numériques évolutifs. Développement web, backend, DevOps et solutions IA.",
+  },
+  zh: {
+    title: "Onnasoft | 智能数字解决方案",
+    description:
+      "将创意转化为可扩展的数字产品。网页开发、后端、DevOps 和 AI 解决方案。",
+  },
+};
+
 export default async function Home({ params }: HomeProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const language = params.lang || acceptLanguage;
+  const lang = params.lang || acceptLanguage || "en";
+  const language = Object.keys(metadataByLang).includes(lang) ? lang : "en";
 
   if (!language) {
     redirect(`/`);
   }
 
+  const { title, description } =
+    metadataByLang[language as keyof typeof metadataByLang] ||
+    metadataByLang.en;
+
   return (
     <div className="min-h-screen bg-white">
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={description} />
+      </Head>
       <Navbar language={language} />
       <main>
         <Hero language={language} />

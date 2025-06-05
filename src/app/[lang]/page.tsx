@@ -11,9 +11,18 @@ import TechStack from "@/components/TechStack";
 import Testimonials from "@/components/Testimonials";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WorkProcess from "@/components/WorkProcess";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
-export default async function Home() {
-  const language = "en";
+export default async function Home({ params }: { params: { lang: string } }) {
+  const h = await headers();
+  const acceptLanguage = h.get("accept-language")?.split(",")[0];
+  const language = params.lang || acceptLanguage;
+
+  if (!language) {
+    redirect(`/`);
+  }
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar language={language} />
@@ -22,13 +31,13 @@ export default async function Home() {
         <Services language={language} />
         <Mission language={language} />
         <WhyChooseUs language={language} />
-        <WorkProcess language={language} />
-        <TechStack language={language} />
-        <Projects language={language} />
-        <ClientTypes language={language} />
-        <Testimonials language={language} />
-        <FAQ language={language} />
-        <Contact language={language} />
+        <WorkProcess />
+        <TechStack />
+        <Projects />
+        <ClientTypes />
+        <Testimonials />
+        <FAQ />
+        <Contact />
       </main>
       <Footer />
     </div>

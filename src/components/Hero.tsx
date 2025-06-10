@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import heroImageSrc from "@/assets/images/hero-image.jpg";
 
 const translations: Record<string, Record<string, string>> = {
   en: {
@@ -51,7 +52,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       <div className="absolute inset-0 z-0">
         <Image
           fill
-          src="/assets/images/hero-image.jpg"
+          src={heroImageSrc}
           alt="Digital technology background"
           className="w-full h-full object-cover opacity-20"
         />

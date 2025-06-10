@@ -237,22 +237,26 @@ const Navbar = async ({ language }: { language: string }) => {
       >
         <div className="bg-white shadow-lg">
           <div className="container mx-auto px-4 py-2 flex flex-col space-y-3">
-            <Link href="#services" className="nav-link-mobile">
+            <Link href={`/${lang}/#services`} className="nav-link-mobile">
               {t.services}
             </Link>
-            <Link href="#why-us" className="nav-link-mobile">
+            <Link href={`/${lang}/#why-us`} className="nav-link-mobile">
               {t.whyUs}
             </Link>
-            <Link href="#process" className="nav-link-mobile">
-              {t.process}
+            <Link href={`/${lang}/mission`} className="nav-link-mobile">
+              {t.mission}
             </Link>
-            <Link href="#projects" className="nav-link-mobile">
-              {t.sectors}
+            <Link href={`/${lang}/vision`} className="nav-link-mobile">
+              {t.vision}
             </Link>
-            <Link href="#blog" className="nav-link-mobile">
+            <Link
+              target="_blank"
+              href={process.env.NEXT_PUBLIC_BLOG_URL || ""}
+              className="nav-link-mobile"
+            >
               {t.blog}
             </Link>
-            <Link href="#contact" className="nav-link-mobile">
+            <Link href={`/${lang}/#contact`} className="nav-link-mobile">
               {t.contact}
             </Link>
           </div>

@@ -53,11 +53,11 @@ export default async function Home({ params }: HomeProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
-  const language = Object.keys(metadataByLang).includes(lang) ? lang : "en";
 
-  if (!language) {
-    redirect(`/`);
+  if (!Object.keys(metadataByLang).includes(lang)) {
+    redirect(`/en/${lang}`);
   }
+  const language = lang.toLowerCase();
 
   const { title, description } =
     metadataByLang[language as keyof typeof metadataByLang] ||

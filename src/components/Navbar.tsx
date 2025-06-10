@@ -1,6 +1,7 @@
+import { headers } from "next/headers";
 import Link from "next/link";
 
-const translations: Record<string, Record<string, string>> = {
+const translations = {
   en: {
     services: "Services",
     whyUs: "Why Choose Us",
@@ -8,6 +9,8 @@ const translations: Record<string, Record<string, string>> = {
     sectors: "Sectors",
     blog: "Blog",
     contact: "Contact",
+    mission: "Mission",
+    vision: "Vision",
   },
   es: {
     services: "Servicios",
@@ -16,6 +19,8 @@ const translations: Record<string, Record<string, string>> = {
     sectors: "Sectores",
     blog: "Blog",
     contact: "Contacto",
+    mission: "Misión",
+    vision: "Visión",
   },
   fr: {
     services: "Services",
@@ -24,6 +29,8 @@ const translations: Record<string, Record<string, string>> = {
     sectors: "Secteurs",
     blog: "Blog",
     contact: "Contact",
+    mission: "Mission",
+    vision: "Vision",
   },
   ja: {
     services: "サービス",
@@ -32,6 +39,8 @@ const translations: Record<string, Record<string, string>> = {
     sectors: "分野",
     blog: "ブログ",
     contact: "お問い合わせ",
+    mission: "ミッション",
+    vision: "ビジョン",
   },
   zh: {
     services: "服务",
@@ -40,32 +49,39 @@ const translations: Record<string, Record<string, string>> = {
     sectors: "行业",
     blog: "博客",
     contact: "联系",
+    mission: "使命",
+    vision: "愿景",
   },
 };
 
-const Navbar = ({ language }: { language: string }) => {
-  const t = translations[language] || translations.en;
+const Navbar = async ({ language }: { language: string }) => {
+  const headersList = await headers();
+  const t =
+    translations[language as keyof typeof translations] || translations.en;
+  const pathname = headersList.get("x-pathname") || "";
+  const path = pathname.substring(3);
+  const lang = language;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm py-3 transition-all duration-300">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
-          <Link href="/" className="text-2xl font-bold text-gray-900">
+          <Link href={`/${lang}`} className="text-2xl font-bold text-gray-900">
             <span className="text-primary">Onna</span>Soft
           </Link>
         </div>
         <nav className="hidden lg:flex space-x-8 items-center">
-          <Link href="#services" className="nav-link">
+          <Link href={`/${lang}/#services`} className="nav-link">
             {t.services}
           </Link>
-          <Link href="#why-us" className="nav-link">
+          <Link href={`/${lang}/#why-us`} className="nav-link">
             {t.whyUs}
           </Link>
-          <Link href="#process" className="nav-link">
-            {t.process}
+          <Link href={`/${lang}/mission`} className="nav-link">
+            {t.mission}
           </Link>
-          <Link href="#projects" className="nav-link">
-            {t.sectors}
+          <Link href={`/${lang}/vision`} className="nav-link">
+            {t.vision}
           </Link>
           <Link
             target="_blank"
@@ -74,8 +90,8 @@ const Navbar = ({ language }: { language: string }) => {
           >
             {t.blog}
           </Link>
-          <Link href="#contact" className="nav-link">
-            {t.contact}
+          <Link href={`/${lang}/#contact`} className="nav-link">
+            <span className="text-primary font-bold">{t.contact}</span>
           </Link>
 
           {/* Desktop Language Selector */}
@@ -108,31 +124,31 @@ const Navbar = ({ language }: { language: string }) => {
             </button>
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 hidden peer-focus:block hover:block">
               <Link
-                href="/"
+                href={`/en/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="text-lg mr-2">🇺🇸</span> English
               </Link>
               <Link
-                href="/es"
+                href={`/es/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="text-lg mr-2">🇪🇸</span> Español
               </Link>
               <Link
-                href="/fr"
+                href={`/fr/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="text-lg mr-2">🇫🇷</span> Français
               </Link>
               <Link
-                href="/ja"
+                href={`/ja/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="text-lg mr-2">🇯🇵</span> 日本語
               </Link>
               <Link
-                href="/zh"
+                href={`/zh/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="text-lg mr-2">🇨🇳</span> 中文
@@ -171,7 +187,7 @@ const Navbar = ({ language }: { language: string }) => {
                 function redirectToLanguage(lang) {
                   const currentPath = window.location.pathname;
                   const langRegex = /^\\/(en|es|fr|ja|zh)(\\/|$)/;
-                  const basePath = lang === 'en' ? '/' : '/' + lang;
+                  const basePath = '/' + lang;
                   const newPath = langRegex.test(currentPath) 
                     ? currentPath.replace(langRegex, basePath + '$2')
                     : basePath + currentPath;

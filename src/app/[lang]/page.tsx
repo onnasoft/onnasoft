@@ -1,3 +1,5 @@
+"use server";
+
 import ClientTypes from "@/components/ClientTypes";
 import Contact from "@/components/Contact";
 import FAQ from "@/components/FAQ";

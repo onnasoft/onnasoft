@@ -54,14 +54,14 @@ const MakingProjectsReal = ({ language }: MakingProjectsRealProps) => {
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               {t.title} <span className="text-primary">{t.highlight}</span>
             </h2>
-            <p className="text-lg text-gray-700 mb-4">{t.intro}</p>
-            <p className="text-lg text-gray-700">{t.body}</p>
+            <p className=" text-gray-700 mb-4">{t.intro}</p>
+            <p className=" text-gray-700">{t.body}</p>
           </div>
           <div className="w-full">
             <Image
               width={600}
-              height={270}
-              src="/assets/undraw_team-goals_0026.svg"
+              height={464}
+              src="/assets/undraw_financial-data_lbci.png"
               alt="Mission illustration"
               priority
             />

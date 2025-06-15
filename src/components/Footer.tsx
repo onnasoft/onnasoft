@@ -131,7 +131,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold mb-4">{t.quickLinks}</h3>
+            <h3 className=" font-bold mb-4">{t.quickLinks}</h3>
             <ul className="space-y-2">
               <li>
                 <Link
@@ -177,7 +177,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold mb-4">{t.contactTitle}</h3>
+            <h3 className=" font-bold mb-4">{t.contactTitle}</h3>
             <ul className="space-y-2">
               <li className="flex items-start">
                 <svg

@@ -194,12 +194,12 @@ const Services: React.FC<{ language: string }> = ({ language }) => {
     translations[language as keyof typeof translations] || translations.en;
 
   const icons = [
-    <FaCode key={0} className="text-2xl text-blue-600" />,
-    <FaPlug key={1} className="text-2xl text-green-600" />,
-    <FaDatabase key={2} className="text-2xl text-purple-600" />,
-    <FaChartLine key={3} className="text-2xl text-red-600" />,
-    <FaUsers key={4} className="text-2xl text-orange-600" />,
-    <SiGooglecloud key={5} className="text-2xl text-blue-400" />,
+    <FaCode key={0} className="text-2xl" />,
+    <FaPlug key={1} className="text-2xl" />,
+    <FaDatabase key={2} className="text-2xl" />,
+    <FaChartLine key={3} className="text-2xl" />,
+    <FaUsers key={4} className="text-2xl" />,
+    <SiGooglecloud key={5} className="text-2xl" />,
   ];
 
   return (
@@ -223,7 +223,7 @@ const Services: React.FC<{ language: string }> = ({ language }) => {
               key={service.title}
               className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="mb-5 p-4 bg-primary bg-opacity-10 rounded-full w-14 h-14 flex items-center justify-center">
+              <div className="mb-5 p-4 bg-primary text-white rounded-full w-14 h-14 flex items-center justify-center">
                 {icons[index]}
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">

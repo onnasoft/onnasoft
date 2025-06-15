@@ -63,8 +63,8 @@ const OurImpactGoals = ({ language }: OurImpactGoalsProps) => {
               {t.title.split(t.titleHighlight)[0]}
               <span className="text-primary">{t.titleHighlight}</span>
             </h2>
-            <p className="text-lg text-gray-700 mb-4">{t.intro}</p>
-            <p className="text-lg text-gray-700">{t.body}</p>
+            <p className=" text-gray-700 mb-4">{t.intro}</p>
+            <p className=" text-gray-700">{t.body}</p>
           </div>
         </div>
       </div>

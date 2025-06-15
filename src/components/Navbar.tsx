@@ -63,7 +63,7 @@ const Navbar = async ({ language }: { language: string }) => {
   const lang = language;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white shadow-sm py-3 transition-all duration-300">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur shadow-xs py-3 transition-all duration-300">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
           <Link href={`/${lang}`} className="text-2xl font-bold text-gray-900">
@@ -83,30 +83,29 @@ const Navbar = async ({ language }: { language: string }) => {
           <Link href={`/${lang}/vision`} className="nav-link">
             {t.vision}
           </Link>
-          <Link
-            target="_blank"
-            href={process.env.NEXT_PUBLIC_BLOG_URL || ""}
-            className="nav-link"
-          >
+          <Link href={`/${lang}/blog`} className="nav-link">
             {t.blog}
           </Link>
-          <Link href={`/${lang}/#contact`} className="nav-link">
-            <span className="text-primary font-bold">{t.contact}</span>
+          <Link
+            href={`/${lang}/#contact`}
+            className="bg-primary text-white px-4 py-2 rounded-md  font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            <span className="text-white font-bold">{t.contact}</span>
           </Link>
 
           {/* Desktop Language Selector */}
           <div className="relative ml-4">
             <button
-              className="flex items-center space-x-1 text-gray-700 hover:text-primary focus:outline-none peer text-lg"
+              className="flex items-center space-x-1 text-gray-700 hover:text-primary focus:outline-none peer "
               aria-haspopup="true"
               aria-expanded="false"
             >
               {/* Emoji del idioma actual */}
-              {language === "en" && <span className="text-lg mr-1">🇺🇸</span>}
-              {language === "es" && <span className="text-lg mr-1">🇪🇸</span>}
-              {language === "fr" && <span className="text-lg mr-1">🇫🇷</span>}
-              {language === "ja" && <span className="text-lg mr-1">🇯🇵</span>}
-              {language === "zh" && <span className="text-lg mr-1">🇨🇳</span>}
+              {language === "en" && <span className=" mr-1">🇺🇸</span>}
+              {language === "es" && <span className=" mr-1">🇪🇸</span>}
+              {language === "fr" && <span className=" mr-1">🇫🇷</span>}
+              {language === "ja" && <span className=" mr-1">🇯🇵</span>}
+              {language === "zh" && <span className=" mr-1">🇨🇳</span>}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-4 w-4"
@@ -127,31 +126,31 @@ const Navbar = async ({ language }: { language: string }) => {
                 href={`/en/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
-                <span className="text-lg mr-2">🇺🇸</span> English
+                <span className=" mr-2">🇺🇸</span> English
               </Link>
               <Link
                 href={`/es/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
-                <span className="text-lg mr-2">🇪🇸</span> Español
+                <span className=" mr-2">🇪🇸</span> Español
               </Link>
               <Link
                 href={`/fr/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
-                <span className="text-lg mr-2">🇫🇷</span> Français
+                <span className=" mr-2">🇫🇷</span> Français
               </Link>
               <Link
                 href={`/ja/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
-                <span className="text-lg mr-2">🇯🇵</span> 日本語
+                <span className=" mr-2">🇯🇵</span> 日本語
               </Link>
               <Link
                 href={`/zh/${path}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
-                <span className="text-lg mr-2">🇨🇳</span> 中文
+                <span className=" mr-2">🇨🇳</span> 中文
               </Link>
             </div>
           </div>
@@ -249,11 +248,7 @@ const Navbar = async ({ language }: { language: string }) => {
             <Link href={`/${lang}/vision`} className="nav-link-mobile">
               {t.vision}
             </Link>
-            <Link
-              target="_blank"
-              href={process.env.NEXT_PUBLIC_BLOG_URL || ""}
-              className="nav-link-mobile"
-            >
+            <Link href={`/${lang}/blog`} className="nav-link-mobile">
               {t.blog}
             </Link>
             <Link href={`/${lang}/#contact`} className="nav-link-mobile">
@@ -276,19 +271,6 @@ const Navbar = async ({ language }: { language: string }) => {
               link.addEventListener('click', () => {
                 mobileMenu.classList.add('hidden');
               });
-            });
-            let lastScroll = 0;
-            const header = document.querySelector('header');
-            window.addEventListener('scroll', () => {
-              const currentScroll = window.scrollY;
-              if (currentScroll > 10) {
-                header.classList.add('bg-white', 'shadow-sm', 'py-3');
-                header.classList.remove('bg-transparent', 'py-5');
-              } else {
-                header.classList.remove('bg-white', 'shadow-sm', 'py-3');
-                header.classList.add('bg-transparent', 'py-5');
-              }
-              lastScroll = currentScroll;
             });
           });
         `,

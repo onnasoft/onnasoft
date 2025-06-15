@@ -61,7 +61,7 @@ const OurVision = ({ language }: OurVisionProps) => {
               )}
             </h2>
             {t.paragraphs.map((p, idx) => (
-              <p key={idx} className="text-lg text-gray-700 mb-4">
+              <p key={idx} className=" text-gray-700 mb-4">
                 {p}
               </p>
             ))}
@@ -69,8 +69,8 @@ const OurVision = ({ language }: OurVisionProps) => {
           <div className="w-full">
             <Image
               width={600}
-              height={400}
-              src="/assets/undraw_career-progress_vfq5.png"
+              height={464}
+              src="/assets/undraw_data-points_uc3j.png"
               alt="Illustration of our vision"
             />
           </div>

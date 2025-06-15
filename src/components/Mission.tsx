@@ -150,7 +150,7 @@ const Mission: React.FC<{ language: string }> = ({ language }) => {
           <div className="lg:w-1/2">
             <div className="relative lg:p-4">
               <div
-                className="absolute -inset-4 bg-primary opacity-10 rounded-xl transform rotate-3 lg:mr-0 mr-5"
+                className="absolute -inset-4 bg-primary text-white rounded-xl transform rotate-3 lg:mr-0 mr-5"
               ></div>
               <div className="relative bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
                 <h2 className="text-3xl md:text-4xl font-bold mb-6 text-gray-900 dark:text-white">
@@ -175,7 +175,7 @@ const Mission: React.FC<{ language: string }> = ({ language }) => {
                     key={t.items[i].title}
                     className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
                   >
-                    <div className="mb-4 p-3 bg-primary bg-opacity-10 rounded-full w-14 h-14 flex items-center justify-center">
+                    <div className="mb-4 p-3 bg-primary text-white rounded-full w-14 h-14 flex items-center justify-center">
                       <Icon className="text-2xl" />
                     </div>
                     <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">

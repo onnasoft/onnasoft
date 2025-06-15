@@ -59,17 +59,7 @@ export default async function Mission({ params }: MissionProps) {
   return (
     <div className="min-h-screen bg-white">
       <Navbar language={language} />
-      <main>
-        <section className="hero-pattern pt-24 pb-16">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">{t.title}</h1>
-              <p className="text-xl text-gray-600 mb-8">{t.description}</p>
-              <div className="w-24 h-1 bg-primary mx-auto"></div>
-            </div>
-          </div>
-        </section>
-
+      <main className="pt-16">
         <MakingProjectsReal language={language} />
 
         <OurVisionValues language={language} />

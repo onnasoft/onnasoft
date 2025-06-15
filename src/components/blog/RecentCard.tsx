@@ -1,0 +1,58 @@
+import { PostTranslation } from "@/types/models";
+import Image from "next/image";
+import Link from "next/link";
+
+type BlogCardProps = PostTranslation;
+
+export default function RecentCard(article: BlogCardProps) {
+  const content =
+    article.translatedContent
+      .split("\n")
+      .find((line) => !line.startsWith("#") && line.trim() !== "")
+      ?.substring(0, 100) || "";
+
+  const postUrl = [
+    article.locale,
+    "blog",
+    article.post.category.slug,
+    article.post.slug,
+  ].join("/");
+  return (
+    <div className="blog-card bg-white shadow-sm flex gap-4 p-4">
+      <Image
+        priority
+        width={200}
+        height={200}
+        src={article.post.coverImage?.url || "/default-image.jpg"}
+        alt="Securing Your API Endpoints"
+        className="blog-image"
+      />
+      <div className="">
+        <div className="flex items-center mb-2">
+          <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+            {article.post.category.name}
+          </span>
+          <span className="text-gray-500 text-sm ml-auto">June 10, 2025</span>
+        </div>
+        <h3 className=" font-bold mb-2">
+          <Link href={`/${postUrl}`}>{article.translatedTitle}</Link>
+        </h3>
+        <p className="text-gray-600 mb-4">{content}...</p>
+        <div className="flex items-center">
+          <img
+            src="https://randomuser.me/api/portraits/women/68.jpg"
+            alt="Sarah Johnson"
+            className="w-8 h-8 rounded-full mr-2"
+          />
+          <span className="text-gray-700 text-sm">Sarah Johnson</span>
+          <a
+            href={`/${postUrl}`}
+            className="ml-auto text-primary hover:underline"
+          >
+            Read More
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}

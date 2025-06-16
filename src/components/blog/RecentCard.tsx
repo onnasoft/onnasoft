@@ -1,10 +1,12 @@
+"use server";
 import { PostTranslation } from "@/types/models";
 import Image from "next/image";
 import Link from "next/link";
+import moment from "moment";
 
-type BlogCardProps = PostTranslation;
+type BlogCardProps = Readonly<PostTranslation>;
 
-export default function RecentCard(article: BlogCardProps) {
+export default async function RecentCard(article: BlogCardProps) {
   const content =
     article.translatedContent
       .split("\n")
@@ -25,14 +27,18 @@ export default function RecentCard(article: BlogCardProps) {
         height={200}
         src={article.post.coverImage?.url || "/default-image.jpg"}
         alt="Securing Your API Endpoints"
-        className="blog-image"
+        className="blog-image cursor-pointer"
       />
       <div className="">
         <div className="flex items-center mb-2">
           <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
             {article.post.category.name}
           </span>
-          <span className="text-gray-500 text-sm ml-auto">June 10, 2025</span>
+          <span className="text-gray-500 text-sm ml-auto">
+            {new Date(article.createdAt)
+              ? moment(article.createdAt).format("MMM DD, YYYY")
+              : "Unknown Date"}
+          </span>
         </div>
         <h3 className=" font-bold mb-2">
           <Link href={`/${postUrl}`}>{article.translatedTitle}</Link>

@@ -14,7 +14,6 @@ export default async function RecentArticles({
   const articles = await getPostTranslations({
     locale: language,
   });
-  console.log("Recent articles:", articles);
 
   return (
     <div>

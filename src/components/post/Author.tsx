@@ -1,0 +1,54 @@
+import { PostTranslation } from "@/types/models";
+import Image from "next/image";
+import Link from "next/link";
+
+interface AuthorProps {
+  readonly post: PostTranslation;
+}
+
+export default function Author({ post }: AuthorProps) {
+  return (
+    <div className="mt-8 p-6 bg-gray-50 rounded-lg __web-inspector-hide-shortcut__">
+      <div className="flex items-start space-x-4">
+        <Image
+          width={64}
+          height={64}
+          className="h-16 w-16 rounded-full"
+          src={post.post.author?.photo?.url || "/default-avatar.png"}
+          alt="Author's photo"
+        />
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold text-gray-900">
+            {post.post.author?.name || "Carlos Rodriguez"}
+          </h3>
+          <p className="text-sm text-onnasoft-pink mb-2">
+            {post.post.author?.position || "Cloud Solutions Architect"}
+          </p>
+          <p className="text-sm text-gray-600">
+            {post.post.author?.bio || ""}
+          </p>
+          <div className="mt-3 flex space-x-3">
+            <Link
+              href={post.post.author?.website || "#"}
+              className="text-gray-400 hover:text-onnasoft-pink transition-colors"
+            >
+              <i className="fas fa-globe"></i>
+            </Link>
+            <Link
+              href={post.post.author?.linkedIn || "#"}
+              className="text-gray-400 hover:text-onnasoft-pink transition-colors"
+            >
+              <i className="fab fa-linkedin"></i>
+            </Link>
+            <Link
+              href={post.post.author?.github || "#"}
+              className="text-gray-400 hover:text-onnasoft-pink transition-colors"
+            >
+              <i className="fab fa-github"></i>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

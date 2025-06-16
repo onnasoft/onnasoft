@@ -12,6 +12,7 @@ export interface Category {
   name: string;
   slug: string;
   description: string | null;
+  postCount: number;
   updatedAt: string;
   createdAt: string;
 }
@@ -28,7 +29,14 @@ export interface CategoryTranslation {
 
 export interface Author {
   id: number;
+  name: string;
+  position: string | null;
+  bio: string | null;
+  photo: CoverImage | null;
   email: string;
+  linkedIn: string | null;
+  github: string | null;
+  website: string | null;
   createdAt: string;
   updatedAt: string;
   loginAttempts: number;

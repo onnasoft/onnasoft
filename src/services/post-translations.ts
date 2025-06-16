@@ -23,8 +23,7 @@ export async function getPostTranslations(
       url.searchParams.append(`where[${key}][equals]`, value);
     }
   }
-
-  console.log("Fetching post translations from:", url.toString());
+  url.searchParams.append("depth", "3");
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -56,6 +55,20 @@ export async function getPostTranslations(
         url: url,
         thumbnailURL: thumbnailURL,
       };
+    }
+    if (doc.post.author) {
+      const authorPhoto = doc.post.author.photo;
+      if (authorPhoto) {
+        let url = authorPhoto.url || "";
+        if (url && url.startsWith("/")) {
+          url = `${baseUrl}${url}`;
+        }
+        doc.post.author.photo = {
+          ...authorPhoto,
+          url: url,
+          thumbnailURL: authorPhoto.thumbnailURL || null,
+        };
+      }
     }
     return doc;
   });

@@ -37,34 +37,25 @@ export default async function BlogSidebar({ language }: BlogSidebarProps) {
       </div>
       <h3 className="text-xl font-bold mb-6 hidden md:block">Categories</h3>
       <ul className="space-y-4">
-        {categories.map((category) => (
-          <li
-            key={category.translatedName}
-            className="category-item flex items-center justify-between"
-          >
-            <Link
-              href={`/${language}/blog/${category.category.slug}`}
-              className="text-gray-700 hover:text-primary"
+        {categories
+          .filter(({ category }) => category.postCount > 0)
+          .map((category) => (
+            <li
+              key={category.translatedName}
+              className="category-item flex items-center justify-between"
             >
-              {category.translatedName}
-            </Link>
-          </li>
-        ))}
-      </ul>
-      <div className="mt-8 pt-8 border-t border-gray-200">
-        <h3 className=" font-bold mb-4">Popular Tags</h3>
-        <div className="flex flex-wrap gap-2">
-          {tags.map((tag) => (
-            <Link
-              key={tag}
-              href="#"
-              className="px-3 py-1 bg-gray-100 text-gray-700 rounded-full text-sm hover:bg-primary hover:text-white transition-all"
-            >
-              #{tag}
-            </Link>
+              <Link
+                href={`/${language}/blog/${category.category.slug}`}
+                className="text-gray-700 hover:text-primary"
+              >
+                {category.translatedName}
+              </Link>
+              <span className="text-gray-500 text-sm">
+                ({category.category.postCount})
+              </span>
+            </li>
           ))}
-        </div>
-      </div>
+      </ul>
     </div>
   );
 }

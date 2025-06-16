@@ -519,6 +519,37 @@ body {
     margin: 2.15rem 0 1.25rem 0;
   }
 
+  & h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1.75rem 0 0.85rem 0;
+  }
+
+  & h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem 0;
+  }
+
+  & ul,
+  & ol {
+    margin: 1.5rem 0;
+    padding-left: 1.5rem;
+  }
+  & li {
+    margin-bottom: 0.75rem;
+    color: #4b5563;
+    list-style-type: decimal;
+  }
+
+  & blockquote {
+    border-left: 4px solid rgb(236 72 153 / var(--tw-bg-opacity, 1));
+    padding-left: 1.25rem;
+    margin: 1.75rem 0;
+    font-style: italic;
+    color: #6b7280;
+  }
+
   p {
     margin: 1rem 0;
     line-height: 1.6;

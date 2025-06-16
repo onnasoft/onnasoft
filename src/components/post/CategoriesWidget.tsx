@@ -3,12 +3,36 @@
 import { getCategories } from "@/services/categories";
 import Link from "next/link";
 
-export default async function CategoriesWidget() {
+const transitions = {
+  en: {
+    title: "Categories",
+  },
+  es: {
+    title: "Categorías",
+  },
+  fr: {
+    title: "Catégories",
+  },
+  ja: {
+    title: "カテゴリー",
+  },
+  zh: {
+    title: "分类",
+  },
+};
+
+interface CategoryProps {
+  readonly language: string;
+}
+
+export default async function CategoriesWidget({ language }: CategoryProps) {
   const categories = await getCategories();
+
+  const t = transitions[language as keyof typeof transitions] || transitions.en;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-      <h3 className="font-semibold text-gray-900 mb-4">Categories</h3>
+      <h3 className="font-semibold text-gray-900 mb-4">{t.title}</h3>
       <ul className="space-y-2">
         {categories
           .filter((category) => category.postCount > 0)

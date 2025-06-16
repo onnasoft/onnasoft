@@ -1,38 +1,78 @@
-export default function RecentPostsWidget() {
-  const recentPosts = [
-    {
-      title: "DevOps Best Practices for Cloud-Native Applications",
-      date: "March 10, 2024",
-      image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
+"use server";
+
+import { getPostTranslations } from "@/services/post-translations";
+import { PostTranslation } from "@/types/models";
+import Image from "next/image";
+import Link from "next/link";
+
+const translations = {
+  en: {
+    title: "Recent Posts",
+  },
+  es: {
+    title: "Publicaciones Recientes",
+  },
+  fr: {
+    title: "Articles Récents",
+  },
+  ja: {
+    title: "最近の投稿",
+  },
+  zh: {
+    title: "最新文章",
+  },
+};
+
+interface RecentPostsWidgetProps {
+  readonly language: string;
+  readonly article: PostTranslation;
+}
+
+export default async function RecentPostsWidget({
+  language,
+  article,
+}: RecentPostsWidgetProps) {
+  const posts = await getPostTranslations({
+    locale: language,
+    limit: 3,
+    post: {
+      op: "not_equals",
+      value: article.post.id,
     },
-    {
-      title: "Microservices Architecture: When and How to Implement",
-      date: "March 8, 2024",
-      image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
-    },
-    {
-      title: "Advanced Data Analytics with Python and PySpark",
-      date: "March 5, 2024",
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80",
-    },
-  ];
+  });
+
+  const t =
+    translations[language as keyof typeof translations] || translations.en;
 
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
-      <h3 className="font-semibold text-gray-900 mb-4">Recent Posts</h3>
+      <h3 className="font-semibold text-gray-900 mb-4">{t.title}</h3>
       <div className="space-y-4">
-        {recentPosts.map((post, index) => (
-          <article key={index} className="flex space-x-3">
-            <img
+        {posts.map((article) => (
+          <article key={article.slug} className="flex space-x-3">
+            <Image
+              width={64}
+              height={64}
               className="w-16 h-16 object-cover rounded"
-              src={post.image}
-              alt={post.title}
+              src={article.post.coverThumbnail?.url || ""}
+              alt={article.translatedTitle}
             />
             <div className="flex-1">
               <h4 className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                <a href="#">{post.title}</a>
+                <Link href={`/${language}/blog/${article.slug}`}>
+                  {article.translatedTitle}
+                </Link>
               </h4>
-              <p className="text-xs text-gray-500 mt-1">{post.date}</p>
+              <p className="text-xs text-gray-500 mt-1">
+                {new Date(article.post.publishedDate).toLocaleDateString(
+                  language,
+                  {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  }
+                )}
+              </p>
             </div>
           </article>
         ))}

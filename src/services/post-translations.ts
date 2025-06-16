@@ -9,8 +9,17 @@ export interface PostTranslationResponse {
   docs: PostTranslation[];
 }
 
-type FilterKeys = keyof Omit<PostTranslation, "post"> | "post";
-type Filters = Partial<Record<FilterKeys, string>>;
+type FilterKeys =
+  | keyof Omit<PostTranslation, "post">
+  | "post"
+  | "limit"
+  | "depth";
+type FilterOperator = "equals" | "not_equals" | "like" | "in" | "not_in"; // puedes agregar más
+type FilterValue = string | number;
+
+type Filters = Partial<
+  Record<FilterKeys, FilterValue | { value: FilterValue; op: FilterOperator }>
+>;
 
 export async function getPostTranslations(
   filters: Filters
@@ -18,12 +27,29 @@ export async function getPostTranslations(
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/api/post-translations`);
 
-  for (const [key, value] of Object.entries(filters)) {
-    if (value != null) {
-      url.searchParams.append(`where[${key}][equals]`, value);
-    }
+  const excludedKeys = ["limit", "depth"];
+
+  for (const [key, rawValue] of Object.entries(filters)) {
+    if (rawValue == null || rawValue === "" || excludedKeys.includes(key))
+      continue;
+
+    const { value, op } =
+      typeof rawValue === "object" && "value" in rawValue
+        ? rawValue
+        : { value: rawValue, op: "equals" };
+
+    url.searchParams.append(`where[${key}][${op}]`, String(value));
   }
-  url.searchParams.append("depth", "3");
+
+  if (filters.limit && typeof filters.limit === "number") {
+    url.searchParams.append("limit", filters.limit.toString());
+  }
+
+  if (filters.depth && typeof filters.depth === "number") {
+    url.searchParams.append("depth", filters.depth.toString());
+  }
+
+  console.log("Fetching post translations from:", decodeURIComponent(url.toString()));
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -43,33 +69,35 @@ export async function getPostTranslations(
     if (coverImage) {
       let url = coverImage.url || "";
       let thumbnailURL = coverImage.thumbnailURL || "";
-      if (url && url.startsWith("/")) {
-        url = `${baseUrl}${url}`;
-      }
-      if (thumbnailURL && thumbnailURL.startsWith("/")) {
+      if (url.startsWith("/")) url = `${baseUrl}${url}`;
+      if (thumbnailURL.startsWith("/"))
         thumbnailURL = `${baseUrl}${thumbnailURL}`;
-      }
-
-      doc.post.coverImage = {
-        ...coverImage,
-        url: url,
-        thumbnailURL: thumbnailURL,
-      };
+      doc.post.coverImage = { ...coverImage, url, thumbnailURL };
     }
+
+    const coverThumbnail = doc.post.coverThumbnail;
+    if (coverThumbnail) {
+      let url = coverThumbnail.url || "";
+      let thumbnailURL = coverThumbnail.thumbnailURL || "";
+      if (url.startsWith("/")) url = `${baseUrl}${url}`;
+      if (thumbnailURL.startsWith("/"))
+        thumbnailURL = `${baseUrl}${thumbnailURL}`;
+      doc.post.coverThumbnail = { ...coverThumbnail, url, thumbnailURL };
+    }
+
     if (doc.post.author) {
       const authorPhoto = doc.post.author.photo;
       if (authorPhoto) {
         let url = authorPhoto.url || "";
-        if (url && url.startsWith("/")) {
-          url = `${baseUrl}${url}`;
-        }
+        if (url.startsWith("/")) url = `${baseUrl}${url}`;
         doc.post.author.photo = {
           ...authorPhoto,
-          url: url,
+          url,
           thumbnailURL: authorPhoto.thumbnailURL || null,
         };
       }
     }
+
     return doc;
   });
 }

@@ -30,6 +30,7 @@ export default async function Post({ params }: PostProps) {
   const article = await getPostTranslations({
     slug: `${args.category}/${args.post}`,
     locale: language,
+    depth: 3,
   });
 
   if (!article || article.length === 0) {
@@ -60,9 +61,13 @@ export default async function Post({ params }: PostProps) {
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="lg:grid lg:grid-cols-4 lg:gap-8">
-            <PostContent post={article[0]} />
-            <PostSidebar />
+            <PostContent article={article[0]} language={language} />
+            <PostSidebar article={article[0]} language={language} />
           </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto pt-8">
+          <hr />
         </div>
 
         <Contact language={language} />

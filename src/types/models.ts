@@ -65,6 +65,7 @@ export interface Post {
   excerpt: string;
   content: string;
   coverImage: CoverImage | null;
+  coverThumbnail: CoverImage | null;
   category: Category;
   author: Author;
   published: boolean;

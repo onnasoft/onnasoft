@@ -1,4 +1,6 @@
-export default function ShareContent() {
+"use server";
+
+export default async function ShareContent() {
   return (
     <footer className="mt-12 pt-8 border-t border-gray-200">
       <div className="flex items-center justify-between">

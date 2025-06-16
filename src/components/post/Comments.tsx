@@ -1,4 +1,6 @@
-export default function Comments() {
+"use server";
+
+export default async function Comments() {
   return (
     <div className="mt-12">
       <h3 className="text-2xl font-bold text-gray-900 mb-6">Comments (3)</h3>

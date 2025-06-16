@@ -4,6 +4,7 @@ import BlogLayout from "@/components/blog/BlogLayout";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
+import { getPostTranslations } from "@/services/post-translations";
 import { suportedLanguages } from "@/types/languages";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -24,11 +25,15 @@ export default async function Blog({ params }: BlogProps) {
     redirect(`/en`);
   }
 
+  const articles = await getPostTranslations({
+    where: { locale: language },
+  });
+
   return (
     <div className="min-h-screen bg-white">
       <Navbar language={language} />
       <main>
-        <BlogLayout language={language} />
+        <BlogLayout articles={articles} language={language} />
         <Contact language={language} />
       </main>
       <Footer language={language} />

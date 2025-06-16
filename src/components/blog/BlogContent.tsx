@@ -1,10 +1,12 @@
+import { PostTranslation } from "@/types/models";
 import RecentArticles from "./RecentArticles";
 
 interface BlogContentProps {
   readonly language: string;
+  readonly articles: PostTranslation[];
 }
 
-export default function BlogContent({ language }: BlogContentProps) {
+export default function BlogContent({ language, articles }: BlogContentProps) {
   return (
     <div className="md:w-3/4 mt-8 md:mt-0">
       <div className="bg-white p-4 rounded-lg shadow-sm mb-8">
@@ -52,7 +54,7 @@ export default function BlogContent({ language }: BlogContentProps) {
         </svg>
       </button>
 
-      <RecentArticles language={language} />
+      <RecentArticles language={language} articles={articles} />
     </div>
   );
 }

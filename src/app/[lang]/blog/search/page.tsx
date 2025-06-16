@@ -9,29 +9,45 @@ import { suportedLanguages } from "@/types/languages";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-interface BlogProps {
+interface SearchPageProps {
   readonly params: Promise<{
     lang: string;
-    category: string;
+    q: string;
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default async function Blog({ params }: BlogProps) {
+export default async function SearchPage({
+  params,
+  searchParams,
+}: SearchPageProps) {
+  const query = (await searchParams).q as string | undefined;
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const { category, lang = acceptLanguage || "en" } = await params;
+  const lang = (await params).lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
 
-  if (!language) {
-    redirect(`/en`);
+  if (!query) {
+    redirect(`/blog/${language}`);
   }
 
   const articles = await getPostTranslations({
     where: {
-      category: category,
+      translatedTitle: {
+        op: "like",
+        value: query,
+      },
       locale: language,
     },
   });
+
+  console.log(
+    `Found ${articles.length} articles for query "${query}" in language "${language}"`
+  );
+
+  if (!language) {
+    redirect(`/en`);
+  }
 
   return (
     <div className="min-h-screen bg-white">

@@ -117,7 +117,7 @@ export default async function PostContent({
 
       <RelatedPosts article={article} language={language} />
 
-      <Comments />
+      <Comments language={language} />
     </article>
   );
 }

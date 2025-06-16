@@ -33,12 +33,14 @@ export default async function RecentPostsWidget({
   article,
 }: RecentPostsWidgetProps) {
   const posts = await getPostTranslations({
-    locale: language,
-    limit: 3,
-    post: {
-      op: "not_equals",
-      value: article.post.id,
+    where: {
+      locale: language,
+      post: {
+        op: "not_equals",
+        value: article.post.id,
+      },
     },
+    limit: 3,
   });
 
   const t =

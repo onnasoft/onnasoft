@@ -33,16 +33,18 @@ export default async function RelatedPosts({
   article,
 }: RelatedPostsProps) {
   const posts = await getPostTranslations({
-    locale: language,
+    where: {
+      locale: language,
+      post: {
+        op: "not_equals",
+        value: article.post.id,
+      },
+      slug: {
+        op: "like",
+        value: article.slug.split("/")[0],
+      },
+    },
     limit: 2,
-    post: {
-      op: "not_equals",
-      value: article.post.id,
-    },
-    slug: {
-      op: "like",
-      value: article.slug.split("/")[0],
-    },
   });
 
   const t =

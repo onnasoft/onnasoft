@@ -28,8 +28,10 @@ export default async function Post({ params }: PostProps) {
   const language = suportedLanguages.includes(lang) ? lang : "en";
 
   const article = await getPostTranslations({
-    slug: `${args.category}/${args.post}`,
-    locale: language,
+    where: {
+      slug: `${args.category}/${args.post}`,
+      locale: language,
+    },
     depth: 3,
   });
 

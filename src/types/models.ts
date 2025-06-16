@@ -87,6 +87,7 @@ export interface PostTranslation {
   translatedTitle: string;
   translatedExcerpt: string;
   translatedContent: string;
+  category: string;
   translatedMeta: {
     title: string;
     description: string;

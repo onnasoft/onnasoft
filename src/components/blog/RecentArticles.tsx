@@ -2,19 +2,17 @@
 
 import Link from "next/link";
 import RecentCard from "./RecentCard";
-import { getPostTranslations } from "@/services/post-translations";
+import { PostTranslation } from "@/types/models";
 
 interface RecentArticlesProps {
   readonly language: string;
+  readonly articles: PostTranslation[];
 }
 
 export default async function RecentArticles({
   language,
+  articles = [],
 }: RecentArticlesProps) {
-  const articles = await getPostTranslations({
-    locale: language,
-  });
-
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Recent Articles</h2>

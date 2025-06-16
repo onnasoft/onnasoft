@@ -1,4 +1,4 @@
-import { PostTranslation } from "@/types/models";
+import { CoverImage, PostTranslation } from "@/types/models";
 import { getAuthToken } from "./auth";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
@@ -9,11 +9,7 @@ export interface PostTranslationResponse {
   docs: PostTranslation[];
 }
 
-type FilterKeys =
-  | keyof Omit<PostTranslation, "post">
-  | "post"
-  | "limit"
-  | "depth";
+type FilterKeys = keyof Omit<PostTranslation, "post"> | "post";
 type FilterOperator = "equals" | "not_equals" | "like" | "in" | "not_in"; // puedes agregar más
 type FilterValue = string | number;
 
@@ -21,17 +17,21 @@ type Filters = Partial<
   Record<FilterKeys, FilterValue | { value: FilterValue; op: FilterOperator }>
 >;
 
-export async function getPostTranslations(
-  filters: Filters
-): Promise<PostTranslation[]> {
-  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/post-translations`);
+type SelectFields = Partial<Record<keyof PostTranslation, boolean>> & {
+  post?: Partial<Record<keyof PostTranslation["post"], boolean>>;
+};
 
-  const excludedKeys = ["limit", "depth"];
+interface QueryParams {
+  select?: SelectFields;
+  where?: Filters;
+  limit?: number;
+  depth?: number;
+}
 
-  for (const [key, rawValue] of Object.entries(filters)) {
-    if (rawValue == null || rawValue === "" || excludedKeys.includes(key))
-      continue;
+function appendWhereParams(url: URL, where?: Filters) {
+  if (!where) return;
+  for (const [key, rawValue] of Object.entries(where)) {
+    if (rawValue == null || rawValue === "") continue;
 
     const { value, op } =
       typeof rawValue === "object" && "value" in rawValue
@@ -40,16 +40,81 @@ export async function getPostTranslations(
 
     url.searchParams.append(`where[${key}][${op}]`, String(value));
   }
+}
 
-  if (filters.limit && typeof filters.limit === "number") {
-    url.searchParams.append("limit", filters.limit.toString());
+function appendSelectParams(url: URL, select?: SelectFields) {
+  if (!select) return;
+  for (const [field, include] of Object.entries(select)) {
+    if (!include) continue;
+    if (typeof include === "object") {
+      for (const [nestedField, nestedInclude] of Object.entries(include)) {
+        if (nestedInclude) {
+          url.searchParams.append(`select[${field}][${nestedField}]`, "true");
+        }
+      }
+    } else {
+      url.searchParams.append(`select[${field}]`, "true");
+    }
+  }
+}
+
+function buildQueryParams(
+  url: URL,
+  where?: Filters,
+  select?: SelectFields,
+  limit?: number,
+  depth?: number
+) {
+  appendWhereParams(url, where);
+  if (limit) url.searchParams.append("limit", limit.toString());
+  if (depth) url.searchParams.append("depth", depth.toString());
+  appendSelectParams(url, select);
+}
+
+function mapDocUrls(doc: PostTranslation, baseUrl: string): PostTranslation {
+  const post = doc.post;
+
+  const updateImageUrls = (image: CoverImage | null) => {
+    if (!image) return image;
+    let url = image.url || "";
+    let thumbnailURL = image.thumbnailURL || "";
+    if (url.startsWith("/")) url = `${baseUrl}${url}`;
+    if (thumbnailURL && thumbnailURL.startsWith("/"))
+      thumbnailURL = `${baseUrl}${thumbnailURL}`;
+    return { ...image, url, thumbnailURL };
+  };
+
+  if (post.coverImage) {
+    post.coverImage = updateImageUrls(post.coverImage);
   }
 
-  if (filters.depth && typeof filters.depth === "number") {
-    url.searchParams.append("depth", filters.depth.toString());
+  if (post.coverThumbnail) {
+    post.coverThumbnail = updateImageUrls(post.coverThumbnail);
   }
 
-  console.log("Fetching post translations from:", decodeURIComponent(url.toString()));
+  if (post.author && post.author.photo) {
+    let url = post.author.photo.url || "";
+    if (url.startsWith("/")) url = `${baseUrl}${url}`;
+    post.author.photo = {
+      ...post.author.photo,
+      url,
+      thumbnailURL: post.author.photo.thumbnailURL || null,
+    };
+  }
+
+  return doc;
+}
+
+export async function getPostTranslations({
+  select,
+  where,
+  depth,
+  limit,
+}: QueryParams): Promise<PostTranslation[]> {
+  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
+  const url = new URL(`${baseUrl}/api/post-translations`);
+
+  buildQueryParams(url, where, select, limit, depth);
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -64,40 +129,5 @@ export async function getPostTranslations(
 
   const data: PostTranslationResponse = await res.json();
 
-  return data.docs.map((doc) => {
-    const coverImage = doc.post.coverImage;
-    if (coverImage) {
-      let url = coverImage.url || "";
-      let thumbnailURL = coverImage.thumbnailURL || "";
-      if (url.startsWith("/")) url = `${baseUrl}${url}`;
-      if (thumbnailURL.startsWith("/"))
-        thumbnailURL = `${baseUrl}${thumbnailURL}`;
-      doc.post.coverImage = { ...coverImage, url, thumbnailURL };
-    }
-
-    const coverThumbnail = doc.post.coverThumbnail;
-    if (coverThumbnail) {
-      let url = coverThumbnail.url || "";
-      let thumbnailURL = coverThumbnail.thumbnailURL || "";
-      if (url.startsWith("/")) url = `${baseUrl}${url}`;
-      if (thumbnailURL.startsWith("/"))
-        thumbnailURL = `${baseUrl}${thumbnailURL}`;
-      doc.post.coverThumbnail = { ...coverThumbnail, url, thumbnailURL };
-    }
-
-    if (doc.post.author) {
-      const authorPhoto = doc.post.author.photo;
-      if (authorPhoto) {
-        let url = authorPhoto.url || "";
-        if (url.startsWith("/")) url = `${baseUrl}${url}`;
-        doc.post.author.photo = {
-          ...authorPhoto,
-          url,
-          thumbnailURL: authorPhoto.thumbnailURL || null,
-        };
-      }
-    }
-
-    return doc;
-  });
+  return data.docs.map((doc) => mapDocUrls(doc, baseUrl));
 }

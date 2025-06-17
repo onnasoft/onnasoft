@@ -27,7 +27,7 @@ export default async function Post({ params }: PostProps) {
   const lang = args.lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
 
-  const article = await getPostTranslations({
+  const { docs: article } = await getPostTranslations({
     where: {
       slug: `${args.category}/${args.post}`,
       locale: language,
@@ -39,8 +39,8 @@ export default async function Post({ params }: PostProps) {
     redirect(`/${language}/blog`);
   }
 
-  const category = await getCategories({
-    slug: args.category,
+  const { docs: category } = await getCategories({
+    where: { slug: args.category },
   });
 
   if (!category || category.length === 0) {

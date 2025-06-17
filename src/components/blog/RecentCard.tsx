@@ -27,11 +27,11 @@ export default async function RecentCard(article: BlogCardProps) {
         height={200}
         src={article.post.coverImage?.url || "/default-image.jpg"}
         alt="Securing Your API Endpoints"
-        className="blog-image cursor-pointer"
+        className="blog-image cursor-pointer rounded-lg"
       />
-      <div className="">
+      <div className="rounded-lg flex-1">
         <div className="flex items-center mb-2">
-          <span className="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-full">
+          <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">
             {article.post.category.name}
           </span>
           <span className="text-gray-500 text-sm ml-auto">
@@ -45,12 +45,16 @@ export default async function RecentCard(article: BlogCardProps) {
         </h3>
         <p className="text-gray-600 mb-4">{content}...</p>
         <div className="flex items-center">
-          <img
-            src="https://randomuser.me/api/portraits/women/68.jpg"
-            alt="Sarah Johnson"
+          <Image
+            src={article.post.author?.photo?.url || "/default-avatar.jpg"}
+            alt="Author Avatar"
+            width={32}
+            height={32}
             className="w-8 h-8 rounded-full mr-2"
           />
-          <span className="text-gray-700 text-sm">Sarah Johnson</span>
+          <span className="text-gray-700 text-sm">
+            {article.post.author.name || "Unknown Author"}
+          </span>
           <a
             href={`/${postUrl}`}
             className="ml-auto text-primary hover:underline"

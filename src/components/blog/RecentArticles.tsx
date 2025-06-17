@@ -1,17 +1,21 @@
 "use server";
 
-import Link from "next/link";
 import RecentCard from "./RecentCard";
 import { PostTranslation } from "@/types/models";
+import { Pagination } from "./Pagination";
 
 interface RecentArticlesProps {
   readonly language: string;
   readonly articles: PostTranslation[];
+  readonly currentPage?: number;
+  readonly totalPages?: number;
 }
 
 export default async function RecentArticles({
   language,
   articles = [],
+  currentPage = 1,
+  totalPages = 1,
 }: RecentArticlesProps) {
   return (
     <div>
@@ -21,50 +25,11 @@ export default async function RecentArticles({
           <RecentCard key={article.translatedTitle} {...article} />
         ))}
       </div>
-      <Pagination language={language} />
-    </div>
-  );
-}
-
-interface PaginationProps {
-  readonly language: string;
-}
-
-function Pagination({ language }: PaginationProps) {
-  return (
-    <div className="mt-12 flex justify-center">
-      <nav className="inline-flex rounded-md shadow">
-        <Link
-          href="#"
-          className="py-2 px-4 bg-white border border-gray-300 rounded-l-md text-gray-700 hover:bg-gray-50"
-        >
-          Previous
-        </Link>
-        <Link
-          href="#"
-          className="py-2 px-4 bg-white border-t border-b border-gray-300 text-primary font-medium"
-        >
-          1
-        </Link>
-        <Link
-          href="#"
-          className="py-2 px-4 bg-white border-t border-b border-gray-300 text-gray-700 hover:bg-gray-50"
-        >
-          2
-        </Link>
-        <Link
-          href="#"
-          className="py-2 px-4 bg-white border-t border-b border-gray-300 text-gray-700 hover:bg-gray-50"
-        >
-          3
-        </Link>
-        <Link
-          href="#"
-          className="py-2 px-4 bg-white border border-gray-300 rounded-r-md text-gray-700 hover:bg-gray-50"
-        >
-          Next
-        </Link>
-      </nav>
+      <Pagination
+        language={language}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }

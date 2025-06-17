@@ -13,27 +13,44 @@ interface BlogProps {
   readonly params: Promise<{
     lang: string;
   }>;
+  readonly searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
-export default async function Blog({ params }: BlogProps) {
+export default async function Blog({ params, searchParams }: BlogProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
-
+  const currentPage = parseInt(
+    ((await searchParams).page as string | undefined) || "1",
+    10
+  );
   if (!language) {
     redirect(`/en`);
   }
 
-  const articles = await getPostTranslations({
+  const {
+    docs: articles,
+    page,
+    totalPages,
+  } = await getPostTranslations({
     where: { locale: language },
+    depth: 3,
+    page: currentPage,
   });
 
   return (
     <div className="min-h-screen bg-white">
       <Navbar language={language} />
       <main>
-        <BlogLayout articles={articles} language={language} />
+        <BlogLayout
+          articles={articles}
+          language={language}
+          currentPage={page}
+          totalPages={totalPages}
+        />
         <Contact language={language} />
       </main>
       <Footer language={language} />

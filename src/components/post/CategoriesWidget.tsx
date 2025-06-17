@@ -26,7 +26,7 @@ interface CategoryProps {
 }
 
 export default async function CategoriesWidget({ language }: CategoryProps) {
-  const categories = await getCategories();
+  const { docs: categories } = await getCategories();
 
   const t = transitions[language as keyof typeof transitions] || transitions.en;
 

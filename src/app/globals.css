@@ -550,6 +550,19 @@ body {
     color: #6b7280;
   }
 
+  & table {
+    border-collapse: separate;
+    border-spacing: 1.5rem 0.2rem;
+    border: none;
+    transform: translateX(-1.5rem);
+  }
+
+  & tr th {
+    border: none;
+    text-align: left;
+    margin: 0.5rem;
+  }
+
   p {
     margin: 1rem 0;
     line-height: 1.6;

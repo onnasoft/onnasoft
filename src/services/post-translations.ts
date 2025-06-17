@@ -1,5 +1,6 @@
 import { CoverImage, PostTranslation } from "@/types/models";
 import { getAuthToken } from "./auth";
+import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
@@ -7,12 +8,18 @@ const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
 export interface PostTranslationResponse {
   docs: PostTranslation[];
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+  limit: number;
+  nextPage: number | null;
+  page: number;
+  pagingCounter: number;
+  prevPage: number | null;
+  totalDocs: number;
+  totalPages: number;
 }
 
 type FilterKeys = keyof Omit<PostTranslation, "post"> | "post";
-type FilterOperator = "equals" | "not_equals" | "like" | "in" | "not_in"; // puedes agregar más
-type FilterValue = string | number;
-
 type Filters = Partial<
   Record<FilterKeys, FilterValue | { value: FilterValue; op: FilterOperator }>
 >;
@@ -26,6 +33,7 @@ interface QueryParams {
   where?: Filters;
   limit?: number;
   depth?: number;
+  page?: number;
 }
 
 function appendWhereParams(url: URL, where?: Filters) {
@@ -63,16 +71,22 @@ function buildQueryParams(
   where?: Filters,
   select?: SelectFields,
   limit?: number,
-  depth?: number
+  depth?: number,
+  page: number = 1
 ) {
   appendWhereParams(url, where);
   if (limit) url.searchParams.append("limit", limit.toString());
   if (depth) url.searchParams.append("depth", depth.toString());
   appendSelectParams(url, select);
+
+  if (page) {
+    url.searchParams.append("page", page.toString());
+  }
 }
 
 function mapDocUrls(doc: PostTranslation, baseUrl: string): PostTranslation {
   const post = doc.post;
+  if (!post) return doc;
 
   const updateImageUrls = (image: CoverImage | null) => {
     if (!image) return image;
@@ -92,7 +106,7 @@ function mapDocUrls(doc: PostTranslation, baseUrl: string): PostTranslation {
     post.coverThumbnail = updateImageUrls(post.coverThumbnail);
   }
 
-  if (post.author && post.author.photo) {
+  if (post.author && post.author?.photo) {
     let url = post.author.photo.url || "";
     if (url.startsWith("/")) url = `${baseUrl}${url}`;
     post.author.photo = {
@@ -110,11 +124,12 @@ export async function getPostTranslations({
   where,
   depth,
   limit,
-}: QueryParams): Promise<PostTranslation[]> {
+  page = 1,
+}: QueryParams): Promise<PostTranslationResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/api/post-translations`);
 
-  buildQueryParams(url, where, select, limit, depth);
+  buildQueryParams(url, where, select, limit, depth, page);
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -129,5 +144,8 @@ export async function getPostTranslations({
 
   const data: PostTranslationResponse = await res.json();
 
-  return data.docs.map((doc) => mapDocUrls(doc, baseUrl));
+  return {
+    ...data,
+    docs: data.docs.map((doc) => mapDocUrls(doc, baseUrl)),
+  };
 }

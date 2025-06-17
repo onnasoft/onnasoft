@@ -32,7 +32,7 @@ export default async function RecentPostsWidget({
   language,
   article,
 }: RecentPostsWidgetProps) {
-  const posts = await getPostTranslations({
+  const { docs: articles } = await getPostTranslations({
     where: {
       locale: language,
       post: {
@@ -50,7 +50,7 @@ export default async function RecentPostsWidget({
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
       <h3 className="font-semibold text-gray-900 mb-4">{t.title}</h3>
       <div className="space-y-4">
-        {posts.map((article) => (
+        {articles.map((article) => (
           <article key={article.slug} className="flex space-x-3">
             <Image
               width={64}

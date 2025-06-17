@@ -8,8 +8,10 @@ interface BlogSidebarProps {
 }
 
 export default async function BlogSidebar({ language }: BlogSidebarProps) {
-  const categories = await getCategoryTranslations({
-    locale: language,
+  const { docs: categories } = await getCategoryTranslations({
+    where: {
+      locale: language,
+    },
   });
   return (
     <div

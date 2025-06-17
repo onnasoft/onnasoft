@@ -1,21 +1,37 @@
+"use server";
+
 import { PostTranslation } from "@/types/models";
 import RecentArticles from "./RecentArticles";
+import SearchArticles from "./SearchArticles";
+import { getPostTranslations } from "@/services/post-translations";
 
 interface BlogContentProps {
   readonly language: string;
   readonly articles: PostTranslation[];
+  readonly currentPage?: number;
+  readonly totalPages?: number;
 }
 
-export default function BlogContent({ language, articles }: BlogContentProps) {
+export default async function BlogContent({
+  language,
+  articles,
+  currentPage = 1,
+  totalPages = 1,
+}: BlogContentProps) {
+  const { docs } = await getPostTranslations({
+    select: { translatedTitle: true },
+    where: { locale: language },
+    depth: 0,
+    limit: 0,
+    page: 1,
+  });
+
   return (
     <div className="md:w-3/4 mt-8 md:mt-0">
       <div className="bg-white p-4 rounded-lg shadow-sm mb-8">
         <div className="relative">
-          <input
-            type="text"
-            placeholder="Search articles..."
-            className="search-input w-full px-4 py-2 pl-10 border border-gray-300 rounded-lg focus:outline-none"
-          />
+          <SearchArticles language={language} documents={docs} />
+
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 text-gray-400 absolute left-3 top-3"
@@ -54,7 +70,12 @@ export default function BlogContent({ language, articles }: BlogContentProps) {
         </svg>
       </button>
 
-      <RecentArticles language={language} articles={articles} />
+      <RecentArticles
+        language={language}
+        articles={articles}
+        currentPage={currentPage}
+        totalPages={totalPages}
+      />
     </div>
   );
 }

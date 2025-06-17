@@ -32,7 +32,7 @@ export default async function RelatedPosts({
   language,
   article,
 }: RelatedPostsProps) {
-  const posts = await getPostTranslations({
+  const { docs: articles } = await getPostTranslations({
     where: {
       locale: language,
       post: {
@@ -54,41 +54,43 @@ export default async function RelatedPosts({
     <div className="mt-12">
       <h3 className="text-2xl font-bold text-gray-900 mb-6">{t.title}</h3>
       <div className="grid md:grid-cols-2 gap-6">
-        {posts.map((post) => (
+        {articles.map((article) => (
           <article
-            key={post.slug}
+            key={article.slug}
             className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
           >
             <Image
               width={438}
               height={192}
               className="w-full h-48 object-cover"
-              src={post.post.coverThumbnail?.url ?? ""}
+              src={article.post.coverThumbnail?.url ?? ""}
               alt="DevOps Best Practices"
             />
             <div className="p-6">
               <div className="flex items-center mb-2">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary text-white">
-                  {post.post.category?.name || ""}
+                  {article.post.category?.name || ""}
                 </span>
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">
                 <Link
-                  href={`/${language}/blog/${post.slug}`}
+                  href={`/${language}/blog/${article.slug}`}
                   className="hover:text-onnasoft-pink transition-colors"
                 >
-                  {post.translatedTitle}
+                  {article.translatedTitle}
                 </Link>
               </h4>
               <p className="text-sm text-gray-600 mb-3">
-                {post.translatedContent.replace(/^#+\s*/gm, "").slice(0, 100)}
+                {article.translatedContent
+                  .replace(/^#+\s*/gm, "")
+                  .slice(0, 100)}
                 ...
               </p>
               <div className="flex items-center text-xs text-gray-500">
-                <span>{post.post.author?.name || "John Doe"}</span>
+                <span>{article.post.author?.name || "John Doe"}</span>
                 <span className="mx-2">•</span>
                 <span>
-                  {new Date(post.post.publishedDate).toLocaleDateString(
+                  {new Date(article.post.publishedDate).toLocaleDateString(
                     language,
                     {
                       year: "numeric",

@@ -14,23 +14,32 @@ interface BlogProps {
     lang: string;
     category: string;
   }>;
+  readonly searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
-export default async function Blog({ params }: BlogProps) {
+export default async function Blog({ params, searchParams }: BlogProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const { category, lang = acceptLanguage || "en" } = await params;
   const language = suportedLanguages.includes(lang) ? lang : "en";
+  const currentPage = parseInt(
+    ((await searchParams).page as string | undefined) || "1",
+    10
+  );
 
   if (!language) {
     redirect(`/en`);
   }
 
-  const articles = await getPostTranslations({
+  const { docs: articles } = await getPostTranslations({
     where: {
       category: category,
       locale: language,
     },
+    depth: 3,
+    page: currentPage,
   });
 
   return (

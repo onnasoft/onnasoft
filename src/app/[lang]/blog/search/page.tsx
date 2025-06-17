@@ -5,6 +5,7 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { getPostTranslations } from "@/services/post-translations";
+import { search } from "@/services/search-article";
 import { suportedLanguages } from "@/types/languages";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -14,7 +15,9 @@ interface SearchPageProps {
     lang: string;
     q: string;
   }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  readonly searchParams: Promise<{
+    [key: string]: string | string[] | undefined;
+  }>;
 }
 
 export default async function SearchPage({
@@ -26,19 +29,22 @@ export default async function SearchPage({
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
+  const currentPage = parseInt(
+    ((await searchParams).page as string | undefined) || "1",
+    10
+  );
 
   if (!query) {
     redirect(`/blog/${language}`);
   }
 
-  const articles = await getPostTranslations({
-    where: {
-      translatedTitle: {
-        op: "like",
-        value: query,
-      },
-      locale: language,
-    },
+  const {
+    docs: articles,
+    page,
+    totalPages,
+  } = await search({
+    search: query,
+    page: currentPage,
   });
 
   console.log(
@@ -53,7 +59,12 @@ export default async function SearchPage({
     <div className="min-h-screen bg-white">
       <Navbar language={language} />
       <main>
-        <BlogLayout language={language} articles={articles} />
+        <BlogLayout
+          language={language}
+          articles={articles}
+          currentPage={page}
+          totalPages={totalPages}
+        />
         <Contact language={language} />
       </main>
       <Footer language={language} />

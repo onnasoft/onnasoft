@@ -111,7 +111,7 @@ export default async function PostContent({
         </ReactMarkdown>
       </div>
 
-      <ShareContent />
+      <ShareContent language={language} article={article} />
 
       <Author article={article} />
 

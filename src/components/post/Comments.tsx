@@ -83,9 +83,15 @@ const comments = [
   },
 ];
 
+const HIDE_COMMENTS = process.env.NEXT_PUBLIC_HIDE_COMMENTS === "true";
+
 export default async function Comments({ language }: CommentProps) {
   const t =
     translations[language as keyof typeof translations] || translations.en;
+
+  if (HIDE_COMMENTS) {
+    return null;
+  }
 
   return (
     <div className="mt-12">

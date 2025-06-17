@@ -69,7 +69,8 @@ export interface Post {
   category: Category;
   author: Author;
   published: boolean;
-  featured: boolean;
+  views: number;
+  likes: number;
   publishedDate: string;
   meta: {
     title: string;

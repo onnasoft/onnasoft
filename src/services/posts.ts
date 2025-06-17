@@ -118,3 +118,28 @@ export async function getPosts({
     docs: data.docs.map((post) => mapPostUrls(post)),
   };
 }
+
+export async function updatePost(
+  id: number,
+  postData: Partial<Post>,
+): Promise<Post> {
+  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
+  const url = new URL(`${baseUrl}/api/posts/${id}`);
+
+  const res = await fetch(url.toString(), {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(postData),
+  });
+
+  if (!res.ok) {
+    console.error("Failed to update post:", res.statusText);
+    throw new Error("Error updating post");
+  }
+
+  const updatedPost: Post = await res.json();
+  return mapPostUrls(updatedPost);
+}

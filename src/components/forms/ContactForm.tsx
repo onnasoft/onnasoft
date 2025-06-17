@@ -216,8 +216,8 @@ export default function ContactForm({ language }: ContactFormProps) {
           {apiError && <p className="font-medium">{apiError}</p>}
           {validationErrors.length > 0 && (
             <ul className="mt-1 list-disc list-inside">
-              {validationErrors.map((error, index) => (
-                <li key={index}>{error}</li>
+              {validationErrors.map((error) => (
+                <li key={error}>{error}</li>
               ))}
             </ul>
           )}

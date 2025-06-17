@@ -511,8 +511,6 @@ body {
 }
 
 .article-content {
-  @apply text-gray-700;
-
   & h2 {
     font-size: 1.75rem;
     font-weight: 600;

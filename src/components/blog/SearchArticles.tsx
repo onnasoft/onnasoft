@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import TrieSearch from "trie-search";
-import { getPostTranslations } from "@/services/post-translations";
 import { PostTranslation } from "@/types/models";
 
 interface SearchArticlesProps {
@@ -29,7 +28,7 @@ export default function SearchArticles({
       }
     }
     fetchData();
-  }, [language]);
+  }, [language, documents]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

@@ -54,6 +54,8 @@ const translations = {
   },
 };
 
+const HIDE_BLOG = process.env.NEXT_PUBLIC_HIDE_BLOG === "true";
+
 const Navbar = async ({ language }: { language: string }) => {
   const headersList = await headers();
   const t =
@@ -83,9 +85,11 @@ const Navbar = async ({ language }: { language: string }) => {
           <Link href={`/${lang}/vision`} className="nav-link">
             {t.vision}
           </Link>
-          <Link href={`/${lang}/blog`} className="nav-link">
-            {t.blog}
-          </Link>
+          {!HIDE_BLOG && (
+            <Link href={`/${lang}/blog`} className="nav-link">
+              {t.blog}
+            </Link>
+          )}
           <Link
             href={`/${lang}/#contact`}
             className="bg-primary text-white px-4 py-2 rounded-md  font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"

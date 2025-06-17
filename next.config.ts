@@ -12,19 +12,16 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "onnasoft.us",
-        port: "443",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "images.unsplash.com",
-        port: "443",
         pathname: "/**",
       },
       {
         protocol: "https",
         hostname: "randomuser.me",
-        port: "443",
         pathname: "/**",
       },
     ],

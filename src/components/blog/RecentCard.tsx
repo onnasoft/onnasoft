@@ -2,7 +2,6 @@
 import { PostTranslation } from "@/types/models";
 import Image from "next/image";
 import Link from "next/link";
-import moment from "moment";
 
 type BlogCardProps = Readonly<PostTranslation>;
 
@@ -35,9 +34,11 @@ export default async function RecentCard(article: BlogCardProps) {
             {article.post.category.name}
           </span>
           <span className="text-gray-500 text-sm ml-auto">
-            {new Date(article.createdAt)
-              ? moment(article.createdAt).format("MMM DD, YYYY")
-              : "Unknown Date"}
+            {new Date(article.createdAt).toLocaleDateString(article.locale, {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
           </span>
         </div>
         <h3 className=" font-bold mb-2">

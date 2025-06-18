@@ -32,7 +32,7 @@ export default async function FallbackPage({ language, pathname }: HomeProps) {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white fade-in-down">
       <Navbar language={language} pathname={pathname} />
       <main>
         <div className="min-h-screen flex flex-col items-center justify-center text-gray-700">

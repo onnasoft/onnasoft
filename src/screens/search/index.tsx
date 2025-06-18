@@ -37,7 +37,7 @@ export default async function SearchPage({
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white fade-in-down">
       <Navbar language={language} pathname={pathname} />
       <main>
         <BlogLayout

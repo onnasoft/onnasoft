@@ -1,4 +1,5 @@
 import { headers } from "next/headers";
+import Image from "next/image";
 import Link from "next/link";
 
 const translations = {
@@ -68,6 +69,13 @@ const Navbar = async ({ language }: { language: string }) => {
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur shadow-xs py-3 transition-all duration-300">
       <div className="container mx-auto px-4 flex justify-between items-center">
         <div className="flex items-center">
+          <Image
+            src="/favicon.ico"
+            alt="Logo"
+            width={40}
+            height={40}
+            className="mr-2"
+          />
           <Link href={`/${lang}`} className="text-2xl font-bold text-gray-900">
             <span className="text-primary">Onna</span>Soft
           </Link>

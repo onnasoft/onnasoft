@@ -358,15 +358,12 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(
-    135deg,
-    rgb(236 72 153 / var(--tw-bg-opacity, 1)),
-    #be185d
-  );
+  background: linear-gradient(135deg, #815E5B, #5A3F3D);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
 
 .glass-effect {
   background: rgba(255, 255, 255, 0.1);

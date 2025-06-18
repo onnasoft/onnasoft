@@ -295,7 +295,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <section id="why-us" className="section bg-gray-50 dark:bg-gray-900 py-16">
+    <section id="why-us" className="section bg-gray-50 dark:bg-gray-900 py-16 animate-fade-in-down">
       <div className="container mx-auto px-4">
         <div className="flex flex-col items-center">
           <div className="text-center mb-12 max-w-3xl">
@@ -310,7 +310,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
             {t.reasons.map((reason) => (
               <div
                 key={reason.title}
-                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg animate-fade-in-down"
               >
                 <div className="mb-4">
                   <div className="w-12 h-12 rounded-full bg-primary-light text-white flex items-center justify-center font-bold">

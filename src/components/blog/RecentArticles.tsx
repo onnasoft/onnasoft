@@ -20,7 +20,7 @@ export default async function RecentArticles({
   return (
     <div>
       <h2 className="text-2xl font-bold mb-6">Recent Articles</h2>
-      <div className="gap-8">
+      <div className="gap-8 animate-fade-in-down">
         {articles.map((article) => (
           <RecentCard key={article.translatedTitle} {...article} />
         ))}

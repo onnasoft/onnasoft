@@ -48,9 +48,9 @@ const PostPage: React.FC<PostPageProps> = async ({
   }
 
   return (
-    <div className="min-h-screen bg-white fade-in-down">
+    <div className="min-h-screen bg-white">
       <Navbar language={language} pathname={pathname} />
-      <main>
+      <main className="animate-fade-in-down">
         <Breadcrumbs
           language={language}
           category={categories[0]}

@@ -144,7 +144,7 @@ const Mission: React.FC<{ language: string }> = ({ language }) => {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <section className="section bg-white dark:bg-gray-900 py-16">
+    <section className="section bg-white dark:bg-gray-900 py-16 animate-fade-in-down">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-12">
           <div className="lg:w-1/2">

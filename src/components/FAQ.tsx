@@ -199,7 +199,7 @@ const FAQ: React.FC<FAQProps> = ({ language }) => {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <section className="section bg-gray-50">
+    <section className="section bg-gray-50 animate-fade-in-down">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">

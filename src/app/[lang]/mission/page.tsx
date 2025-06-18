@@ -31,7 +31,7 @@ export default async function Mission({ params }: MissionProps) {
   return (
     <div className="min-h-screen bg-white">
       <Navbar language={language} pathname={pathname} />
-      <main className="pt-16">
+      <main className="pt-16 animate-fade-in-down">
         <MakingProjectsReal language={language} />
 
         <OurMission language={language} />

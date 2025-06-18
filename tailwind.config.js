@@ -36,11 +36,12 @@ module.exports = {
       animation: {
         float: "float 6s ease-in-out infinite",
         "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "fade-in-slow": "fadeIn 2s ease-out",
         "fade-in-up": "fadeInUp 1s ease-out",
         "fade-in-down": "fadeInDown 1s ease-out 0.2s both",
         "fade-in-left": "fadeInLeft 1s ease-out 0.4s both",
         "fade-in-right": "fadeInRight 1s ease-out 0.6s both",
-        "slide-up": "slideUp 0.8s ease-out",
+        "slide-up": "slideUp 1.2s ease-out",
         "bounce-slow": "bounce 3s infinite",
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",

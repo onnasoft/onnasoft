@@ -32,9 +32,9 @@ export default async function FallbackPage({ language, pathname }: HomeProps) {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <div className="min-h-screen bg-white fade-in-down">
+    <div className="min-h-screen bg-white">
       <Navbar language={language} pathname={pathname} />
-      <main>
+      <main className="animate-fade-in-down">
         <div className="min-h-screen flex flex-col items-center justify-center text-gray-700">
           <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-pink-500 border-opacity-50 mb-6" />
           <p className="text-lg font-medium">{t.loading}</p>

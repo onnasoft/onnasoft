@@ -28,7 +28,7 @@ export default async function BlogPage({
   });
 
   return (
-    <div className="min-h-screen bg-white fade-in-down">
+    <div className="min-h-screen bg-white">
       <Navbar language={language} pathname={pathname} />
       <main>
         <BlogLayout

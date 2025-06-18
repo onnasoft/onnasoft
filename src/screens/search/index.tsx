@@ -20,7 +20,11 @@ export default async function SearchPage({
   query,
 }: SearchPageProps) {
   if (!query) {
-    redirect(`/blog/${language}`);
+    console.warn(
+      "Query parameter is missing, redirecting to blog page.",
+      query
+    );
+    //redirect(`${language}/blog`);
   }
 
   const {
@@ -37,7 +41,7 @@ export default async function SearchPage({
   }
 
   return (
-    <div className="min-h-screen bg-white fade-in-down">
+    <div className="min-h-screen bg-white">
       <Navbar language={language} pathname={pathname} />
       <main>
         <BlogLayout

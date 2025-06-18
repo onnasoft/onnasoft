@@ -9,7 +9,6 @@ import { Suspense } from "react";
 export interface PageProps {
   readonly params: Promise<{
     lang: string;
-    category: string;
     post: string;
   }>;
 }
@@ -20,13 +19,13 @@ export default async function Page({ params }: PageProps) {
   const args = await params;
   const lang = args.lang || acceptLanguage || "en";
   const pathname = h.get("x-pathname") || "";
+  const query = h.get("x-query") || "";
+  console.log(`Search page: ${pathname}, language: ${lang}, query: ${query}`);
 
   let language = lang.toLowerCase();
   if (!suportedLanguages.includes(lang)) {
     language = "en";
   }
-
-  const category = args.category || "";
   const currentPage = parseInt(h.get("x-page") || "1", 10);
 
   return (
@@ -37,7 +36,7 @@ export default async function Page({ params }: PageProps) {
         language={language}
         pathname={pathname}
         currentPage={currentPage}
-        query={category}
+        query={query}
       />
     </Suspense>
   );

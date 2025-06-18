@@ -174,7 +174,7 @@ const Testimonials: React.FC<TestimonialProps> = ({ language }) => {
   };
 
   return (
-    <section className="section bg-white">
+    <section className="section bg-white animate-fade-in-down">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">{t.title}</h2>

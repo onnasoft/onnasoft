@@ -83,7 +83,7 @@ const Contact: React.FC<FAQProps> = ({ language }) => {
     translations[language as keyof typeof translations] || translations.en;
 
   return (
-    <section id="contact" className="section bg-white">
+    <section id="contact" className="section bg-white animate-fade-in-down">
       <div className="container mx-auto">
         <div className="mx-auto">
           <div className="text-center mb-16">

@@ -242,10 +242,7 @@ body {
   overflow: hidden;
 }
 
-.blog-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-}
+
 
 .blog-image {
   height: 200px;

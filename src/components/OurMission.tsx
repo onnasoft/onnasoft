@@ -1,3 +1,8 @@
+import { FaStar, FaHandshake, FaLightbulb } from "react-icons/fa";
+
+interface VisionValuesProps {
+  language: string;
+}
 
 const translations = {
   en: {
@@ -97,12 +102,11 @@ const translations = {
   },
 };
 
-interface VisionValuesProps {
-  language: string;
-}
+const icons = [FaStar, FaHandshake, FaLightbulb];
 
 const OurMission = ({ language }: VisionValuesProps) => {
-  const t = translations[language as keyof typeof translations] || translations.en;
+  const t =
+    translations[language as keyof typeof translations] || translations.en;
 
   return (
     <section className="py-16 bg-gray-50">
@@ -110,35 +114,22 @@ const OurMission = ({ language }: VisionValuesProps) => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">{t.title}</h2>
-            <p className=" text-gray-600 max-w-3xl mx-auto">{t.intro}</p>
+            <p className="text-gray-600 max-w-3xl mx-auto">{t.intro}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {t.values.map((val, idx) => (
-              <div className="card" key={val.title}>
-                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-40 w-40 text-primary"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    {idx === 0 && (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4" />
-                    )}
-                    {idx === 1 && (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
-                    )}
-                    {idx === 2 && (
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    )}
-                  </svg>
+            {t.values.map((val, idx) => {
+              const Icon = icons[idx];
+              return (
+                <div className="card text-center" key={val.title}>
+                  <div className="w-14 h-14 rounded-full bg-primary-light flex items-center justify-center mb-6 mx-auto">
+                    <Icon className="text-white text-3xl" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-3">{val.title}</h3>
+                  <p className="text-gray-600">{val.desc}</p>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-center">{val.title}</h3>
-                <p className="text-gray-600 text-center">{val.desc}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>

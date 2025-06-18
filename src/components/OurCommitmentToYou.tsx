@@ -1,4 +1,5 @@
 import React from "react";
+import { FaCheckCircle } from "react-icons/fa";
 
 interface OurCommitmentToYouProps {
   language: string;
@@ -119,7 +120,6 @@ const translations = {
     ],
   },
 };
-
 const OurCommitmentToYou = ({ language }: OurCommitmentToYouProps) => {
   const t =
     translations[language as keyof typeof translations] || translations.en;
@@ -130,28 +130,15 @@ const OurCommitmentToYou = ({ language }: OurCommitmentToYouProps) => {
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">{t.title}</h2>
-            <p className=" text-gray-600 max-w-3xl mx-auto">{t.intro}</p>
+            <p className="text-gray-600 max-w-3xl mx-auto">{t.intro}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {t.commitments.map((item, idx) => (
+            {t.commitments.map((item) => (
               <div className="card" key={item.title}>
                 <div className="flex items-start mb-4">
                   <div className="bg-primary-light p-3 rounded-full mr-4">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-6 w-6 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                      />
-                    </svg>
+                    <FaCheckCircle className="text-white text-xl" />
                   </div>
                   <div>
                     <h3 className="text-xl font-bold mb-2">{item.title}</h3>

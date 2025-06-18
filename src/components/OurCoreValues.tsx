@@ -1,4 +1,12 @@
 import React from "react";
+import {
+  FaCheck,
+  FaEye,
+  FaBolt,
+  FaHeart,
+  FaArrowUp,
+  FaUsers,
+} from "react-icons/fa";
 
 const translations = {
   en: {
@@ -177,74 +185,31 @@ const OurCoreValues = ({ language }: OurCoreValuesProps) => {
 
   const values = Object.entries(t.values);
 
+  const icons = [
+    FaCheck, // ✔️
+    FaEye, // 👁️
+    FaBolt, // ⚡
+    FaHeart, // ❤️
+    FaArrowUp, // ⬆️
+    FaUsers, // 👥
+  ];
+
   return (
     <section className="py-16 bg-gray-50">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl font-bold mb-4">{t.title}</h2>
-            <p className=" text-gray-600 max-w-3xl mx-auto">{t.intro}</p>
+            <p className="text-gray-600 max-w-3xl mx-auto">{t.intro}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {values.map(([key, val], idx) => {
-              const icons = [
-                <path
-                  key={val.title + idx + "1"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 13l4 4L19 7"
-                />,
-                <path
-                  key={val.title + idx + "2"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 11c0-3.866 3.582-7 8-7v14c-4.418 0-8-3.134-8-7z"
-                />,
-                <path
-                  key={val.title + idx + "3"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 10V3L4 14h7v7l9-11h-7z"
-                />,
-                <path
-                  key={val.title + idx + "4"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 12l2 2 4-4"
-                />,
-                <path
-                  key={val.title + idx + "5"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M5 15l7-7 7 7"
-                />,
-                <path
-                  key={val.title + idx + "6"}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17 20h5v-2a3 3 0 00-5.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M15 7a3 3 0 11-6 0 3 3 0 016 0z"
-                />,
-              ];
-
+            {values.map(([_, val], idx) => {
+              const Icon = icons[idx % icons.length];
               return (
                 <div className="card" key={val.title + idx}>
                   <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mb-6 mx-auto">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className="h-8 w-8 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      {icons[idx]}
-                    </svg>
+                    <Icon className="text-white text-2xl" />
                   </div>
                   <h3 className="text-xl font-bold mb-3 text-center">
                     {val.title}

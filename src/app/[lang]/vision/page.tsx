@@ -5,36 +5,9 @@ import OurCoreValues from "@/components/OurCoreValues";
 import OurImpactGoals from "@/components/OurImpactGoals";
 import OurVision from "@/components/OurVision";
 import WhatWeDo from "@/components/WhatWeDo";
+import { suportedLanguages } from "@/types/languages";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
-const metadataByLang = {
-  en: {
-    title: "Onnasoft | Our Vision",
-    description:
-      "Our vision at Onnasoft is to be the trusted technology partner that empowers businesses to thrive in a digital-first world.",
-  },
-  es: {
-    title: "Onnasoft | Nuestra Visión",
-    description:
-      "Nuestra visión en Onnasoft es ser el socio tecnológico de confianza que empodera a las empresas para prosperar en un mundo digital.",
-  },
-  ja: {
-    title: "Onnasoft | 私たちのビジョン",
-    description:
-      "Onnasoftのビジョンは、デジタルファーストの世界で企業が成功するための信頼できるテクノロジーパートナーになることです。",
-  },
-  fr: {
-    title: "Onnasoft | Notre Vision",
-    description:
-      "Notre vision chez Onnasoft est d'être le partenaire technologique de confiance qui permet aux entreprises de prospérer dans un monde numérique.",
-  },
-  zh: {
-    title: "Onnasoft | 我们的愿景",
-    description:
-      "Onnasoft的愿景是成为可信赖的技术合作伙伴，帮助企业在数字优先的世界中蓬勃发展。",
-  },
-};
 
 interface VisionProps {
   readonly params: Promise<{
@@ -47,18 +20,17 @@ export default async function Vision({ params }: VisionProps) {
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
 
-  if (!Object.keys(metadataByLang).includes(lang)) {
+  if (!suportedLanguages.includes(lang)) {
     redirect(`/en/${lang}`);
   }
   const language = lang.toLowerCase();
 
-  const t =
-    metadataByLang[language as keyof typeof metadataByLang] ||
-    metadataByLang.en;
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar language={language} />
+      <Navbar language={language} pathname={pathname} />
       <main className="pt-16">
         <OurVision language={language} />
 

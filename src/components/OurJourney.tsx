@@ -135,7 +135,7 @@ const OurJourney = ({ language }: OurJourneyProps) => {
 
           <div className="timeline-container space-y-16">
             {t.stages.map((stage, index) => (
-              <div className="timeline-item" key={index}>
+              <div className="timeline-item" key={stage.title}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   {index % 2 === 0 ? (
                     <>

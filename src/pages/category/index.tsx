@@ -18,11 +18,15 @@ export interface CategoryProps {
   }>;
 }
 
-export default async function CategoryPage({ params, searchParams }: CategoryProps) {
+export default async function CategoryPage({
+  params,
+  searchParams,
+}: CategoryProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
+  const pathname = h.get("x-pathname") || "";
   const currentPage = parseInt(
     ((await searchParams).page as string | undefined) || "1",
     10
@@ -43,7 +47,7 @@ export default async function CategoryPage({ params, searchParams }: CategoryPro
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar language={language} />
+      <Navbar language={language} pathname={pathname} />
       <main>
         <BlogLayout
           articles={articles}

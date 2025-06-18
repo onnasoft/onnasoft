@@ -26,6 +26,7 @@ export default async function PostPage({ params }: PostPageProps) {
   const args = await params;
   const lang = args.lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
+  const pathname = h.get("x-pathname") || "";
 
   const { docs: article } = await getPostTranslations({
     where: {
@@ -53,7 +54,7 @@ export default async function PostPage({ params }: PostPageProps) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar language={language} />
+      <Navbar language={language} pathname={pathname} />
       <main>
         <Breadcrumbs
           language={language}

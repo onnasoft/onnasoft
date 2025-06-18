@@ -18,11 +18,15 @@ export interface BlogPageProps {
   }>;
 }
 
-export default async function BlogPage({ params, searchParams }: BlogPageProps) {
+export default async function BlogPage({
+  params,
+  searchParams,
+}: BlogPageProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
   const language = suportedLanguages.includes(lang) ? lang : "en";
+  const pathname = h.get("x-pathname") || "";
   const currentPage = parseInt(
     ((await searchParams).page as string | undefined) || "1",
     10
@@ -43,7 +47,7 @@ export default async function BlogPage({ params, searchParams }: BlogPageProps) 
 
   return (
     <div className="min-h-screen bg-white">
-      <Navbar language={language} />
+      <Navbar language={language} pathname={pathname} />
       <main>
         <BlogLayout
           articles={articles}

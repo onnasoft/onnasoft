@@ -1,6 +1,5 @@
 "use server";
 
-import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -59,11 +58,15 @@ const translations = {
 
 const HIDE_BLOG = process.env.NEXT_PUBLIC_HIDE_BLOG === "true";
 
-const Navbar = async ({ language }: { language: string }) => {
-  const headersList = await headers();
+const Navbar = async ({
+  language,
+  pathname,
+}: {
+  language: string;
+  pathname: string;
+}) => {
   const t =
     translations[language as keyof typeof translations] || translations.en;
-  const pathname = headersList.get("x-pathname") || "";
   const path = pathname.substring(3);
   const lang = language;
 
@@ -78,30 +81,33 @@ const Navbar = async ({ language }: { language: string }) => {
             height={40}
             className="mr-2"
           />
-          <Link href={`/${lang}`} className="text-2xl font-bold text-gray-900">
+          <Link
+            href={`/${language}`}
+            className="text-2xl font-bold text-gray-900"
+          >
             <span className="text-primary">Onna</span>Soft
           </Link>
         </div>
         <nav className="hidden lg:flex space-x-8 items-center">
-          <Link href={`/${lang}/#services`} className="nav-link">
+          <Link href={`/${language}/#services`} className="nav-link">
             {t.services}
           </Link>
-          <Link href={`/${lang}/#why-us`} className="nav-link">
+          <Link href={`/${language}/#why-us`} className="nav-link">
             {t.whyUs}
           </Link>
-          <Link href={`/${lang}/mission`} className="nav-link">
+          <Link href={`/${language}/mission`} className="nav-link">
             {t.mission}
           </Link>
-          <Link href={`/${lang}/vision`} className="nav-link">
+          <Link href={`/${language}/vision`} className="nav-link">
             {t.vision}
           </Link>
           {!HIDE_BLOG && (
-            <Link href={`/${lang}/blog`} className="nav-link">
+            <Link href={`/${language}/blog`} className="nav-link">
               {t.blog}
             </Link>
           )}
           <Link
-            href={`/${lang}/#contact`}
+            href={`/${language}/#contact`}
             className="bg-primary text-white px-4 py-2 rounded-md  font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >
             <span className="text-white font-bold">{t.contact}</span>

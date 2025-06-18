@@ -65,13 +65,16 @@ export default async function Home({ params }: HomeProps) {
     metadataByLang[language as keyof typeof metadataByLang] ||
     metadataByLang.en;
 
+  const headersList = await headers();
+  const pathname = headersList.get("x-pathname") || "";
+
   return (
     <div className="min-h-screen bg-white">
       <Head>
         <title>{title}</title>
         <meta name="description" content={description} />
       </Head>
-      <Navbar language={language} />
+      <Navbar pathname={pathname} language={language} />
       <main>
         <Hero language={language} />
         <Services language={language} />

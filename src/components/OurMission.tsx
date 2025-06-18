@@ -101,7 +101,7 @@ interface VisionValuesProps {
   language: string;
 }
 
-const OurVisionValues = ({ language }: VisionValuesProps) => {
+const OurMission = ({ language }: VisionValuesProps) => {
   const t = translations[language as keyof typeof translations] || translations.en;
 
   return (
@@ -115,11 +115,11 @@ const OurVisionValues = ({ language }: VisionValuesProps) => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {t.values.map((val, idx) => (
-              <div className="card" key={idx}>
-                <div className="w-16 h-16 bg-primary-light rounded-full flex items-center justify-center mb-6 mx-auto">
+              <div className="card" key={val.title}>
+                <div className="w-16 h-16 rounded-full flex items-center justify-center mb-6 mx-auto">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-8 w-8 text-primary"
+                    className="h-40 w-40 text-primary"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -146,4 +146,4 @@ const OurVisionValues = ({ language }: VisionValuesProps) => {
   );
 };
 
-export default OurVisionValues;
+export default OurMission;

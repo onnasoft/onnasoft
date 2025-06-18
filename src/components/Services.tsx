@@ -205,7 +205,7 @@ const Services: React.FC<{ language: string }> = ({ language }) => {
   return (
     <section
       id="services"
-      className="section bg-gray-50 dark:bg-gray-900 py-16"
+      className="section bg-gray-50 dark:bg-gray-900 py-16 animate-fade-in-down"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
@@ -221,7 +221,7 @@ const Services: React.FC<{ language: string }> = ({ language }) => {
           {t.services.map((service, index) => (
             <div
               key={service.title}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg animate-fade-in-down"
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg"
             >
               <div className="mb-5 p-4 bg-primary-light text-white rounded-full w-14 h-14 flex items-center justify-center">
                 {icons[index]}

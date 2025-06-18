@@ -20,14 +20,16 @@ export default async function RecentCard(article: BlogCardProps) {
   ].join("/");
   return (
     <div className="blog-card bg-white shadow-sm flex gap-4 p-4">
-      <Image
-        priority
-        width={200}
-        height={200}
-        src={article.post.coverImage?.url || "/default-image.jpg"}
-        alt="Securing Your API Endpoints"
-        className="blog-image cursor-pointer rounded-lg"
-      />
+      <Link href={`/${postUrl}`} className="flex-shrink-0">
+        <Image
+          priority
+          width={200}
+          height={200}
+          src={article.post.coverImage?.url || "/default-image.jpg"}
+          alt="Securing Your API Endpoints"
+          className="blog-image cursor-pointer rounded-lg"
+        />
+      </Link>
       <div className="rounded-lg flex-1">
         <div className="flex items-center mb-2">
           <span className="bg-primary-light text-white text-xs px-2 py-1 rounded-full">

@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
+        port: "3200",
+      },
+      {
+        protocol: "http",
+        hostname: "localhost",
         port: "4200",
       },
       {

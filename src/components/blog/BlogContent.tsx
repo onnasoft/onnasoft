@@ -19,7 +19,7 @@ export default async function BlogContent({
   totalPages = 1,
 }: BlogContentProps) {
   const { docs } = await getPostTranslations({
-    select: { translatedTitle: true },
+    select: { translatedTitle: true, slug: true },
     where: { locale: language },
     depth: 0,
     limit: 0,

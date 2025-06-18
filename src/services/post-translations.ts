@@ -3,6 +3,7 @@ import { getAuthToken } from "./auth";
 import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
+const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || baseUrl;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
 const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
@@ -146,6 +147,6 @@ export async function getPostTranslations({
 
   return {
     ...data,
-    docs: data.docs.map((doc) => mapDocUrls(doc, baseUrl)),
+    docs: data.docs.map((doc) => mapDocUrls(doc, mediaUrl)),
   };
 }

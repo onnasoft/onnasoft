@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import TrieSearch from "trie-search";
 import { PostTranslation } from "@/types/models";
+import { redirect } from "next/navigation";
 
 interface SearchArticlesProps {
   readonly language: string;
@@ -15,24 +16,16 @@ export default function SearchArticles({
 }: SearchArticlesProps) {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<PostTranslation[]>([]);
-  const [trie, setTrie] = useState<TrieSearch<PostTranslation> | null>(null);
+  const trie = useMemo(
+    () => new TrieSearch<PostTranslation>("translatedTitle"),
+    []
+  );
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const trieSearch = new TrieSearch<PostTranslation>("translatedTitle");
-        trieSearch.addAll(documents);
-        setTrie(trieSearch);
-      } catch (err) {
-        console.error("Search failed", err);
-      }
-    }
-    fetchData();
-  }, [language, documents]);
+  trie.addAll(documents);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    setSearchTerm(value);
+    setSearchTerm(value ?? "");
     console.log(`Searching for: ${value}`);
     if (trie && value.length > 0) {
       const matches = trie.search(value);
@@ -60,13 +53,18 @@ export default function SearchArticles({
         />
       </form>
       {results.length > 0 && (
-        <ul className="border rounded-lg">
+        <ul className="border rounded-lg absolute bg-white">
           {results.slice(0, 5).map((item) => (
-            <li
-              key={item.id}
-              className="px-4 py-2 hover:bg-gray-100 cursor-pointer"
-            >
-              {item.translatedTitle}
+            <li key={item.id}>
+              <button
+                type="button"
+                onClick={() => {
+                  redirect(`/${language}/blog/${item.slug}`);
+                }}
+                className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
+              >
+                {item.translatedTitle}
+              </button>
             </li>
           ))}
         </ul>

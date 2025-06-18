@@ -2,6 +2,7 @@ import { Post, CoverImage } from "@/types/models";
 import { getAuthToken } from "./auth";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
+const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || baseUrl;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
 const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
@@ -59,7 +60,7 @@ function appendSelectParams(url: URL, select?: SelectFields) {
   }
 }
 
-function mapPostUrls(post: Post): Post {
+function mapPostUrls(post: Post, baseUrl: string): Post {
   const updateImageUrls = (image: CoverImage | null) => {
     if (!image) return image;
     let url = image.url || "";
@@ -115,13 +116,13 @@ export async function getPosts({
 
   return {
     ...data,
-    docs: data.docs.map((post) => mapPostUrls(post)),
+    docs: data.docs.map((post) => mapPostUrls(post, mediaUrl)),
   };
 }
 
 export async function updatePost(
   id: number,
-  postData: Partial<Post>,
+  postData: Partial<Post>
 ): Promise<Post> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/api/posts/${id}`);
@@ -141,5 +142,5 @@ export async function updatePost(
   }
 
   const updatedPost: Post = await res.json();
-  return mapPostUrls(updatedPost);
+  return mapPostUrls(updatedPost, mediaUrl);
 }

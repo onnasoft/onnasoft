@@ -3,14 +3,6 @@
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { suportedLanguages } from "@/types/languages";
-import { headers } from "next/headers";
-
-interface HomeProps {
-  readonly params: Promise<{
-    lang: string;
-  }>;
-}
 
 const translations = {
   en: {
@@ -30,17 +22,12 @@ const translations = {
   },
 };
 
-export default async function FallbackPage({ params }: HomeProps) {
-  const h = await headers();
-  const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const lang = (await params).lang || acceptLanguage || "en";
-  const pathname = h.get("x-pathname") || "";
+interface HomeProps {
+  readonly language: string;
+  readonly pathname: string;
+}
 
-  let language = lang.toLowerCase();
-  if (!Object.keys(suportedLanguages).includes(lang)) {
-    language = "en";
-  }
-
+export default async function FallbackPage({ language, pathname }: HomeProps) {
   const t =
     translations[language as keyof typeof translations] || translations.en;
 

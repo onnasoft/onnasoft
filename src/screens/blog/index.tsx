@@ -5,36 +5,18 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { getPostTranslations } from "@/services/post-translations";
-import { suportedLanguages } from "@/types/languages";
-import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 
 export interface BlogPageProps {
-  readonly params: Promise<{
-    lang: string;
-  }>;
-  readonly searchParams: Promise<{
-    [key: string]: string | string[] | undefined;
-  }>;
+  readonly language: string;
+  readonly pathname: string;
+  readonly currentPage: number;
 }
 
 export default async function BlogPage({
-  params,
-  searchParams,
+  language,
+  pathname,
+  currentPage,
 }: BlogPageProps) {
-  const h = await headers();
-  const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const lang = (await params).lang || acceptLanguage || "en";
-  const language = suportedLanguages.includes(lang) ? lang : "en";
-  const pathname = h.get("x-pathname") || "";
-  const currentPage = parseInt(
-    ((await searchParams).page as string | undefined) || "1",
-    10
-  );
-  if (!language) {
-    redirect(`/en`);
-  }
-
   const {
     docs: articles,
     page,

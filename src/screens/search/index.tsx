@@ -5,35 +5,20 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { search } from "@/services/search-article";
-import { suportedLanguages } from "@/types/languages";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-
 export interface SearchPageProps {
-  readonly params: Promise<{
-    lang: string;
-    q: string;
-  }>;
-  readonly searchParams: Promise<{
-    [key: string]: string | string[] | undefined;
-  }>;
+  readonly language: string;
+  readonly pathname: string;
+  readonly currentPage: number;
+  readonly query: string;
 }
 
 export default async function SearchPage({
-  params,
-  searchParams,
+  language,
+  pathname,
+  currentPage,
+  query,
 }: SearchPageProps) {
-  const query = (await searchParams).q as string | undefined;
-  const h = await headers();
-  const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const lang = (await params).lang || acceptLanguage || "en";
-  const language = suportedLanguages.includes(lang) ? lang : "en";
-  const pathname = h.get("x-pathname") || "";
-  const currentPage = parseInt(
-    ((await searchParams).page as string | undefined) || "1",
-    10
-  );
-
   if (!query) {
     redirect(`/blog/${language}`);
   }

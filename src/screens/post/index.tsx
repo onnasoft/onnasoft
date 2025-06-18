@@ -7,30 +7,25 @@ import Breadcrumbs from "@/components/post/Breadcrumbs";
 import PostContent from "@/components/post/PostContent";
 import PostSidebar from "@/components/post/PostSidebar";
 import { getPostTranslations } from "@/services/post-translations";
-import { suportedLanguages } from "@/types/languages";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { getCategories } from "@/services/categories";
 
 export interface PostPageProps {
-  readonly params: Promise<{
-    lang: string;
-    category: string;
-    post: string;
-  }>;
+  readonly language: string;
+  readonly pathname: string;
+  readonly post: string;
+  readonly category: string;
 }
 
-export default async function PostPage({ params }: PostPageProps) {
-  const h = await headers();
-  const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const args = await params;
-  const lang = args.lang || acceptLanguage || "en";
-  const language = suportedLanguages.includes(lang) ? lang : "en";
-  const pathname = h.get("x-pathname") || "";
-
+const PostPage: React.FC<PostPageProps> = async ({
+  pathname,
+  language,
+  post,
+  category,
+}) => {
   const { docs: article } = await getPostTranslations({
     where: {
-      slug: `${args.category}/${args.post}`,
+      slug: `${category}/${post}`,
       locale: language,
     },
     depth: 3,
@@ -40,8 +35,8 @@ export default async function PostPage({ params }: PostPageProps) {
     redirect(`/${language}/blog`);
   }
 
-  const { docs: category } = await getCategories({
-    where: { slug: args.category },
+  const { docs: categories } = await getCategories({
+    where: { slug: category },
   });
 
   if (!category || category.length === 0) {
@@ -58,7 +53,7 @@ export default async function PostPage({ params }: PostPageProps) {
       <main>
         <Breadcrumbs
           language={language}
-          category={category[0]}
+          category={categories[0]}
           post={article[0]}
         />
 
@@ -78,4 +73,6 @@ export default async function PostPage({ params }: PostPageProps) {
       <Footer language={language} />
     </div>
   );
-}
+};
+
+export default PostPage;

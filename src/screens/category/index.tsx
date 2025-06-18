@@ -5,32 +5,21 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import { getPostTranslations } from "@/services/post-translations";
-import { suportedLanguages } from "@/types/languages";
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export interface CategoryProps {
-  readonly params: Promise<{
-    lang: string;
-  }>;
-  readonly searchParams: Promise<{
-    [key: string]: string | string[] | undefined;
-  }>;
+  readonly language: string;
+  readonly pathname: string;
+  readonly category: string;
+  readonly currentPage: number;
 }
 
 export default async function CategoryPage({
-  params,
-  searchParams,
+  language,
+  pathname,
+  category,
+  currentPage,
 }: CategoryProps) {
-  const h = await headers();
-  const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const lang = (await params).lang || acceptLanguage || "en";
-  const language = suportedLanguages.includes(lang) ? lang : "en";
-  const pathname = h.get("x-pathname") || "";
-  const currentPage = parseInt(
-    ((await searchParams).page as string | undefined) || "1",
-    10
-  );
   if (!language) {
     redirect(`/en`);
   }
@@ -40,7 +29,13 @@ export default async function CategoryPage({
     page,
     totalPages,
   } = await getPostTranslations({
-    where: { locale: language },
+    where: {
+      locale: language,
+      slug: {
+        op: "like",
+        value: `${category}/%`,
+      },
+    },
     depth: 3,
     page: currentPage,
   });

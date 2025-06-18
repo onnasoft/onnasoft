@@ -60,7 +60,7 @@ const HIDE_BLOG = process.env.NEXT_PUBLIC_HIDE_BLOG === "true";
 
 const Navbar = async ({
   language,
-  pathname,
+  pathname = "/",
 }: {
   language: string;
   pathname: string;

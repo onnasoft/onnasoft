@@ -1,11 +1,44 @@
-import FallbackPage from "@/pages/fallback";
-import SearchPage, { SearchPageProps } from "@/pages/search";
+"use server";
+
+import FallbackPage from "@/screens/fallback";
+import SearchPage from "@/screens/search";
+import { suportedLanguages } from "@/types/languages";
+import { headers } from "next/headers";
 import { Suspense } from "react";
 
-export default function Page(props: SearchPageProps) {
+export interface PageProps {
+  readonly params: Promise<{
+    lang: string;
+    category: string;
+    post: string;
+  }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  const h = await headers();
+  const acceptLanguage = h.get("accept-language")?.split(",")[0];
+  const args = await params;
+  const lang = args.lang || acceptLanguage || "en";
+  const pathname = h.get("x-pathname") || "";
+
+  let language = lang.toLowerCase();
+  if (!suportedLanguages.includes(lang)) {
+    language = "en";
+  }
+
+  const category = args.category || "";
+  const currentPage = parseInt(h.get("x-page") || "1", 10);
+
   return (
-    <Suspense fallback={<FallbackPage {...props} />}>
-      <SearchPage {...props} />
+    <Suspense
+      fallback={<FallbackPage language={language} pathname={pathname} />}
+    >
+      <SearchPage
+        language={language}
+        pathname={pathname}
+        currentPage={currentPage}
+        query={category}
+      />
     </Suspense>
   );
 }

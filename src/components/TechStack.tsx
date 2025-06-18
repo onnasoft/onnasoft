@@ -1468,7 +1468,7 @@ const TechStack: React.FC<TechnologyProps> = ({ language }) => {
                     key={tech.name}
                     className="group relative bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center"
                   >
-                    <div className="mb-4 p-3 bg-primary text-white rounded-full w-14 h-14 flex items-center justify-center">
+                    <div className="mb-4 p-3 bg-primary-light text-white rounded-full w-14 h-14 flex items-center justify-center">
                       {tech.icon}
                     </div>
                     <h4 className=" font-bold text-gray-800 dark:text-gray-200">

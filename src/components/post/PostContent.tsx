@@ -32,7 +32,7 @@ export default async function PostContent({
   return (
     <article className="lg:col-span-3">
       <div className="mb-4">
-        <span className="inline-flex items-center bg-primary text-white px-3 py-0.5 rounded-full text-sm font-medium">
+        <span className="inline-flex items-center bg-primary-light text-white px-3 py-0.5 rounded-full text-sm font-medium">
           <i className="fas fa-cloud mr-2"></i>{" "}
           {article.post.category?.name || "General"}
         </span>

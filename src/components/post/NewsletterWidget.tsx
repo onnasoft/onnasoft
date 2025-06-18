@@ -165,7 +165,7 @@ export default function NewsletterWidget({ language }: NewsletterWidgetProps) {
   };
 
   return (
-    <div className="bg-primary p-6 rounded-lg text-white">
+    <div className="bg-primary-light p-6 rounded-lg text-white">
       <h3 className="font-semibold mb-4">{t.title}</h3>
       <p className="text-sm mb-4 text-pink-100">{t.description}</p>
       <form onSubmit={handleSubmit} className="space-y-3">

@@ -347,7 +347,7 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
                   {sector.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 bg-primary text-white font-bold text-sm rounded-full"
+                      className="px-3 py-1 bg-primary-light text-white font-bold text-sm rounded-full"
                     >
                       {tag}
                     </span>

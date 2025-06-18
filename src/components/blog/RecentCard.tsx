@@ -30,7 +30,7 @@ export default async function RecentCard(article: BlogCardProps) {
       />
       <div className="rounded-lg flex-1">
         <div className="flex items-center mb-2">
-          <span className="bg-primary text-white text-xs px-2 py-1 rounded-full">
+          <span className="bg-primary-light text-white text-xs px-2 py-1 rounded-full">
             {article.post.category.name}
           </span>
           <span className="text-gray-500 text-sm ml-auto">

@@ -313,7 +313,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
                 className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
               >
                 <div className="mb-4">
-                  <div className="w-12 h-12 rounded-full bg-primary text-white flex items-center justify-center font-bold">
+                  <div className="w-12 h-12 rounded-full bg-primary-light text-white flex items-center justify-center font-bold">
                     {reason.icon}
                   </div>
                 </div>

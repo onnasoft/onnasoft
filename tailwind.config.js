@@ -20,7 +20,7 @@ module.exports = {
     },
     extend: {
       colors: {
-        primary: "#815E5B", // Rosa
+        primary: "#ec4899", // Rosa
         secondary: "#F5F5F5", // Gris claro
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

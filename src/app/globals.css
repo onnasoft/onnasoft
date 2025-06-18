@@ -83,6 +83,10 @@
   }
 }
 
+.bg-primary-light {
+  @apply bg-primary/80;
+}
+
 /* Google-inspired styles */
 .container {
   @apply px-4 mx-auto max-w-7xl;
@@ -358,12 +362,11 @@ body {
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, #815E5B, #5A3F3D);
+  background: linear-gradient(135deg, #ec4899, #be185d);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
 
 .glass-effect {
   background: rgba(255, 255, 255, 0.1);

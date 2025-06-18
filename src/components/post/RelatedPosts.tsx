@@ -68,7 +68,7 @@ export default async function RelatedPosts({
             />
             <div className="p-6">
               <div className="flex items-center mb-2">
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary text-white">
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-white">
                   {article.post.category?.name || ""}
                 </span>
               </div>

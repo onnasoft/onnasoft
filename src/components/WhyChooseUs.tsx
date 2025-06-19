@@ -310,7 +310,7 @@ const WhyChooseUs: React.FC<WhyChooseUsProps> = ({ language }) => {
             {t.reasons.map((reason) => (
               <div
                 key={reason.title}
-                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-lg animate-fade-in-down"
+                className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
               >
                 <div className="mb-4">
                   <div className="w-12 h-12 rounded-full bg-primary-light text-white flex items-center justify-center font-bold">

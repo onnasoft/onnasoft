@@ -282,7 +282,7 @@ const WorkProcess: React.FC<WorkProcessProps> = ({ language }) => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {t.steps.map((step) => (
               <div key={step.title} className="relative z-10">
-                <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col hover:-translate-y-1">
+                <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 h-full flex flex-col hover:scale-105">
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 rounded-full bg-primary-light text-white flex items-center justify-center font-bold">
                       {step.number}

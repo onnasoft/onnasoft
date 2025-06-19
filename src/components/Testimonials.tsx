@@ -183,7 +183,7 @@ const Testimonials: React.FC<TestimonialProps> = ({ language }) => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {t.testimonials.map((testimonial) => (
-            <div key={testimonial.author} className="card">
+            <div key={testimonial.author} className="card hover:scale-105">
               <div className="flex text-primary mb-4">
                 {renderStars(testimonial.rating)}
               </div>

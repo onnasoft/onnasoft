@@ -250,7 +250,7 @@ const ClientTypes: React.FC<ClientTypeProps> = ({ language }) => {
           {t.clientTypes.map((clientType) => (
             <div
               key={clientType.title}
-              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+              className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
             >
               <div className="mb-5 p-4 bg-primary-light text-white rounded-full w-14 h-14 flex items-center justify-center">
                 {clientType.icon}

@@ -318,7 +318,7 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
           {t.sectors.map((sector) => (
             <div
               key={sector.title}
-              className="rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 group hover:-translate-y-1"
+              className="rounded-xl overflow-hidden shadow-sm transition-all duration-300 group hover:scale-105 hover:shadow-lg"
             >
               {/* Contenedor de imagen con título superpuesto */}
               <div className="relative h-48">

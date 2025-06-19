@@ -173,7 +173,7 @@ const Mission: React.FC<{ language: string }> = ({ language }) => {
                 (Icon, i) => (
                   <div
                     key={t.items[i].title}
-                    className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1"
+                    className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105"
                   >
                     <div className="mb-4 p-3 bg-primary-light text-white rounded-full w-14 h-14 flex items-center justify-center">
                       <Icon className="text-2xl" />

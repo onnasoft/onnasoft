@@ -62,7 +62,6 @@ const Navbar = async ({
   const t =
     translations[language as keyof typeof translations] || translations.en;
   const path = pathname.substring(3);
-  const lang = language;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white/10 backdrop-blur shadow-xs py-3 transition-all duration-300">

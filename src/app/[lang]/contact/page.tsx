@@ -37,11 +37,10 @@ const translations = {
 };
 
 interface PageProps {
-  readonly params: { lang: string };
-  readonly searchParams: { [key: string]: string | string[] | undefined };
+  readonly params: Promise<{ lang: string }>;
 }
 
-export default async function Page({ params, searchParams }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";

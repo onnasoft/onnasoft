@@ -150,7 +150,7 @@ export default async function ServicesMenu({ language }: ServicesMenuProps) {
           />
         </svg>
       </button>
-      <div className="absolute z-10 mt-1 left-1/2 transform -translate-x-1/2 min-w-[600px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
+      <div className="absolute z-10 mt-1 left-1/2 transform -translate-x-1/2 min-w-[650px] rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
         <div className="grid grid-cols-2 p-2">
           {t.items.map((item, i) => (
             <Link

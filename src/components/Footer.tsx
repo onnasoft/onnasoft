@@ -158,7 +158,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href="#services"
+                  href="/#services"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.services}
@@ -166,7 +166,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href="#why-us"
+                  href="/#why-us"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.whyUs}
@@ -174,7 +174,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href="#process"
+                  href="/#process"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.process}
@@ -183,7 +183,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
 
               <li>
                 <Link
-                  href="#contact"
+                  href="/#contact"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.contact}

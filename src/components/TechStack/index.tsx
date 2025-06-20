@@ -1,6 +1,52 @@
 import React from "react";
 import { translations } from "./translations";
 
+export const techRoutes: Record<string, string> = {
+  JavaScript: "/web-development/what-is-javascript-and-why-is-it-so-important-for-the-web",
+  TypeScript: "/web-development/getting-started-with-typescript-a-practical-guide-for-javascript-developers",
+  Python: "",
+  Go: "/web-development/why-do-we-use-go-at-onnasoft-efficiency-and-scalability-without-complications",
+  SQL: "/web-development/why-does-your-company-need-sql",
+  NestJS: "",
+  "Next.JS": "",
+  Bootstrap: "",
+  Tailwind: "",
+  PySpark: "",
+  PyTorch: "",
+  "REST APIs": "",
+  SOAP: "",
+  GraphQL: "",
+  Stripe: "",
+  MercadoPago: "",
+  PayPal: "",
+  "Pruebas Unitarias": "",
+  "Pruebas de Integración": "",
+  SonarQube: "",
+  "Automatización de Pruebas": "",
+  "Socket.dev": "",
+  Hexagonal: "",
+  Microservicios: "",
+  "Orientada a Eventos": "",
+  CQRS: "",
+  AWS: "",
+  Cloudflare: "",
+  Docker: "",
+  Redis: "",
+  Metabase: "",
+  "AWS CloudWatch": "",
+  "AWS CloudTrail": "",
+  "AWS Config": "",
+  OAuth: "",
+  "Autenticación Google": "",
+  "Autenticación Microsoft": "",
+  "PCI DSS": "",
+  DIAN: "",
+  "Facturación Electrónica": "",
+  WebSockets: "",
+  WebRTC: "",
+  MCP: "",
+};
+
 interface TechnologyProps {
   readonly language: string;
 }

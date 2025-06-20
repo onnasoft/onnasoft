@@ -8,8 +8,16 @@ interface LikeProps {
 const HIDE_LIKE_BUTTONS = process.env.NEXT_PUBLIC_HIDE_LIKE_BUTTONS === "true";
 
 export default function Like({ article }: LikeProps) {
+  if (!article.post || typeof article.post.likes !== "number") {
+    return null;
+  }
+
   const onClickHandler = async () => {
     "use server";
+
+    if (!article.post?.id) {
+      return;
+    }
 
     await updatePost(article.post.id, {
       likes: article.post.likes + 1,

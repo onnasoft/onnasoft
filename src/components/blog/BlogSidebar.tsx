@@ -40,20 +40,23 @@ export default async function BlogSidebar({ language }: BlogSidebarProps) {
       <h3 className="text-xl font-bold mb-6 hidden md:block">Categories</h3>
       <ul className="space-y-4">
         {categories
-          .filter(({ category }) => category.postCount > 0)
-          .map((category) => (
+          .filter(
+            ({ category }) =>
+              typeof category?.postCount === "number" && category.postCount > 0
+          )
+          .map(({ translatedName, category }) => (
             <li
-              key={category.translatedName}
+              key={translatedName}
               className="category-item flex items-center justify-between"
             >
               <Link
-                href={`/${language}/blog/${category.category.slug}`}
+                href={`/${language}/blog/${category?.slug}`}
                 className="text-gray-700 hover:text-primary"
               >
-                {category.translatedName}
+                {translatedName}
               </Link>
               <span className="text-gray-500 text-sm">
-                ({category.category.postCount})
+                ({category?.postCount})
               </span>
             </li>
           ))}

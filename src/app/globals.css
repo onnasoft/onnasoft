@@ -677,13 +677,12 @@ body {
 }
 
 .menu-item:hover {
-  border-left-color: var(--primary-color, #3b82f6);
+  @apply border-l-primary;
   background-color: #f8fafc;
   transform: translateX(4px);
 }
 
 .submenu-divider {
   height: 1px;
-  background: linear-gradient(to right, transparent, #e2e8f0, transparent);
   margin: 8px 0;
 }

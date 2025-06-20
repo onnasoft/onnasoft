@@ -15,8 +15,11 @@ export default async function ShareContent({
   language,
   article,
 }: ShareContentProps) {
-  await updatePost(article.post.id, {
-    views: article.post.views + 1,
+  if (!article.post) {
+    return null;
+  }
+  await updatePost(article.post?.id, {
+    views: article.post?.views + 1,
   });
 
   const url = `${BASE_URL}/${language}/blog/${article.slug}`;

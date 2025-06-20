@@ -6,6 +6,7 @@ const translations = {
     description:
       "We transform ideas into innovative digital solutions. Specialists in programming, web development, API integration, big data and data science.",
     quickLinks: "Quick Links",
+    aboutLinks: "About Links",
     home: "Home",
     services: "Services",
     whyUs: "Why Choose Us",
@@ -18,11 +19,14 @@ const translations = {
     privacy: "Privacy Policy",
     terms: "Terms of Service",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. All rights reserved.`,
+    mission: "Mission",
+    vision: "Vision",
   },
   es: {
     description:
       "Transformamos ideas en soluciones digitales innovadoras. Especialistas en programación, desarrollo web, integración de APIs, big data y ciencia de datos.",
     quickLinks: "Enlaces Rápidos",
+    aboutLinks: "Enlaces Sobre Nosotros",
     home: "Inicio",
     services: "Servicios",
     whyUs: "¿Por qué elegirnos?",
@@ -35,11 +39,14 @@ const translations = {
     privacy: "Política de Privacidad",
     terms: "Términos del Servicio",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. Todos los derechos reservados.`,
+    mission: "Misión",
+    vision: "Visión",
   },
   fr: {
     description:
       "Nous transformons les idées en solutions numériques innovantes. Spécialistes en programmation, développement web, intégration d'API, big data et science des données.",
     quickLinks: "Liens Rapides",
+    aboutLinks: "Liens à Propos",
     home: "Accueil",
     services: "Services",
     whyUs: "Pourquoi Nous Choisir",
@@ -52,11 +59,14 @@ const translations = {
     privacy: "Politique de Confidentialité",
     terms: "Conditions d'Utilisation",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. Tous droits réservés.`,
+    mission: "Mission",
+    vision: "Vision",
   },
   ja: {
     description:
       "私たちはアイデアを革新的なデジタルソリューションに変えます。プログラミング、Web開発、API統合、ビッグデータ、データサイエンスの専門家です。",
     quickLinks: "クイックリンク",
+    aboutLinks: "私たちについてのリンク",
     home: "ホーム",
     services: "サービス",
     whyUs: "選ばれる理由",
@@ -69,11 +79,14 @@ const translations = {
     privacy: "プライバシーポリシー",
     terms: "利用規約",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. 無断転載を禁じます。`,
+    mission: "ミッション",
+    vision: "ビジョン",
   },
   zh: {
     description:
       "我们将创意转化为创新的数字解决方案。专注于编程、网页开发、API 集成、大数据和数据科学。",
     quickLinks: "快速链接",
+    aboutLinks: "关于我们的链接",
     home: "首页",
     services: "服务",
     whyUs: "为什么选择我们",
@@ -86,6 +99,8 @@ const translations = {
     privacy: "隐私政策",
     terms: "服务条款",
     copyright: `© ${new Date().getFullYear()} OnnaSoft. 保留所有权利。`,
+    mission: "使命",
+    vision: "愿景",
   },
 };
 
@@ -99,7 +114,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="text-2xl font-bold mb-4 block">
               <span className="text-primary">Onna</span>soft
@@ -165,12 +180,51 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
                   {t.process}
                 </Link>
               </li>
+
               <li>
                 <Link
                   href="#contact"
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.contact}
+                </Link>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 className="font-bold mb-4">{t.aboutLinks}</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href={`/${language}/mission`}
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  {t.mission}
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  href={`/${language}/vision`}
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  {t.vision}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`/${language}/privacy-policy`}
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  {t.privacy}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={`/${language}/terms-of-service`}
+                  className="text-gray-400 hover:text-primary transition-colors"
+                >
+                  {t.terms}
                 </Link>
               </li>
             </ul>

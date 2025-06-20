@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import ProductsMenu from "./ProductsMenu";
+import ServicesMenu from "./ServicesMenu";
 
 const translations = {
   en: {
@@ -82,6 +84,7 @@ const Navbar = async ({
             className="mr-2"
           />
           <Link
+            prefetch={false}
             href={`/${language}`}
             className="text-2xl font-bold text-gray-900"
           >
@@ -89,24 +92,26 @@ const Navbar = async ({
           </Link>
         </div>
         <nav className="hidden lg:flex space-x-8 items-center">
-          <Link href={`/${language}/#services`} className="nav-link">
-            {t.services}
-          </Link>
-          <Link href={`/${language}/#why-us`} className="nav-link">
+          <ProductsMenu language={language} />
+          <ServicesMenu language={language} />
+          <Link
+            href={`/${language}/#why-us`}
+            className="nav-link"
+            prefetch={false}
+          >
             {t.whyUs}
           </Link>
-          <Link href={`/${language}/mission`} className="nav-link">
-            {t.mission}
-          </Link>
-          <Link href={`/${language}/vision`} className="nav-link">
-            {t.vision}
-          </Link>
           {!HIDE_BLOG && (
-            <Link href={`/${language}/blog`} className="nav-link">
+            <Link
+              href={`/${language}/blog`}
+              className="nav-link"
+              prefetch={false}
+            >
               {t.blog}
             </Link>
           )}
           <Link
+            prefetch={false}
             href={`/${language}/#contact`}
             className="bg-primary text-white px-4 py-2 rounded-md  font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg"
           >

@@ -20,11 +20,7 @@ export default async function SearchPage({
   query,
 }: SearchPageProps) {
   if (!query) {
-    console.warn(
-      "Query parameter is missing, redirecting to blog page.",
-      query
-    );
-    //redirect(`${language}/blog`);
+    redirect(`${language}/blog`);
   }
 
   const {

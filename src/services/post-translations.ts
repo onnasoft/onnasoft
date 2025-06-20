@@ -29,7 +29,7 @@ type SelectFields = Partial<Record<keyof PostTranslation, boolean>> & {
   post?: Partial<Record<keyof PostTranslation["post"], boolean>>;
 };
 
-interface QueryParams {
+export interface QueryParams {
   select?: SelectFields;
   where?: Filters;
   limit?: number;

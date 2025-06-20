@@ -32,6 +32,10 @@ export default async function RelatedPosts({
   language,
   article,
 }: RelatedPostsProps) {
+  if (!article.post) {
+    return null;
+  }
+
   const { docs: articles } = await getPostTranslations({
     where: {
       locale: language,
@@ -63,13 +67,13 @@ export default async function RelatedPosts({
               width={438}
               height={192}
               className="w-full h-48 object-cover"
-              src={article.post.coverThumbnail?.url ?? ""}
+              src={article.post?.coverThumbnail?.url ?? ""}
               alt="DevOps Best Practices"
             />
             <div className="p-6">
               <div className="flex items-center mb-2">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-white">
-                  {article.post.category?.name || ""}
+                  {article.post?.category?.name || ""}
                 </span>
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">
@@ -87,17 +91,16 @@ export default async function RelatedPosts({
                 ...
               </p>
               <div className="flex items-center text-xs text-gray-500">
-                <span>{article.post.author?.name || "John Doe"}</span>
+                <span>{article.post?.author?.name || "John Doe"}</span>
                 <span className="mx-2">•</span>
                 <span>
-                  {new Date(article.post.publishedDate).toLocaleDateString(
-                    language,
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
-                  )}
+                  {new Date(
+                    article.post?.publishedDate ?? ""
+                  ).toLocaleDateString(language, {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
                 </span>
               </div>
             </div>

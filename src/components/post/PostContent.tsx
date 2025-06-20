@@ -33,8 +33,7 @@ export default async function PostContent({
     <article className="lg:col-span-3">
       <div className="mb-4">
         <span className="inline-flex items-center bg-primary-light text-white px-3 py-0.5 rounded-full text-sm font-medium">
-          <i className="fas fa-cloud mr-2"></i>{" "}
-          {article.post.category?.name || "General"}
+          <i className="fas fa-cloud mr-2"></i> {article.category || "General"}
         </span>
       </div>
       <h1 className="text-4xl font-bold text-gray-900 mb-4">
@@ -44,7 +43,7 @@ export default async function PostContent({
       <div className="flex items-center space-x-4 text-sm text-gray-600 mb-6">
         <div className="flex items-center flex-1">
           <Link
-            href={article.post.author?.linkedIn || "#"}
+            href={article?.post?.author?.linkedIn || "#"}
             className="flex items-center hover:underline"
             target="_blank"
             rel="noopener noreferrer"
@@ -54,16 +53,16 @@ export default async function PostContent({
                 width={40}
                 height={40}
                 className="h-10 w-10 rounded-full mr-3"
-                src={article.post.author?.photo?.url || "/default-avatar.png"}
+                src={article?.post?.author?.photo?.url || "/default-avatar.png"}
                 alt="Author"
               />
 
               <div>
                 <p className="font-medium text-gray-900">
-                  {article.post.author?.name || "John Doe"}
+                  {article?.post?.author?.name || "John Doe"}
                 </p>
                 <p className="text-gray-600">
-                  {article.post.author?.position || "Software Engineer"}
+                  {article?.post?.author?.position || "Software Engineer"}
                 </p>
               </div>
             </div>
@@ -72,11 +71,14 @@ export default async function PostContent({
         <div className="flex items-center">
           <i className="fas fa-calendar mr-2 text-gray-400"></i>
           <span>
-            {new Date(article.post.publishedDate).toLocaleDateString("en-US", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {new Date(article?.post?.publishedDate ?? "").toLocaleDateString(
+              "en-US",
+              {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            )}
           </span>
         </div>
         <div className="flex items-center">
@@ -89,8 +91,8 @@ export default async function PostContent({
       </div>
       <div className="relative h-64 overflow-hidden rounded-lg mb-6">
         <Image
-          src={article.post.coverImage?.url || ""}
-          alt={article.post.coverImage?.alt || "Cover Image"}
+          src={article?.post?.coverImage?.url || ""}
+          alt={article?.post?.coverImage?.alt || "Cover Image"}
           width={1024}
           height={768}
           className="absolute top-[-20%] left-0 w-full h-auto object-cover"

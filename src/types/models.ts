@@ -19,7 +19,7 @@ export interface Category {
 
 export interface CategoryTranslation {
   id: number;
-  category: Category;
+  category?: Category;
   locale: string;
   translatedName: string;
   translatedDescription: string;
@@ -32,7 +32,7 @@ export interface Author {
   name: string;
   position: string | null;
   bio: string | null;
-  photo: CoverImage | null;
+  photo?: CoverImage | null;
   email: string;
   linkedIn: string | null;
   github: string | null;
@@ -64,9 +64,9 @@ export interface Post {
   slug: string;
   excerpt: string;
   content: string;
-  coverImage: CoverImage | null;
-  coverThumbnail: CoverImage | null;
-  category: Category;
+  coverImage?: CoverImage | null;
+  coverThumbnail?: CoverImage | null;
+  category?: Category;
   author: Author;
   published: boolean;
   views: number;
@@ -82,17 +82,13 @@ export interface Post {
 
 export interface PostTranslation {
   id: number;
-  post: Post;
+  post?: Post;
   locale: string;
   slug: string;
   translatedTitle: string;
   translatedExcerpt: string;
   translatedContent: string;
   category: string;
-  translatedMeta: {
-    title: string;
-    description: string;
-  };
   createdAt: string;
   updatedAt: string;
 }

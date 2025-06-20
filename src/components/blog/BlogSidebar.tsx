@@ -61,14 +61,3 @@ export default async function BlogSidebar({ language }: BlogSidebarProps) {
     </div>
   );
 }
-
-const tags = [
-  "WebDev",
-  "API",
-  "BigData",
-  "Cloud",
-  "AI",
-  "Python",
-  "JavaScript",
-  "DevOps",
-];

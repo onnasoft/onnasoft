@@ -32,14 +32,18 @@ export default async function RecentPostsWidget({
   language,
   article,
 }: RecentPostsWidgetProps) {
+  const whereCondition: Record<string, unknown> = {
+    locale: language,
+  };
+  if (article.post?.id) {
+    whereCondition.post = {
+      op: "not_equals",
+      value: article.post.id,
+    };
+  }
+
   const { docs: articles } = await getPostTranslations({
-    where: {
-      locale: language,
-      post: {
-        op: "not_equals",
-        value: article.post.id,
-      },
-    },
+    where: whereCondition,
     limit: 3,
   });
 
@@ -56,7 +60,7 @@ export default async function RecentPostsWidget({
               width={64}
               height={64}
               className="w-16 h-16 object-cover rounded"
-              src={article.post.coverThumbnail?.url || ""}
+              src={article.post?.coverThumbnail?.url || ""}
               alt={article.translatedTitle}
             />
             <div className="flex-1">
@@ -66,7 +70,7 @@ export default async function RecentPostsWidget({
                 </Link>
               </h4>
               <p className="text-xs text-gray-500 mt-1">
-                {new Date(article.post.publishedDate).toLocaleDateString(
+                {new Date(article.post?.publishedDate ?? "").toLocaleDateString(
                   language,
                   {
                     year: "numeric",

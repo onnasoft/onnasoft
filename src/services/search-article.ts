@@ -2,6 +2,7 @@ import { CoverImage, PostTranslation } from "@/types/models";
 import { getAuthToken } from "./auth";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
+const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || baseUrl;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
 const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
@@ -24,7 +25,10 @@ interface QueryParams {
   search?: string;
 }
 
-function mapPostUrls(article: PostTranslation): PostTranslation {
+function mapPostUrls(
+  article: PostTranslation,
+  baseUrl: string
+): PostTranslation {
   const updateImageUrls = (image: CoverImage | null) => {
     if (!image) return image;
     let url = image.url || "";
@@ -35,13 +39,13 @@ function mapPostUrls(article: PostTranslation): PostTranslation {
     return { ...image, url, thumbnailURL };
   };
 
-  if (article.post.coverImage) {
+  if (article.post?.coverImage) {
     article.post.coverImage = updateImageUrls(article.post.coverImage);
   }
-  if (article.post.coverThumbnail) {
+  if (article.post?.coverThumbnail) {
     article.post.coverThumbnail = updateImageUrls(article.post.coverThumbnail);
   }
-  if (article.post.author?.photo) {
+  if (article.post?.author?.photo) {
     article.post.author.photo = updateImageUrls(article.post.author.photo);
   }
 
@@ -78,6 +82,6 @@ export async function search({
 
   return {
     ...data,
-    docs: data.docs.map(mapPostUrls),
+    docs: data.docs.map((doc) => mapPostUrls(doc, mediaUrl)),
   };
 }

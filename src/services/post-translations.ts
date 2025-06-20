@@ -87,7 +87,7 @@ function buildQueryParams(
 
 function mapDocUrls(doc: PostTranslation, baseUrl: string): PostTranslation {
   const post = doc.post;
-  if (!post) return doc;
+  if (!post) return { ...doc };
 
   const updateImageUrls = (image: CoverImage | null) => {
     if (!image) return image;
@@ -99,25 +99,30 @@ function mapDocUrls(doc: PostTranslation, baseUrl: string): PostTranslation {
     return { ...image, url, thumbnailURL };
   };
 
+  const newPost = { ...post };
+
   if (post.coverImage) {
-    post.coverImage = updateImageUrls(post.coverImage);
+    newPost.coverImage = updateImageUrls(post.coverImage);
   }
 
   if (post.coverThumbnail) {
-    post.coverThumbnail = updateImageUrls(post.coverThumbnail);
+    newPost.coverThumbnail = updateImageUrls(post.coverThumbnail);
   }
 
   if (post.author && post.author?.photo) {
     let url = post.author.photo.url || "";
     if (url.startsWith("/")) url = `${baseUrl}${url}`;
-    post.author.photo = {
-      ...post.author.photo,
-      url,
-      thumbnailURL: post.author.photo.thumbnailURL || null,
+    newPost.author = {
+      ...post.author,
+      photo: {
+        ...post.author.photo,
+        url,
+        thumbnailURL: post.author.photo.thumbnailURL || null,
+      },
     };
   }
 
-  return doc;
+  return { ...doc, post: newPost };
 }
 
 export async function getPostTranslations({

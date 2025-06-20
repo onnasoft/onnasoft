@@ -39,7 +39,7 @@ export default async function CategoriesWidget({ language }: CategoryProps) {
           .map((category) => (
             <li key={category.name}>
               <Link
-                href={`/${language}/blog/${category.slug}`}
+                href={`/${language}/${category.slug}`}
                 className="text-gray-600 hover:text-primary transition-colors flex items-center justify-between"
               >
                 {category.name}

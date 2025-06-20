@@ -87,14 +87,14 @@ const translations = {
 };
 
 const hrefs = [
-  "/blog/odoo/odoo-as-a-crm-boost-your-sales-with-an-integrated-platform",
-  "/blog/odoo/odoo-sales-accelerate-your-end-to-end-business-process",
-  "/blog/odoo/odoo-invoicing-automate-your-accounting-from-sales-to-collections",
-  "/blog/odoo/odoo-inventory-total-control-of-your-stock-in-real-time",
-  "/blog/odoo/odoo-accounting-simplify-your-financial-management-with-automation-and-total-control",
-  "/blog/odoo/odoo-projects-agile-and-collaborative-management-for-productive-teams",
-  "/blog/odoo/odoo-purchasing-optimize-your-purchases-with-automated-and-intelligent-processes",
-  "/blog/odoo/odoo-human-resources-centralize-talent-management-and-improve-productivity",
+  "/odoo/odoo-as-a-crm-boost-your-sales-with-an-integrated-platform",
+  "/odoo/odoo-sales-accelerate-your-end-to-end-business-process",
+  "/odoo/odoo-invoicing-automate-your-accounting-from-sales-to-collections",
+  "/odoo/odoo-inventory-total-control-of-your-stock-in-real-time",
+  "/odoo/odoo-accounting-simplify-your-financial-management-with-automation-and-total-control",
+  "/odoo/odoo-projects-agile-and-collaborative-management-for-productive-teams",
+  "/odoo/odoo-purchasing-optimize-your-purchases-with-automated-and-intelligent-processes",
+  "/odoo/odoo-human-resources-centralize-talent-management-and-improve-productivity",
 ];
 
 interface ProductsMenuProps {

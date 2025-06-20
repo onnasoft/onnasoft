@@ -42,7 +42,7 @@ export default async function Breadcrumbs({
               <div className="flex items-center">
                 <i className="fas fa-chevron-right text-gray-400 mx-2" />
                 <Link
-                  href={`/${language}/blog/${category.slug}`}
+                  href={`/${language}/${category.slug}`}
                   className="ml-1 text-sm font-medium text-gray-700 hover:text-primary md:ml-2"
                 >
                   {category.name}

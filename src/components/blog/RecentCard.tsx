@@ -14,7 +14,6 @@ export default async function RecentCard(article: BlogCardProps) {
 
   const postUrl = [
     article.locale,
-    "blog",
     article.post?.category?.slug,
     article.post?.slug,
   ].join("/");

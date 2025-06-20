@@ -22,7 +22,7 @@ export default async function ShareContent({
     views: article.post?.views + 1,
   });
 
-  const url = `${BASE_URL}/${language}/blog/${article.slug}`;
+  const url = `${BASE_URL}/${language}/${article.slug}`;
 
   const encodedUrl = encodeURIComponent(url);
   const text = encodeURIComponent("Check out this article!");

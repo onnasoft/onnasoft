@@ -38,7 +38,7 @@ export default function SearchArticles({
   return (
     <div>
       <form
-        action={`/${language}/blog/search`}
+        action={`/${language}/search`}
         method="get"
         className="flex mb-4"
       >
@@ -59,7 +59,7 @@ export default function SearchArticles({
               <button
                 type="button"
                 onClick={() => {
-                  redirect(`/${language}/blog/${item.slug}`);
+                  redirect(`/${language}/${item.slug}`);
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >

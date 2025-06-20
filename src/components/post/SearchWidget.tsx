@@ -63,7 +63,7 @@ export default function SearchWidget({
   return (
     <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
       <h3 className="font-semibold text-gray-900 mb-4">{t.title}</h3>
-      <form action={`/${language}/blog/search`} method="get" className="flex">
+      <form action={`/${language}/search`} method="get" className="flex">
         <div className="relative">
           <input
             name="q"
@@ -84,7 +84,7 @@ export default function SearchWidget({
               <button
                 type="button"
                 onClick={() => {
-                  redirect(`/${language}/blog/${item.slug}`);
+                  redirect(`/${language}/${item.slug}`);
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >

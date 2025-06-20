@@ -206,25 +206,25 @@ const translations = {
 };
 
 const productHrefs = [
-  "/blog/odoo/odoo-as-a-crm-boost-your-sales-with-an-integrated-platform",
-  "/blog/odoo/odoo-sales-accelerate-your-end-to-end-business-process",
-  "/blog/odoo/odoo-invoicing-automate-your-accounting-from-sales-to-collections",
-  "/blog/odoo/odoo-inventory-total-control-of-your-stock-in-real-time",
-  "/blog/odoo/odoo-accounting-simplify-your-financial-management-with-automation-and-total-control",
-  "/blog/odoo/odoo-projects-agile-and-collaborative-management-for-productive-teams",
-  "/blog/odoo/odoo-purchasing-optimize-your-purchases-with-automated-and-intelligent-processes",
-  "/blog/odoo/odoo-human-resources-centralize-talent-management-and-improve-productivity",
+  "/odoo/odoo-as-a-crm-boost-your-sales-with-an-integrated-platform",
+  "/odoo/odoo-sales-accelerate-your-end-to-end-business-process",
+  "/odoo/odoo-invoicing-automate-your-accounting-from-sales-to-collections",
+  "/odoo/odoo-inventory-total-control-of-your-stock-in-real-time",
+  "/odoo/odoo-accounting-simplify-your-financial-management-with-automation-and-total-control",
+  "/odoo/odoo-projects-agile-and-collaborative-management-for-productive-teams",
+  "/odoo/odoo-purchasing-optimize-your-purchases-with-automated-and-intelligent-processes",
+  "/odoo/odoo-human-resources-centralize-talent-management-and-improve-productivity",
 ];
 
 const serviceHrefs = [
-  "/blog/web-development/custom-web-development-create-modern-fast-and-scalable-applications",
-  "/blog/api-integration/api-integration-connect-your-systems-and-automate-key-processes",
-  "/blog/big-data/big-data-convert-large-amounts-of-data-into-intelligent-decisions",
-  "/blog/data-science/data-science-anticipate-the-future-and-make-decisions-based-on-evidence",
-  "/blog/it-outsourcing/it-outsourcing-expand-your-team-with-specialized-talent-without-complications",
-  "/blog/cloud-migration/cloud-migration-safe-and-efficient-transition-to-modern-infrastructure",
-  "/blog/case-studies/business-process-automation-scalability-and-precision-with-tailored-solutions",
-  "/blog/it-outsourcing/it-consulting-technology-strategy-for-the-sustainable-growth-of-your-company",
+  "/web-development/custom-web-development-create-modern-fast-and-scalable-applications",
+  "/api-integration/api-integration-connect-your-systems-and-automate-key-processes",
+  "/big-data/big-data-convert-large-amounts-of-data-into-intelligent-decisions",
+  "/data-science/data-science-anticipate-the-future-and-make-decisions-based-on-evidence",
+  "/it-outsourcing/it-outsourcing-expand-your-team-with-specialized-talent-without-complications",
+  "/cloud-migration/cloud-migration-safe-and-efficient-transition-to-modern-infrastructure",
+  "/case-studies/business-process-automation-scalability-and-precision-with-tailored-solutions",
+  "/it-outsourcing/it-consulting-technology-strategy-for-the-sustainable-growth-of-your-company",
 ];
 
 interface MobileMenuProps {

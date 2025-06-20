@@ -78,7 +78,7 @@ export default async function RelatedPosts({
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">
                 <Link
-                  href={`/${language}/blog/${article.slug}`}
+                  href={`/${language}/${article.slug}`}
                   className="hover:text-onnasoft-pink transition-colors"
                 >
                   {article.translatedTitle}

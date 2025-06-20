@@ -50,7 +50,7 @@ export default async function BlogSidebar({ language }: BlogSidebarProps) {
               className="category-item flex items-center justify-between"
             >
               <Link
-                href={`/${language}/blog/${category?.slug}`}
+                href={`/${language}/${category?.slug}`}
                 className="text-gray-700 hover:text-primary"
               >
                 {translatedName}

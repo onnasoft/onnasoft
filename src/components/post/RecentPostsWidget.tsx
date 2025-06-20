@@ -65,7 +65,7 @@ export default async function RecentPostsWidget({
             />
             <div className="flex-1">
               <h4 className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                <Link href={`/${language}/blog/${article.slug}`}>
+                <Link href={`/${language}/${article.slug}`}>
                   {article.translatedTitle}
                 </Link>
               </h4>

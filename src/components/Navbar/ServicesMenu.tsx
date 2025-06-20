@@ -114,14 +114,14 @@ const translations = {
 };
 
 const hrefs = [
-  "/blog/web-development/custom-web-development-create-modern-fast-and-scalable-applications",
-  "/blog/api-integration/api-integration-connect-your-systems-and-automate-key-processes",
-  "/blog/big-data/big-data-convert-large-amounts-of-data-into-intelligent-decisions",
-  "/blog/data-science/data-science-anticipate-the-future-and-make-decisions-based-on-evidence",
-  "/blog/it-outsourcing/it-outsourcing-expand-your-team-with-specialized-talent-without-complications",
-  "/blog/cloud-migration/cloud-migration-safe-and-efficient-transition-to-modern-infrastructure",
-  "/blog/case-studies/business-process-automation-scalability-and-precision-with-tailored-solutions",
-  "/blog/it-outsourcing/it-consulting-technology-strategy-for-the-sustainable-growth-of-your-company",
+  "/web-development/custom-web-development-create-modern-fast-and-scalable-applications",
+  "/api-integration/api-integration-connect-your-systems-and-automate-key-processes",
+  "/big-data/big-data-convert-large-amounts-of-data-into-intelligent-decisions",
+  "/data-science/data-science-anticipate-the-future-and-make-decisions-based-on-evidence",
+  "/it-outsourcing/it-outsourcing-expand-your-team-with-specialized-talent-without-complications",
+  "/cloud-migration/cloud-migration-safe-and-efficient-transition-to-modern-infrastructure",
+  "/case-studies/business-process-automation-scalability-and-precision-with-tailored-solutions",
+  "/it-outsourcing/it-consulting-technology-strategy-for-the-sustainable-growth-of-your-company",
 ];
 
 interface ServicesMenuProps {

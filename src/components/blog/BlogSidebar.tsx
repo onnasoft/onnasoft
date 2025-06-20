@@ -12,6 +12,7 @@ export default async function BlogSidebar({ language }: BlogSidebarProps) {
     where: {
       locale: language,
     },
+    limit: 20,
   });
   return (
     <div

@@ -181,7 +181,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up">
             <Link
-              href={`/${language}#contact`}
+              href={`/${language}/contact`}
               className="bg-primary text-white px-8 py-4 rounded-lg  font-semibold hover:bg-primary-dark transition-all duration-300 hover:scale-105 hover:shadow-xl"
             >
               <i className="fas fa-rocket mr-2"></i> {t.ctaStart}

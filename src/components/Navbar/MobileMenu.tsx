@@ -347,7 +347,7 @@ export default async function MobileMenu({ language }: MobileMenuProps) {
           )}
 
           <Link
-            href={`/${language}/#contact`}
+            href={`/${language}/contact`}
             className="block py-2 px-4 bg-primary text-white rounded-md font-medium transition-all duration-300 hover:bg-primary/90 text-center mt-4"
           >
             {t.contact}

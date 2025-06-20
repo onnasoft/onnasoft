@@ -360,7 +360,7 @@ const Projects: React.FC<ProjectsProps> = ({ language }) => {
 
         <div className="text-center mt-12">
           <a
-            href="#contact"
+            href="/contact"
             className="inline-block px-8 py-3 rounded-lg bg-primary text-white font-medium hover:bg-primary-dark transition-colors"
           >
             {t.cta}

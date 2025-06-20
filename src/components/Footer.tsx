@@ -158,7 +158,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href="/#services"
+                  href={`/${language}/company/development-and-digital-transformation-services`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.services}
@@ -166,7 +166,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href="/#why-us"
+                  href={`/${language}/company/why-choose-onnasoft-technology-tailored-to-you-results-scaled-to-your-needs`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.whyUs}
@@ -174,7 +174,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href="/#process"
+                  href={`/${language}/company/our-process-for-creating-custom-solutions`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.process}
@@ -183,7 +183,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
 
               <li>
                 <Link
-                  href="/#contact"
+                  href={`/${language}/contact`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.contact}
@@ -294,7 +294,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
           <p className="text-gray-400 text-sm">{t.copyright}</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link
-              href={process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL || ""}
+              href={`/${language}/company/privacy-policy-we-protect-your-data-responsibly-and-transparently`}
               className="text-gray-400 hover:text-primary text-sm transition-colors"
             >
               {t.privacy}

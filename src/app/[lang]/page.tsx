@@ -13,6 +13,7 @@ import TechStack from "@/components/TechStack";
 import Testimonials from "@/components/Testimonials";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WorkProcess from "@/components/WorkProcess";
+import { suportedLanguages } from "@/types/languages";
 import Head from "next/head";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
@@ -56,7 +57,7 @@ export default async function Home({ params }: HomeProps) {
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const lang = (await params).lang || acceptLanguage || "en";
 
-  if (!Object.keys(metadataByLang).includes(lang)) {
+  if (!suportedLanguages.includes(lang)) {
     redirect(`/en/${lang}`);
   }
   const language = lang.toLowerCase();

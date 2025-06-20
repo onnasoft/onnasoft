@@ -30,7 +30,7 @@ export default async function BlogContent({
   const categories = await getCategories({
     select: { slug: true, name: true, postCount: true },
     depth: 0,
-    limit: 0,
+    limit: 20,
     page: 1,
   });
 

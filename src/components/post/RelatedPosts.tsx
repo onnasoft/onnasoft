@@ -61,7 +61,7 @@ export default async function RelatedPosts({
         {articles.map((article) => (
           <article
             key={article.slug}
-            className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow"
+            className="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300 hover:translate-y-1"
           >
             <Image
               width={438}

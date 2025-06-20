@@ -18,15 +18,16 @@ export default async function RecentCard(article: BlogCardProps) {
     article.post?.slug,
   ].join("/");
   return (
-    <div className="blog-card bg-white shadow-sm flex gap-4 p-4">
+    <div className="blog-card bg-white shadow-sm flex flex-col md:flex-row gap-4 p-4">
       <Link href={`/${postUrl}`} className="flex-shrink-0" prefetch={false}>
         <Image
           priority
-          width={200}
-          height={200}
           src={article.post?.coverImage?.url || "/default-image.jpg"}
           alt="Securing Your API Endpoints"
-          className="blog-image cursor-pointer rounded-lg"
+          className="w-full md:w-[200px] h-48 md:h-auto object-cover rounded-lg cursor-pointer"
+          width={0}
+          height={0}
+          sizes="100vw"
         />
       </Link>
       <div className="rounded-lg flex-1">
@@ -42,7 +43,7 @@ export default async function RecentCard(article: BlogCardProps) {
             })}
           </span>
         </div>
-        <h3 className=" font-bold mb-2">
+        <h3 className="font-bold mb-2">
           <Link href={`/${postUrl}`}>{article.translatedTitle}</Link>
         </h3>
         <p className="text-gray-600 mb-4">{content}...</p>
@@ -52,7 +53,7 @@ export default async function RecentCard(article: BlogCardProps) {
             alt="Author Avatar"
             width={32}
             height={32}
-            className="w-8 h-8 rounded-full mr-2"
+            className="w-8 h-8 rounded-full mr-2 hidden md:block"
           />
           <span className="text-gray-700 text-sm">
             {article.post?.author.name || "Unknown Author"}

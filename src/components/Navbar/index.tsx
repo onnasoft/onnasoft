@@ -95,7 +95,7 @@ const Navbar = async ({
           <ProductsMenu language={language} />
           <ServicesMenu language={language} />
           <Link
-            href={`/${language}/#why-us`}
+            href={`/${language}/company/why-choose-onnasoft-technology-tailored-to-you-results-scaled-to-your-needs`}
             className="nav-link"
             prefetch={false}
           >

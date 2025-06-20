@@ -3,12 +3,10 @@
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import Breadcrumbs from "@/components/post/Breadcrumbs";
 import PostContent from "@/components/post/PostContent";
 import PostSidebar from "@/components/post/PostSidebar";
 import { getPostTranslations } from "@/services/post-translations";
 import { redirect } from "next/navigation";
-import { getCategories } from "@/services/categories";
 
 export interface PostPageProps {
   readonly language: string;
@@ -35,10 +33,6 @@ const PostPage: React.FC<PostPageProps> = async ({
     redirect(`/${language}/blog`);
   }
 
-  const { docs: categories } = await getCategories({
-    where: { slug: category },
-  });
-
   if (!category || category.length === 0) {
     redirect(`/${language}/blog`);
   }
@@ -51,11 +45,7 @@ const PostPage: React.FC<PostPageProps> = async ({
     <div className="min-h-screen bg-white">
       <Navbar language={language} pathname={pathname} />
       <main className="animate-fade-in-down">
-        <Breadcrumbs
-          language={language}
-          category={categories[0]}
-          post={article[0]}
-        />
+        <div className="mt-16" />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="lg:grid lg:grid-cols-4 lg:gap-8">

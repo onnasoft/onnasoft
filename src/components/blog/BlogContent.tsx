@@ -4,6 +4,8 @@ import { PostTranslation } from "@/types/models";
 import RecentArticles from "./RecentArticles";
 import SearchArticles from "./SearchArticles";
 import { getPostTranslations } from "@/services/post-translations";
+import { getCategories } from "@/services/categories";
+import { SelectCategory } from "./SelectCategory";
 
 interface BlogContentProps {
   readonly language: string;
@@ -21,6 +23,12 @@ export default async function BlogContent({
   const { docs } = await getPostTranslations({
     select: { translatedTitle: true, slug: true },
     where: { locale: language },
+    depth: 0,
+    limit: 0,
+    page: 1,
+  });
+  const categories = await getCategories({
+    select: { slug: true, name: true, postCount: true },
     depth: 0,
     limit: 0,
     page: 1,
@@ -49,26 +57,7 @@ export default async function BlogContent({
         </div>
       </div>
 
-      <button
-        id="show-categories"
-        className="md:hidden w-full mb-6 flex items-center justify-between bg-white p-4 rounded-lg shadow-sm"
-      >
-        <span className="font-medium">Show Categories</span>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 text-gray-600"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
-          />
-        </svg>
-      </button>
+      <SelectCategory language={language} categories={categories.docs} />
 
       <RecentArticles
         language={language}

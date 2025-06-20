@@ -171,19 +171,21 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       <div id="particles-container" className="absolute inset-0"></div>
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-20">
         <div className="animate-fade-in-up">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6">
+          <h1 className="text-4xl sm:text-4xl md:text-6xl lg:text-7xl font-bold mb-6 break-words leading-tight">
             <span className="gradient-text">{t.title}</span>
             <br />
             <span className="typing-animation">{typingText}</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto animate-fade-in-down">
+          <p className="text-gray-600 mb-8 max-w-md sm:max-w-xl md:max-w-3xl mx-auto animate-fade-in-down break-words">
             {t.subtitle}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up">
-            <Link href={`/${language}#contact`} className="bg-primary text-white px-8 py-4 rounded-lg  font-semibold hover:bg-primary-dark transition-all duration-300 hover:scale-105 hover:shadow-xl">
+            <Link
+              href={`/${language}#contact`}
+              className="bg-primary text-white px-8 py-4 rounded-lg  font-semibold hover:bg-primary-dark transition-all duration-300 hover:scale-105 hover:shadow-xl"
+            >
               <i className="fas fa-rocket mr-2"></i> {t.ctaStart}
             </Link>
-
           </div>
         </div>
 
@@ -192,9 +194,9 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
             {t.poweredBy}
           </p>
           <div className="tech-grid max-w-4xl mx-auto">
-            {techIcons.map((tech, index) => (
+            {techIcons.map((tech) => (
               <div
-                key={index}
+                key={tech.title}
                 className={`tech-icon text-3xl ${tech.color} hover:text-opacity-80 cursor-pointer`}
                 title={tech.title}
               >

@@ -331,7 +331,7 @@ export default async function MobileMenu({ language }: MobileMenuProps) {
 
           {/* Other menu items */}
           <Link
-            href={`/${language}/#why-us`}
+            href={`/${language}/company/why-choose-onnasoft-technology-tailored-to-you-results-scaled-to-your-needs`}
             className="block py-2 px-4 text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md transition-colors duration-200"
           >
             {t.whyUs}

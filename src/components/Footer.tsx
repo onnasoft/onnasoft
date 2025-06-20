@@ -114,7 +114,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           <div>
             <Link href="/" className="text-2xl font-bold mb-4 block">
               <span className="text-primary">Onna</span>soft
@@ -196,7 +196,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
             <ul className="space-y-2">
               <li>
                 <Link
-                  href={`/${language}/mission`}
+                  href={`/${language}/company/onnasoft-transforming-businesses-with-custom-software-security-and-integration`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.mission}
@@ -205,7 +205,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
 
               <li>
                 <Link
-                  href={`/${language}/vision`}
+                  href={`/${language}/company/our-vision-to-be-a-global-reference-in-innovative-and-scalable-technological-solutions`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.vision}
@@ -213,7 +213,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href={`/${language}/privacy-policy`}
+                  href={`/${language}/company/privacy-policy-we-protect-your-data-responsibly-and-transparently`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.privacy}
@@ -221,7 +221,7 @@ const Footer: React.FC<FooterProps> = ({ language }) => {
               </li>
               <li>
                 <Link
-                  href={`/${language}/terms-of-service`}
+                  href={`/${language}/company/terms-of-service-clear-conditions-for-a-trusted-relationship`}
                   className="text-gray-400 hover:text-primary transition-colors"
                 >
                   {t.terms}

@@ -197,7 +197,7 @@ const TechStack: React.FC<TechnologyProps> = ({ language }) => {
                     </div>
                     <h4 className=" font-bold text-gray-800 dark:text-gray-200">
                       <Link
-                        href={`${language}${techRoutes[key as keyof typeof techRoutes]}` || "#"}
+                        href={`${language}${techRoutes[key]}` || "#"}
                         className="hover:underline"
                       >
                         {tech.name}

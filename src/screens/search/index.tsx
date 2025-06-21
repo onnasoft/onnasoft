@@ -30,6 +30,7 @@ export default async function SearchPage({
   } = await search({
     search: query,
     page: currentPage,
+    locale: language,
   });
 
   if (!language) {

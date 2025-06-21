@@ -23,6 +23,7 @@ interface QueryParams {
   limit?: number;
   page?: number;
   search?: string;
+  locale?: string;
 }
 
 function mapPostUrls(
@@ -56,6 +57,7 @@ export async function search({
   limit,
   page = 1,
   search,
+  locale = "en",
 }: QueryParams = {}): Promise<SearchResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/api/search`);
@@ -63,6 +65,7 @@ export async function search({
   if (search) url.searchParams.append("q", search);
   if (limit) url.searchParams.append("limit", limit.toString());
   url.searchParams.append("page", page.toString());
+  url.searchParams.append("locale", locale);
 
   const res = await fetch(url.toString(), {
     method: "GET",

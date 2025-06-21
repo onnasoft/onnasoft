@@ -1,7 +1,6 @@
 "use server";
 
 import { Geist, Geist_Mono } from "next/font/google";
-import { headers } from "next/headers";
 import { suportedLanguages } from "@/types/languages";
 import { redirect } from "next/navigation";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -30,10 +29,7 @@ export default async function RootLayout({
     lang: string;
   }>;
 }>) {
-  const h = await headers();
-  const acceptLanguage = h.get("accept-language")?.split(",")[0];
-  const lang = (await params).lang || acceptLanguage || "en";
-
+  const lang = (await params).lang || "en";
   if (!suportedLanguages.includes(lang)) {
     redirect(`/en/${lang}`);
   }

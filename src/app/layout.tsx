@@ -40,7 +40,7 @@ export default async function RootLayout({
     <html lang={language}>
       <head>
         <title>Onnasoft | Smart Digital Solutions</title>
-        {GOOGLE_TAG_ID ?? (
+        {GOOGLE_TAG_ID ? (
           <>
             <Script
               async
@@ -58,7 +58,7 @@ export default async function RootLayout({
               }}
             ></Script>
           </>
-        )}
+        ): null}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}

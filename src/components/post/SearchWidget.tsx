@@ -42,7 +42,7 @@ export default function SearchWidget({
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<PostTranslation[]>([]);
   const trie = useMemo(
-    () => new TrieSearch<PostTranslation>("translatedTitle"),
+    () => new TrieSearch<PostTranslation>("translated_title"),
     []
   );
 
@@ -88,7 +88,7 @@ export default function SearchWidget({
                 }}
                 className="w-full text-left px-4 py-2 hover:bg-gray-100 cursor-pointer"
               >
-                {item.translatedTitle}
+                {item.translated_title}
               </button>
             </li>
           ))}

@@ -1,8 +1,8 @@
 import { Post, CoverImage } from "@/types/models";
 import { getAuthToken } from "./auth";
+import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
-const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || baseUrl;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
 const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
@@ -20,8 +20,6 @@ export interface PostResponse {
 }
 
 type FilterKeys = keyof Post;
-type FilterOperator = "equals" | "not_equals" | "like" | "in" | "not_in";
-type FilterValue = string | number;
 
 type Filters = Partial<
   Record<FilterKeys, FilterValue | { value: FilterValue; op: FilterOperator }>
@@ -33,8 +31,9 @@ interface QueryParams {
   where?: Filters;
   select?: SelectFields;
   limit?: number;
-  depth?: number;
   page?: number;
+  locale?: string;
+  relations?: string[];
 }
 
 function appendWhereParams(url: URL, where?: Filters) {
@@ -60,43 +59,23 @@ function appendSelectParams(url: URL, select?: SelectFields) {
   }
 }
 
-function mapPostUrls(post: Post, baseUrl: string): Post {
-  const updateImageUrls = (image: CoverImage | null) => {
-    if (!image) return image;
-    let url = image.url || "";
-    let thumbnailURL = image.thumbnailURL || "";
-    if (url.startsWith("/")) url = `${baseUrl}${url}`;
-    if (thumbnailURL && thumbnailURL.startsWith("/"))
-      thumbnailURL = `${baseUrl}${thumbnailURL}`;
-    return { ...image, url, thumbnailURL };
-  };
-
-  if (post.coverImage) post.coverImage = updateImageUrls(post.coverImage);
-  if (post.coverThumbnail)
-    post.coverThumbnail = updateImageUrls(post.coverThumbnail);
-
-  if (post.author?.photo?.url?.startsWith("/")) {
-    post.author.photo.url = `${baseUrl}${post.author.photo.url}`;
-  }
-
-  return post;
-}
-
 export async function getPosts({
   where,
   select,
   limit,
-  depth,
+  relations,
   page = 1,
+  locale,
 }: QueryParams = {}): Promise<PostResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/posts`);
+  const url = new URL(`${baseUrl}/posts`);
 
   appendWhereParams(url, where);
   appendSelectParams(url, select);
   if (limit) url.searchParams.append("limit", limit.toString());
-  if (depth) url.searchParams.append("depth", depth.toString());
+  if (relations) url.searchParams.append("relations", relations.join(","));
   if (page) url.searchParams.append("page", page.toString());
+  if (locale) url.searchParams.append("locale", locale);
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -106,18 +85,15 @@ export async function getPosts({
     },
     cache: "no-store",
   });
+  console.log(decodeURI(url.toString()));
 
   if (!res.ok) {
-    console.error("Failed to fetch posts:", res.statusText);
     throw new Error("Error fetching posts");
   }
 
   const data: PostResponse = await res.json();
 
-  return {
-    ...data,
-    docs: data.docs.map((post) => mapPostUrls(post, mediaUrl)),
-  };
+  return data;
 }
 
 export async function updatePost(
@@ -125,7 +101,7 @@ export async function updatePost(
   postData: Partial<Post>
 ): Promise<Post> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/posts/${id}`);
+  const url = new URL(`${baseUrl}/posts/${id}`);
 
   const res = await fetch(url.toString(), {
     method: "PATCH",
@@ -142,5 +118,5 @@ export async function updatePost(
   }
 
   const updatedPost: Post = await res.json();
-  return mapPostUrls(updatedPost, mediaUrl);
+  return updatedPost;
 }

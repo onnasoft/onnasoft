@@ -2,11 +2,11 @@
 
 import BlogSidebar from "./BlogSidebar";
 import BlogContent from "./BlogContent";
-import { PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 
 interface BlogLayoutProps {
   readonly language: string;
-  readonly articles: PostTranslation[];
+  readonly articles: Post[];
   readonly currentPage?: number;
   readonly totalPages?: number;
 }

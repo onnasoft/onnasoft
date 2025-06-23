@@ -37,7 +37,7 @@ export default async function CategoriesWidget({ language }: CategoryProps) {
       <h3 className="font-semibold text-gray-900 mb-4">{t.title}</h3>
       <ul className="space-y-2">
         {categories
-          .filter((category) => category.postCount > 0)
+          .filter((category) => category.post_count > 0)
           .map((category) => (
             <li key={category.name}>
               <Link
@@ -46,7 +46,7 @@ export default async function CategoriesWidget({ language }: CategoryProps) {
               >
                 {category.name}
                 <span className="text-sm text-gray-400">
-                  ({category.postCount})
+                  ({category.post_count})
                 </span>
               </Link>
             </li>

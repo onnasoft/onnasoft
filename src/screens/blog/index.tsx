@@ -4,7 +4,7 @@ import BlogLayout from "@/components/blog/BlogLayout";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { getPostTranslations } from "@/services/post-translations";
+import { getPosts } from "@/services/posts";
 
 export interface BlogPageProps {
   readonly language: string;
@@ -21,10 +21,10 @@ export default async function BlogPage({
     docs: articles,
     page,
     totalPages,
-  } = await getPostTranslations({
-    where: { locale: language },
-    depth: 3,
+  } = await getPosts({
+    locale: language,
     page: currentPage,
+    relations: ["author", "author.photo", "category", "cover_image"],
   });
 
   return (

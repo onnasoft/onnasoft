@@ -1,7 +1,8 @@
 "use server";
 
-import { getPostTranslations } from "@/services/post-translations";
-import { PostTranslation } from "@/types/models";
+import { getImageUrl } from "@/lib/image";
+import { getPosts } from "@/services/posts";
+import { Post } from "@/types/models";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,27 +26,28 @@ const translations = {
 
 interface RecentPostsWidgetProps {
   readonly language: string;
-  readonly article: PostTranslation;
+  readonly article: Post;
 }
 
 export default async function RecentPostsWidget({
   language,
   article,
 }: RecentPostsWidgetProps) {
-  const whereCondition: Record<string, unknown> = {
-    locale: language,
-  };
-  if (article.post?.id) {
-    whereCondition.post = {
-      op: "not_equals",
-      value: article.post.id,
+  const whereCondition: Record<string, unknown> = {};
+  if (article?.id) {
+    whereCondition.id = {
+      op: "not",
+      value: article.id,
     };
   }
 
-  const { docs: articles } = await getPostTranslations({
+  const { docs: articles } = await getPosts({
     where: whereCondition,
+    locale: language,
     limit: 3,
   });
+
+  const translation = articles[0]?.translations?.[0];
 
   const t =
     translations[language as keyof typeof translations] || translations.en;
@@ -60,17 +62,17 @@ export default async function RecentPostsWidget({
               width={64}
               height={64}
               className="w-16 h-16 object-cover rounded"
-              src={article.post?.coverThumbnail?.url || ""}
-              alt={article.translatedTitle}
+              src={getImageUrl(article.cover_thumbnail?.filename)}
+              alt={translation?.translated_title ?? ""}
             />
             <div className="flex-1">
               <h4 className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
                 <Link href={`/${language}/${article.slug}`}>
-                  {article.translatedTitle}
+                  {translation?.translated_title}
                 </Link>
               </h4>
               <p className="text-xs text-gray-500 mt-1">
-                {new Date(article.post?.publishedDate ?? "").toLocaleDateString(
+                {new Date(article.published_date ?? "").toLocaleDateString(
                   language,
                   {
                     year: "numeric",

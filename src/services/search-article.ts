@@ -32,19 +32,18 @@ function mapPostUrls(
 ): PostTranslation {
   const updateImageUrls = (image: CoverImage | null) => {
     if (!image) return image;
-    let url = image.url || "";
-    let thumbnailURL = image.thumbnailURL || "";
+    let url = image.filename || "";
     if (url.startsWith("/")) url = `${baseUrl}${url}`;
-    if (thumbnailURL && thumbnailURL.startsWith("/"))
-      thumbnailURL = `${baseUrl}${thumbnailURL}`;
-    return { ...image, url, thumbnailURL };
+    return { ...image, url };
   };
 
-  if (article.post?.coverImage) {
-    article.post.coverImage = updateImageUrls(article.post.coverImage);
+  if (article.post?.cover_image) {
+    article.post.cover_image = updateImageUrls(article.post.cover_image);
   }
-  if (article.post?.coverThumbnail) {
-    article.post.coverThumbnail = updateImageUrls(article.post.coverThumbnail);
+  if (article.post?.cover_thumbnail) {
+    article.post.cover_thumbnail = updateImageUrls(
+      article.post.cover_thumbnail
+    );
   }
   if (article.post?.author?.photo) {
     article.post.author.photo = updateImageUrls(article.post.author.photo);

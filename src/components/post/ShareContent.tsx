@@ -1,12 +1,12 @@
 "use server";
 
 import { updatePost } from "@/services/posts";
-import { PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 import Like from "./Like";
 
 interface ShareContentProps {
   readonly language: string;
-  readonly article: PostTranslation;
+  readonly article: Post;
 }
 
 const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
@@ -15,12 +15,12 @@ export default async function ShareContent({
   language,
   article,
 }: ShareContentProps) {
-  if (!article.post) {
+  if (!article) {
     return null;
   }
-  await updatePost(article.post?.id, {
-    views: article.post?.views + 1,
-  });
+  /*await updatePost(article?.id, {
+    views: article?.views + 1,
+  });*/
 
   const url = `${BASE_URL}/${language}/${article.slug}`;
 
@@ -77,7 +77,7 @@ export default async function ShareContent({
         </div>
         <div className="flex items-center space-x-4 text-sm text-gray-600">
           <span className="flex items-center">
-            <i className="fas fa-eye mr-2"></i> {article.post.views} views
+            <i className="fas fa-eye mr-2"></i> {article.views} views
           </span>
           <Like article={article} />
         </div>

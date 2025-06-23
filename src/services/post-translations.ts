@@ -1,9 +1,8 @@
-import { CoverImage, PostTranslation } from "@/types/models";
+import { PostTranslation } from "@/types/models";
 import { getAuthToken } from "./auth";
 import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
-const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || baseUrl;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
 const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
@@ -25,9 +24,7 @@ type Filters = Partial<
   Record<FilterKeys, FilterValue | { value: FilterValue; op: FilterOperator }>
 >;
 
-type SelectFields = Partial<Record<keyof PostTranslation, boolean>> & {
-  post?: Partial<Record<keyof PostTranslation["post"], boolean>>;
-};
+type SelectFields = Partial<Record<keyof PostTranslation, boolean>>;
 
 export interface QueryParams {
   select?: SelectFields;
@@ -85,46 +82,6 @@ function buildQueryParams(
   }
 }
 
-function mapDocUrls(doc: PostTranslation, baseUrl: string): PostTranslation {
-  const post = doc.post;
-  if (!post) return { ...doc };
-
-  const updateImageUrls = (image: CoverImage | null) => {
-    if (!image) return image;
-    let url = image.url || "";
-    let thumbnailURL = image.thumbnailURL || "";
-    if (url.startsWith("/")) url = `${baseUrl}${url}`;
-    if (thumbnailURL && thumbnailURL.startsWith("/"))
-      thumbnailURL = `${baseUrl}${thumbnailURL}`;
-    return { ...image, url, thumbnailURL };
-  };
-
-  const newPost = { ...post };
-
-  if (post.coverImage) {
-    newPost.coverImage = updateImageUrls(post.coverImage);
-  }
-
-  if (post.coverThumbnail) {
-    newPost.coverThumbnail = updateImageUrls(post.coverThumbnail);
-  }
-
-  if (post.author && post.author?.photo) {
-    let url = post.author.photo.url || "";
-    if (url.startsWith("/")) url = `${baseUrl}${url}`;
-    newPost.author = {
-      ...post.author,
-      photo: {
-        ...post.author.photo,
-        url,
-        thumbnailURL: post.author.photo.thumbnailURL || null,
-      },
-    };
-  }
-
-  return { ...doc, post: newPost };
-}
-
 export async function getPostTranslations({
   select,
   where,
@@ -133,7 +90,7 @@ export async function getPostTranslations({
   page = 1,
 }: QueryParams): Promise<PostTranslationResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/post-translations`);
+  const url = new URL(`${baseUrl}/post-translations`);
 
   buildQueryParams(url, where, select, limit, depth, page);
 
@@ -152,6 +109,6 @@ export async function getPostTranslations({
 
   return {
     ...data,
-    docs: data.docs.map((doc) => mapDocUrls(doc, mediaUrl)),
+    docs: data.docs,
   };
 }

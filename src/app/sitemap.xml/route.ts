@@ -25,7 +25,7 @@ export async function GET() {
     ...posts.docs.flatMap((post) => {
       return suportedLanguages.map((lang) => ({
         loc: `${WEBSITE_URL}/${lang}/posts/${post.slug}`,
-        lastmod: new Date(post.updatedAt).toISOString().split("T")[0],
+        lastmod: new Date(post.updated_at).toISOString().split("T")[0],
         lang,
       }));
     })

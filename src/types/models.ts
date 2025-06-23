@@ -2,8 +2,8 @@ export interface AuthUser {
   id: number;
   email: string;
   collection: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   [key: string]: unknown;
 }
 
@@ -12,19 +12,20 @@ export interface Category {
   name: string;
   slug: string;
   description: string | null;
-  postCount: number;
-  updatedAt: string;
-  createdAt: string;
+  post_count: number;
+  translations?: CategoryTranslation[];
+  updated_at: string;
+  created_at: string;
 }
 
 export interface CategoryTranslation {
   id: number;
   category?: Category;
   locale: string;
-  translatedName: string;
-  translatedDescription: string;
-  updatedAt: string;
-  createdAt: string;
+  translated_name: string;
+  translated_description: string;
+  updated_at: string;
+  created_at: string;
 }
 
 export interface Author {
@@ -37,18 +38,16 @@ export interface Author {
   linkedIn: string | null;
   github: string | null;
   website: string | null;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
   loginAttempts: number;
 }
 
 export interface CoverImage {
   id: number;
   alt: string;
-  updatedAt: string;
-  createdAt: string;
-  url: string;
-  thumbnailURL: string | null;
+  updated_at: string;
+  created_at: string;
   filename: string;
   mimeType: string;
   filesize: number;
@@ -64,31 +63,31 @@ export interface Post {
   slug: string;
   excerpt: string;
   content: string;
-  coverImage?: CoverImage | null;
-  coverThumbnail?: CoverImage | null;
+  cover_image?: CoverImage | null;
+  cover_thumbnail?: CoverImage | null;
   category?: Category;
   author: Author;
   published: boolean;
   views: number;
   likes: number;
-  publishedDate: string;
+  published_date: string;
+  translations?: PostTranslation[];
   meta: {
     title: string;
     description: string | null;
   };
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface PostTranslation {
   id: number;
-  post?: Post;
   locale: string;
   slug: string;
-  translatedTitle: string;
+  translated_title: string;
   translatedExcerpt: string;
-  translatedContent: string;
+  translated_content: string;
   category: string;
-  createdAt: string;
-  updatedAt: string;
+  created_at: string;
+  updated_at: string;
 }

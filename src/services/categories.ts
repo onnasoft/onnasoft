@@ -32,6 +32,7 @@ interface QueryParams {
   limit?: number;
   depth?: number;
   page?: number;
+  locale?: string;
 }
 
 function appendWhereParams(url: URL, where?: Filters) {
@@ -63,15 +64,17 @@ export async function getCategories({
   limit,
   depth,
   page = 1,
+  locale = "en",
 }: QueryParams = {}): Promise<CategoryResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/categories`);
+  const url = new URL(`${baseUrl}/categories`);
 
   appendWhereParams(url, where);
   appendSelectParams(url, select);
   if (limit) url.searchParams.append("limit", limit.toString());
   if (depth) url.searchParams.append("depth", depth.toString());
   if (page) url.searchParams.append("page", page.toString());
+  url.searchParams.append("locale", locale);
 
   const res = await fetch(url.toString(), {
     method: "GET",
@@ -83,7 +86,7 @@ export async function getCategories({
   });
 
   if (!res.ok) {
-    console.error("Failed to fetch categories:", res.statusText);
+    console.error(decodeURI(url.toString()));
     throw new Error("Error fetching categories");
   }
 

@@ -1,11 +1,12 @@
 "use server";
 
-import { PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 import Image from "next/image";
 import ShareContent from "./ShareContent";
 import Author from "./Author";
 import RelatedPosts from "./RelatedPosts";
 import Comments from "./Comments";
+import ArticleMeta from "./ArticleMeta";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
@@ -15,10 +16,10 @@ import rehypeRaw from "rehype-raw";
 import rehypeHighlight from "rehype-highlight";
 import remarkDirective from "remark-directive";
 import remarkFrontmatter from "remark-frontmatter";
-import ArticleMeta from "./ArticleMeta";
+import { getImageUrl } from "@/lib/image";
 
 interface PostContentProps {
-  readonly article: PostTranslation;
+  readonly article: Post;
   readonly language: string;
 }
 
@@ -26,26 +27,29 @@ export default async function PostContent({
   article,
   language,
 }: PostContentProps) {
-  const translatedContent = article.translatedContent.trim();
-  const contentWithNotTitle = translatedContent.replace(/^#\s+(.+)/, "");
+  const translation = article.translations?.[0];
+
+  const translated_content = translation?.translated_content.trim() ?? "";
+  const contentWithNotTitle = translated_content.replace(/^#\s+(.+)/, "");
 
   return (
     <article className="lg:col-span-3">
       <div className="mb-4">
         <span className="inline-flex items-center bg-primary-light text-white px-3 py-0.5 rounded-full text-sm font-medium">
-          <i className="fas fa-cloud mr-2"></i> {article.category || "General"}
+          <i className="fas fa-cloud mr-2"></i>{" "}
+          {translation?.category || "General"}
         </span>
       </div>
       <h1 className="text-4xl font-bold text-gray-900 mb-4">
-        {article.translatedTitle}
+        {translation?.translated_title}
       </h1>
 
       <ArticleMeta article={article} />
 
       <div className="relative h-64 overflow-hidden rounded-lg mb-6">
         <Image
-          src={article?.post?.coverImage?.url || ""}
-          alt={article?.post?.coverImage?.alt || "Cover Image"}
+          src={getImageUrl(article?.cover_image?.filename)}
+          alt={article?.cover_image?.alt || "Cover Image"}
           width={1024}
           height={768}
           className="absolute top-[-20%] left-0 w-full h-auto object-cover"

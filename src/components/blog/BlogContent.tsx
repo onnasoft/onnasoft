@@ -1,6 +1,6 @@
 "use server";
 
-import { PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 import RecentArticles from "./RecentArticles";
 import SearchArticles from "./SearchArticles";
 import { getPostTranslations } from "@/services/post-translations";
@@ -9,7 +9,7 @@ import { SelectCategory } from "./SelectCategory";
 
 interface BlogContentProps {
   readonly language: string;
-  readonly articles: PostTranslation[];
+  readonly articles: Post[];
   readonly currentPage?: number;
   readonly totalPages?: number;
 }
@@ -21,15 +21,13 @@ export default async function BlogContent({
   totalPages = 1,
 }: BlogContentProps) {
   const { docs } = await getPostTranslations({
-    select: { translatedTitle: true, slug: true },
+    select: { translated_title: true, slug: true },
     where: { locale: language },
     depth: 0,
     limit: 0,
     page: 1,
   });
   const categories = await getCategories({
-    select: { slug: true, name: true, postCount: true },
-    depth: 0,
     limit: 20,
     page: 1,
   });

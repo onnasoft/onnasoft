@@ -1,12 +1,12 @@
 "use server";
 
 import RecentCard from "./RecentCard";
-import { PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 import { Pagination } from "./Pagination";
 
 interface RecentArticlesProps {
   readonly language: string;
-  readonly articles: PostTranslation[];
+  readonly articles: Post[];
   readonly currentPage?: number;
   readonly totalPages?: number;
 }
@@ -22,7 +22,7 @@ export default async function RecentArticles({
       <h2 className="text-2xl font-bold mb-6">Recent Articles</h2>
       <div className="gap-8 animate-fade-in-down">
         {articles.map((article) => (
-          <RecentCard key={article.translatedTitle} {...article} />
+          <RecentCard key={article.title} article={article} />
         ))}
       </div>
       <Pagination

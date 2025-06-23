@@ -4,12 +4,12 @@ import SearchWidget from "./SearchWidget";
 import CategoriesWidget from "./CategoriesWidget";
 import RecentPostsWidget from "./RecentPostsWidget";
 import NewsletterWidget from "./NewsletterWidget";
-import { PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 import { getPostTranslations } from "@/services/post-translations";
 
 interface PostSidebarProps {
   readonly language: string;
-  readonly article: PostTranslation;
+  readonly article: Post;
 }
 
 export default async function PostSidebar({
@@ -17,7 +17,7 @@ export default async function PostSidebar({
   article,
 }: PostSidebarProps) {
   const { docs } = await getPostTranslations({
-    select: { translatedTitle: true, slug: true },
+    select: { translated_title: true, slug: true },
     where: { locale: language },
     depth: 0,
     limit: 0,

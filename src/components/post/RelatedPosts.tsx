@@ -1,7 +1,8 @@
 "use server";
 
-import { getPostTranslations } from "@/services/post-translations";
-import { PostTranslation } from "@/types/models";
+import { getImageUrl } from "@/lib/image";
+import { getPosts } from "@/services/posts";
+import { Post } from "@/types/models";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -25,31 +26,33 @@ const translations = {
 
 interface RelatedPostsProps {
   readonly language: string;
-  readonly article: PostTranslation;
+  readonly article: Post;
 }
 
 export default async function RelatedPosts({
   language,
   article,
 }: RelatedPostsProps) {
-  if (!article.post) {
+  if (!article) {
     return null;
   }
 
-  const { docs: articles } = await getPostTranslations({
+  const { docs: articles } = await getPosts({
     where: {
-      locale: language,
-      post: {
-        op: "not_equals",
-        value: article.post.id,
+      id: {
+        op: "not",
+        value: article.id,
       },
       slug: {
         op: "like",
-        value: article.slug.split("/")[0],
+        value: article.category?.slug ?? "",
       },
     },
+    locale: language,
+    relations: ["cover_thumbnail"],
     limit: 2,
   });
+  const translation = article.translations?.[0];
 
   const t =
     translations[language as keyof typeof translations] || translations.en;
@@ -67,40 +70,41 @@ export default async function RelatedPosts({
               width={438}
               height={192}
               className="w-full h-48 object-cover"
-              src={article.post?.coverThumbnail?.url ?? ""}
+              src={getImageUrl(article?.cover_thumbnail?.filename)}
               alt="DevOps Best Practices"
             />
             <div className="p-6">
               <div className="flex items-center mb-2">
                 <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-light text-white">
-                  {article.post?.category?.name || ""}
+                  {article?.category?.name || ""}
                 </span>
               </div>
               <h4 className="text-lg font-semibold text-gray-900 mb-2">
                 <Link
-                  href={`/${language}/${article.slug}`}
+                  href={`/${language}/${article.category?.slug}/${article.slug}`}
                   className="hover:text-onnasoft-pink transition-colors"
                 >
-                  {article.translatedTitle}
+                  {translation?.translated_title}
                 </Link>
               </h4>
               <p className="text-sm text-gray-600 mb-3">
-                {article.translatedContent
+                {translation?.translated_content
                   .replace(/^#+\s*/gm, "")
                   .slice(0, 100)}
                 ...
               </p>
               <div className="flex items-center text-xs text-gray-500">
-                <span>{article.post?.author?.name || "John Doe"}</span>
+                <span>{article?.author?.name || "John Doe"}</span>
                 <span className="mx-2">•</span>
                 <span>
-                  {new Date(
-                    article.post?.publishedDate ?? ""
-                  ).toLocaleDateString(language, {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
+                  {new Date(article?.published_date ?? "").toLocaleDateString(
+                    language,
+                    {
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    }
+                  )}
                 </span>
               </div>
             </div>

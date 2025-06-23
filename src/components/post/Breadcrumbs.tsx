@@ -53,7 +53,7 @@ export default async function Breadcrumbs({
               <div className="flex items-center">
                 <i className="fas fa-chevron-right text-gray-400 mx-2" />
                 <span className="ml-1 text-sm font-medium text-gray-500 md:ml-2">
-                  {post.translatedTitle.substring(0, 50) + (post.translatedTitle.length > 50 ? "..." : "")}
+                  {post.translated_title.substring(0, 50) + (post.translated_title.length > 50 ? "..." : "")}
                 </span>
               </div>
             </li>

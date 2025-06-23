@@ -75,7 +75,7 @@ export async function getCategoryTranslations({
   page = 1,
 }: QueryParams): Promise<CategoryTranslationResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/category-translations`);
+  const url = new URL(`${baseUrl}/category-translations`);
 
   appendWhereParams(url, where);
   appendSelectParams(url, select);
@@ -93,7 +93,6 @@ export async function getCategoryTranslations({
   });
 
   if (!res.ok) {
-    console.error("Failed to fetch category translations:", res.statusText);
     throw new Error("Error fetching category translations");
   }
 

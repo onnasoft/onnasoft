@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 import PostContent from "@/components/post/PostContent";
 import PostSidebar from "@/components/post/PostSidebar";
-import { getPostTranslations } from "@/services/post-translations";
+import { getPosts } from "@/services/posts";
 import Head from "next/head";
 import { redirect } from "next/navigation";
 
@@ -23,15 +23,13 @@ const PostPage: React.FC<PostPageProps> = async ({
   post,
   category,
 }) => {
-  const { docs: article } = await getPostTranslations({
-    where: {
-      slug: `${category}/${post}`,
-      locale: language,
-    },
-    depth: 3,
+  const { docs: articles } = await getPosts({
+    where: { slug: post },
+    locale: language,
+    relations: ["author", "author.photo", "category", "cover_image"],
   });
 
-  if (!article || article.length === 0) {
+  if (!articles || articles.length === 0) {
     redirect(`/${language}/blog`);
   }
 
@@ -43,11 +41,13 @@ const PostPage: React.FC<PostPageProps> = async ({
     redirect(`/en`);
   }
 
+  const translation = articles[0]?.translations?.[0];
+
   return (
     <div className="min-h-screen bg-white">
       <Head>
-        <title>{article[0].translatedTitle} - OnnaSoft</title>
-        <meta name="description" content={article[0].translatedExcerpt} />
+        <title>{translation?.translated_title} - OnnaSoft</title>
+        <meta name="description" content={translation?.translatedExcerpt} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
         <link
@@ -61,8 +61,8 @@ const PostPage: React.FC<PostPageProps> = async ({
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="lg:grid lg:grid-cols-4 lg:gap-8">
-            <PostContent article={article[0]} language={language} />
-            <PostSidebar article={article[0]} language={language} />
+            <PostContent article={articles[0]} language={language} />
+            <PostSidebar article={articles[0]} language={language} />
           </div>
         </div>
 

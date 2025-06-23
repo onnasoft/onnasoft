@@ -31,7 +31,10 @@ export async function getAuthToken(
     body: JSON.stringify({ email, password }),
   });
 
-  if (!res.ok) throw new Error("Login failed");
+  if (!res.ok) {
+    console.log(await res.text())
+    throw new Error("Login failed");
+  }
 
   const data: AuthResponse = await res.json();
 

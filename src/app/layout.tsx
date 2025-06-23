@@ -7,6 +7,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "katex/dist/katex.min.css";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
+import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,24 +40,25 @@ export default async function RootLayout({
     <html lang={language}>
       <head>
         <title>Onnasoft | Smart Digital Solutions</title>
-        {GOOGLE_TAG_ID ?? (
+        {GOOGLE_TAG_ID ? (
           <>
-            <script
+            <Script
               async
               src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_TAG_ID}`}
-            ></script>
-            <script
+            ></Script>
+            <Script
+              id="google-analytics-inline"
               dangerouslySetInnerHTML={{
                 __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GOOGLE_TAG_ID}');
-          `,
+                  window.dataLayer = window.dataLayer || [];
+                  function gtag(){dataLayer.push(arguments);}
+                  gtag('js', new Date());
+                  gtag('config', '${GOOGLE_TAG_ID}');
+                `,
               }}
-            />
+            ></Script>
           </>
-        )}
+        ): null}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}

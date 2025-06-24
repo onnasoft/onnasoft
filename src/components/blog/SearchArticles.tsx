@@ -26,7 +26,6 @@ export default function SearchArticles({
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value ?? "");
-    console.log(`Searching for: ${value}`);
     if (trie && value.length > 0) {
       const matches = trie.search(value);
       setResults(matches);

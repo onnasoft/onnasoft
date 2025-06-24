@@ -4,8 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
   const posts = await getPosts({
-    limit: 1000**2,
-    depth: 0,
+    limit: 1000 ** 2,
   });
   const WEBSITE_URL = process.env.WEBSITE_URL || "https://onnasoft.us";
   const urls = [

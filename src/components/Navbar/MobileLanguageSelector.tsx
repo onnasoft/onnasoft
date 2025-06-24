@@ -2,10 +2,12 @@
 
 interface MobileLanguageSelectorProps {
   readonly language: string;
+  readonly query?: string;
 }
 
 export default function MobileLanguageSelector({
   language,
+  query,
 }: MobileLanguageSelectorProps) {
   return (
     <div className="relative mr-4">
@@ -20,7 +22,8 @@ export default function MobileLanguageSelector({
           const newPath = langRegex.test(currentPath)
             ? currentPath.replace(langRegex, basePath + "$2")
             : basePath + currentPath;
-          window.location.href = newPath;
+          const newUrl = newPath + (query ? `?q=${query}` : "");
+          window.location.href = newUrl;
         }}
         aria-label="Select language"
       >

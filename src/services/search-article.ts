@@ -1,13 +1,12 @@
-import { CoverImage, PostTranslation } from "@/types/models";
+import { Post } from "@/types/models";
 import { getAuthToken } from "./auth";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
-const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || baseUrl;
 const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
 const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
 export interface SearchResponse {
-  docs: PostTranslation[];
+  docs: Post[];
   hasNextPage: boolean;
   hasPrevPage: boolean;
   limit: number;
@@ -26,32 +25,6 @@ interface QueryParams {
   locale?: string;
 }
 
-function mapPostUrls(
-  article: PostTranslation,
-  baseUrl: string
-): PostTranslation {
-  const updateImageUrls = (image: CoverImage | null) => {
-    if (!image) return image;
-    let url = image.filename || "";
-    if (url.startsWith("/")) url = `${baseUrl}${url}`;
-    return { ...image, url };
-  };
-
-  if (article.post?.cover_image) {
-    article.post.cover_image = updateImageUrls(article.post.cover_image);
-  }
-  if (article.post?.cover_thumbnail) {
-    article.post.cover_thumbnail = updateImageUrls(
-      article.post.cover_thumbnail
-    );
-  }
-  if (article.post?.author?.photo) {
-    article.post.author.photo = updateImageUrls(article.post.author.photo);
-  }
-
-  return article;
-}
-
 export async function search({
   limit,
   page = 1,
@@ -59,7 +32,7 @@ export async function search({
   locale = "en",
 }: QueryParams = {}): Promise<SearchResponse> {
   const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
-  const url = new URL(`${baseUrl}/api/search`);
+  const url = new URL(`${baseUrl}/posts/search`);
 
   if (search) url.searchParams.append("q", search);
   if (limit) url.searchParams.append("limit", limit.toString());
@@ -76,14 +49,12 @@ export async function search({
   });
 
   if (!res.ok) {
+    console.log(url.toString());
     console.error("Failed to fetch posts:", res.statusText);
     throw new Error("Error fetching posts");
   }
 
   const data: SearchResponse = await res.json();
 
-  return {
-    ...data,
-    docs: data.docs.map((doc) => mapPostUrls(doc, mediaUrl)),
-  };
+  return data;
 }

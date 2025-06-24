@@ -52,13 +52,13 @@ const translations = {
 
 const HIDE_BLOG = process.env.NEXT_PUBLIC_HIDE_BLOG === "true";
 
-const Navbar = async ({
-  language,
-  pathname = "/",
-}: {
+interface NavbarProps {
   language: string;
-  pathname: string;
-}) => {
+  pathname?: string;
+  query?: string;
+}
+
+const Navbar = async ({ language, pathname = "/", query }: NavbarProps) => {
   const t =
     translations[language as keyof typeof translations] || translations.en;
   const path = pathname.substring(3);
@@ -147,31 +147,31 @@ const Navbar = async ({
             </button>
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 lang-menu">
               <Link
-                href={`/en${path}`}
+                href={`/en${path}${query ? "?q=" + query : ""}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="mr-2">🇺🇸</span> English
               </Link>
               <Link
-                href={`/es${path}`}
+                href={`/es${path}${query ? "?q=" + query : ""}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="mr-2">🇪🇸</span> Español
               </Link>
               <Link
-                href={`/fr${path}`}
+                href={`/fr${path}${query ? "?q=" + query : ""}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="mr-2">🇫🇷</span> Français
               </Link>
               <Link
-                href={`/ja${path}`}
+                href={`/ja${path}${query ? "?q=" + query : ""}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="mr-2">🇯🇵</span> 日本語
               </Link>
               <Link
-                href={`/zh${path}`}
+                href={`/zh${path}${query ? "?q=" + query : ""}`}
                 className="flex items-center px-4 py-2 text-base text-gray-700 hover:bg-gray-100"
               >
                 <span className="mr-2">🇨🇳</span> 中文
@@ -182,7 +182,7 @@ const Navbar = async ({
 
         <div className="lg:hidden flex items-center">
           {/* Mobile Language Selector */}
-          <MobileLanguageSelector language={language} />
+          <MobileLanguageSelector query={query} language={language} />
 
           {/* Mobile menu toggle button */}
           <label

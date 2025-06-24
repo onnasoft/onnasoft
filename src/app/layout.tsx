@@ -31,9 +31,6 @@ export default async function RootLayout({
   }>;
 }>) {
   const lang = (await params).lang || "en";
-  if (!suportedLanguages.includes(lang)) {
-    redirect(`/en/${lang}`);
-  }
   const language = lang.toLowerCase();
 
   return (

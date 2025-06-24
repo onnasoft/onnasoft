@@ -33,13 +33,9 @@ export default async function SearchPage({
     locale: language,
   });
 
-  if (!language) {
-    redirect(`/en`);
-  }
-
   return (
     <div className="min-h-screen bg-white">
-      <Navbar language={language} pathname={pathname} />
+      <Navbar query={query} language={language} pathname={pathname} />
       <main>
         <BlogLayout
           language={language}

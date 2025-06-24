@@ -20,7 +20,6 @@ export default async function Page({ params }: PageProps) {
   const lang = args.lang || acceptLanguage || "en";
   const pathname = h.get("x-pathname") || "";
   const query = h.get("x-query") || "";
-  console.log(`Search page: ${pathname}, language: ${lang}, query: ${query}`);
 
   let language = lang.toLowerCase();
   if (!suportedLanguages.includes(lang)) {

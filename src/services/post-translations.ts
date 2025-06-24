@@ -1,5 +1,4 @@
 import { PostTranslation } from "@/types/models";
-import { getAuthToken } from "./auth";
 import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
@@ -89,7 +88,6 @@ export async function getPostTranslations({
   limit,
   page = 1,
 }: QueryParams): Promise<PostTranslationResponse> {
-  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/post-translations`);
 
   buildQueryParams(url, where, select, limit, depth, page);
@@ -98,7 +96,6 @@ export async function getPostTranslations({
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
   });

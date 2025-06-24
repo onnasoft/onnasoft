@@ -44,6 +44,7 @@ export default async function RecentPostsWidget({
   const { docs: articles } = await getPosts({
     where: whereCondition,
     locale: language,
+    relations: ["cover_thumbnail", "category"],
     limit: 3,
   });
 

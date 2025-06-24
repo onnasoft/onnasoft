@@ -1,5 +1,4 @@
-import { Post, CoverImage } from "@/types/models";
-import { getAuthToken } from "./auth";
+import { Post } from "@/types/models";
 import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
@@ -67,7 +66,6 @@ export async function getPosts({
   page = 1,
   locale,
 }: QueryParams = {}): Promise<PostResponse> {
-  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/posts`);
 
   appendWhereParams(url, where);
@@ -81,7 +79,6 @@ export async function getPosts({
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
   });
@@ -99,14 +96,12 @@ export async function updatePost(
   id: number,
   postData: Partial<Post>
 ): Promise<Post> {
-  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/posts/${id}`);
 
   const res = await fetch(url.toString(), {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(postData),
   });

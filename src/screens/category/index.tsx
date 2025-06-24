@@ -4,7 +4,8 @@ import BlogLayout from "@/components/blog/BlogLayout";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
-import { getPostTranslations } from "@/services/post-translations";
+import { getCategories } from "@/services/categories";
+import { getPosts } from "@/services/posts";
 import { redirect } from "next/navigation";
 
 export interface CategoryProps {
@@ -24,19 +25,26 @@ export default async function CategoryPage({
     redirect(`/en`);
   }
 
+  const categories = await getCategories({
+    where: {
+      slug: category,
+    },
+    limit: 1,
+  });
+
+  if (!categories || categories.docs.length === 0) {
+    redirect(`/en/${category}`);
+  }
+
   const {
     docs: articles,
     page,
     totalPages,
-  } = await getPostTranslations({
+  } = await getPosts({
     where: {
-      locale: language,
-      slug: {
-        op: "like",
-        value: `${category}/%`,
-      },
+      category_id: categories.docs[0].id,
     },
-    depth: 3,
+    locale: language,
     page: currentPage,
   });
 

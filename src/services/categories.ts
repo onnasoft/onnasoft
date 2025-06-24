@@ -1,5 +1,4 @@
 import { Category } from "@/types/models";
-import { getAuthToken } from "./auth";
 import { FilterOperator, FilterValue } from "@/types/filters";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
@@ -66,7 +65,6 @@ export async function getCategories({
   page = 1,
   locale = "en",
 }: QueryParams = {}): Promise<CategoryResponse> {
-  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/categories`);
 
   appendWhereParams(url, where);
@@ -80,7 +78,6 @@ export async function getCategories({
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
   });

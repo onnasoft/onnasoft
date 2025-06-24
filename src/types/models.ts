@@ -27,10 +27,16 @@ export interface CategoryTranslation {
   updated_at: string;
   created_at: string;
 }
-
-export interface Author {
+export interface User {
   id: number;
   name: string;
+  email: string;
+  isEmailVerified: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export type Author = User & {
   position: string | null;
   bio: string | null;
   photo?: CoverImage | null;
@@ -38,10 +44,7 @@ export interface Author {
   linkedIn: string | null;
   github: string | null;
   website: string | null;
-  created_at: string;
-  updated_at: string;
-  loginAttempts: number;
-}
+};
 
 export interface CoverImage {
   id: number;
@@ -66,6 +69,7 @@ export interface Post {
   cover_image?: CoverImage | null;
   cover_thumbnail?: CoverImage | null;
   category?: Category;
+  category_id?: number;
   author: Author;
   published: boolean;
   views: number;

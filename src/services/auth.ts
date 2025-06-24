@@ -1,38 +1,21 @@
-import { AuthUser } from "@/types/models";
+import { User } from "@/types/models";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
 
 export interface AuthResponse {
-  message: string;
-  exp: number;
-  token: string;
-  user: AuthUser;
+  access_token: string;
+  refresh_token: string;
+  user: User;
 }
 
-const tokenCache: Record<string, { token: string; exp: number }> = {};
-
-export async function getAuthToken(
-  email: string,
-  password: string
-): Promise<string> {
-  const cached = tokenCache[email];
-  const now = Math.floor(Date.now() / 1000);
-
-  if (cached && cached.exp > now) {
-    return cached.token;
-  }
-
-  if (email && password) {
-    return "token"
-  }
-
-  const res = await fetch(`${baseUrl}/api/users/login`, {
+export async function getAuthToken(token: string): Promise<AuthResponse> {
+  const res = await fetch(`${baseUrl}/auth/oauth/login/google`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     credentials: "include",
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ token }),
   });
 
   if (!res.ok) {
@@ -41,10 +24,5 @@ export async function getAuthToken(
 
   const data: AuthResponse = await res.json();
 
-  tokenCache[email] = {
-    token: data.token,
-    exp: data.exp,
-  };
-
-  return data.token;
+  return data;
 }

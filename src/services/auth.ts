@@ -36,7 +36,6 @@ export async function getAuthToken(
   });
 
   if (!res.ok) {
-    console.log(await res.text())
     throw new Error("Login failed");
   }
 

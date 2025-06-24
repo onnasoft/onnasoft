@@ -86,7 +86,6 @@ export async function getCategories({
   });
 
   if (!res.ok) {
-    console.error(decodeURI(url.toString()));
     throw new Error("Error fetching categories");
   }
 

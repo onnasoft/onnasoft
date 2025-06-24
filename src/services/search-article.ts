@@ -49,8 +49,6 @@ export async function search({
   });
 
   if (!res.ok) {
-    console.log(url.toString());
-    console.error("Failed to fetch posts:", res.statusText);
     throw new Error("Error fetching posts");
   }
 

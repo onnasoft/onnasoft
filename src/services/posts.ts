@@ -85,7 +85,6 @@ export async function getPosts({
     },
     cache: "no-store",
   });
-  console.log(decodeURI(url.toString()));
 
   if (!res.ok) {
     throw new Error("Error fetching posts");
@@ -113,7 +112,6 @@ export async function updatePost(
   });
 
   if (!res.ok) {
-    console.error("Failed to update post:", res.statusText);
     throw new Error("Error updating post");
   }
 

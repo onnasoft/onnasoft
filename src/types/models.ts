@@ -1,3 +1,5 @@
+import { JSONContent } from "@tiptap/react";
+
 export interface AuthUser {
   id: number;
   email: string;
@@ -100,7 +102,7 @@ export interface Comment {
   id: number;
   post_id: number;
   user_id: number;
-  content: string;
+  value: JSONContent;
   created_at: string;
   updated_at: string;
   user?: User;

@@ -1,8 +1,11 @@
 "use server";
 
-import { updatePost } from "@/services/posts";
+import { view } from "@/services/posts";
 import { Post } from "@/types/models";
 import Like from "./Like";
+import { GoogleOAuthProvider } from "@react-oauth/google";
+
+const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
 interface ShareContentProps {
   readonly language: string;
@@ -18,9 +21,7 @@ export default async function ShareContent({
   if (!article) {
     return null;
   }
-  /*await updatePost(article?.id, {
-    views: article?.views + 1,
-  });*/
+  await view(article?.id);
 
   const url = `${BASE_URL}/${language}/${article.slug}`;
 
@@ -77,9 +78,11 @@ export default async function ShareContent({
         </div>
         <div className="flex items-center space-x-4 text-sm text-gray-600">
           <span className="flex items-center">
-            <i className="fas fa-eye mr-2"></i> {article.views} views
+            <i className="fas fa-eye mr-2"></i> {article.views + 1} views
           </span>
-          <Like article={article} />
+          <GoogleOAuthProvider clientId={googleClientId}>
+            <Like article={article} />
+          </GoogleOAuthProvider>
         </div>
       </div>
     </footer>

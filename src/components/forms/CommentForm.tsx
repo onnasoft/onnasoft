@@ -4,8 +4,9 @@ import { useEditor } from "@tiptap/react";
 import TiptapEditor from "../TiptapEditor";
 import StarterKit from "@tiptap/starter-kit";
 import Emoji from "@tiptap/extension-emoji";
-import { useCommentsAPI } from "@/hooks/useComments";
 import { Post } from "@/types/models";
+import { createComment } from "@/services/comments";
+import { useAuthStore } from "@/hooks/useAuthStore";
 
 const translations = {
   en: {
@@ -53,12 +54,17 @@ const translations = {
 interface CommentFormProps {
   readonly language?: string;
   readonly article: Post;
+  readonly onSubmit?: () => void;
 }
 
-export default function CommentForm({ language, article }: CommentFormProps) {
+export default function CommentForm({
+  language,
+  article,
+  onSubmit,
+}: CommentFormProps) {
+  const { token } = useAuthStore();
   const t =
     translations[language as keyof typeof translations] || translations.en;
-  const commentsApi = useCommentsAPI();
 
   const editor = useEditor({
     extensions: [
@@ -73,16 +79,30 @@ export default function CommentForm({ language, article }: CommentFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!token) {
+      alert("You must be logged in to post a comment.");
+      return;
+    }
+
     const comment = editor?.getJSON();
     if (!comment || !comment.content || comment.content.length === 0) {
       alert(t.placeholder);
       return;
     }
 
-    await commentsApi.createComment({
-      value: comment,
-      post_id: article.id,
-    });
+    await createComment(
+      {
+        value: comment,
+        post_id: article.id,
+      },
+      token
+    );
+
+    editor?.commands.clearContent();
+
+    if (onSubmit) {
+      onSubmit();
+    }
   };
 
   return (

@@ -1,9 +1,6 @@
 import { Post } from "@/types/models";
-import { getAuthToken } from "./auth";
 
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
-const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
-const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
 export interface SearchResponse {
   docs: Post[];
@@ -31,7 +28,6 @@ export async function search({
   search,
   locale = "en",
 }: QueryParams = {}): Promise<SearchResponse> {
-  const token = await getAuthToken(PAYLOAD_USERNAME, PAYLOAD_PASSWORD);
   const url = new URL(`${baseUrl}/posts/search`);
 
   if (search) url.searchParams.append("q", search);
@@ -43,7 +39,6 @@ export async function search({
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
     cache: "no-store",
   });

@@ -26,3 +26,24 @@ export async function getAuthToken(token: string): Promise<AuthResponse> {
 
   return data;
 }
+
+export async function refreshAuthToken(
+  refreshToken: string
+): Promise<AuthResponse> {
+  const res = await fetch(`${baseUrl}/auth/refresh`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+    body: JSON.stringify({ refresh_token: refreshToken }),
+  });
+
+  if (!res.ok) {
+    throw new Error("Refresh token failed");
+  }
+
+  const data: AuthResponse = await res.json();
+
+  return data;
+}

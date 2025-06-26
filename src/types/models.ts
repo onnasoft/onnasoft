@@ -32,6 +32,7 @@ export interface User {
   name: string;
   email: string;
   isEmailVerified: boolean;
+  photo?: CoverImage | null;
   created_at: string;
   updated_at: string;
 }
@@ -39,7 +40,6 @@ export interface User {
 export type Author = User & {
   position: string | null;
   bio: string | null;
-  photo?: CoverImage | null;
   email: string;
   linkedIn: string | null;
   github: string | null;
@@ -94,4 +94,14 @@ export interface PostTranslation {
   category: string;
   created_at: string;
   updated_at: string;
+}
+
+export interface Comment {
+  id: number;
+  post_id: number;
+  user_id: number;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  user?: User;
 }

@@ -74,9 +74,9 @@ export default async function PostContent({
 
       <Author article={article} />
 
-      <RelatedPosts article={article} language={language} />
+      <RelatedPosts language={language} article={article} />
 
-      <Comments language={language} />
+      <Comments language={language} article={article} />
     </article>
   );
 }

@@ -4,6 +4,8 @@ import { useEditor } from "@tiptap/react";
 import TiptapEditor from "../TiptapEditor";
 import StarterKit from "@tiptap/starter-kit";
 import Emoji from "@tiptap/extension-emoji";
+import { useCommentsAPI } from "@/hooks/useComments";
+import { Post } from "@/types/models";
 
 const translations = {
   en: {
@@ -50,11 +52,13 @@ const translations = {
 
 interface CommentFormProps {
   readonly language?: string;
+  readonly article: Post;
 }
 
-export default function CommentForm({ language }: CommentFormProps) {
+export default function CommentForm({ language, article }: CommentFormProps) {
   const t =
     translations[language as keyof typeof translations] || translations.en;
+  const commentsApi = useCommentsAPI();
 
   const editor = useEditor({
     extensions: [
@@ -66,10 +70,19 @@ export default function CommentForm({ language }: CommentFormProps) {
     content: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(editor?.getJSON());
+    const comment = editor?.getJSON();
+    if (!comment || !comment.content || comment.content.length === 0) {
+      alert(t.placeholder);
+      return;
+    }
+
+    await commentsApi.createComment({
+      value: comment,
+      post_id: article.id,
+    });
   };
 
   return (

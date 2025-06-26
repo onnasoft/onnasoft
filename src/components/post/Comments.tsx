@@ -5,9 +5,11 @@ import Image from "next/image";
 import CommentForm from "../forms/CommentForm";
 import LoginForm from "../forms/LoginForm";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import { Post } from "@/types/models";
 
 interface CommentProps {
   readonly language: string;
+  readonly article: Post;
 }
 
 const translations = {
@@ -60,7 +62,7 @@ const comments = [
 const HIDE_COMMENTS = process.env.NEXT_PUBLIC_HIDE_COMMENTS === "true";
 const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
-export default function Comments({ language }: CommentProps) {
+export default function Comments({ language, article }: CommentProps) {
   const { isAuthenticated } = useAuthStore();
   const t =
     translations[language as keyof typeof translations] || translations.en;
@@ -68,8 +70,6 @@ export default function Comments({ language }: CommentProps) {
   if (HIDE_COMMENTS) {
     return null;
   }
-
-  console.log("authenticated:", isAuthenticated);
 
   return (
     <GoogleOAuthProvider clientId={googleClientId}>
@@ -80,7 +80,7 @@ export default function Comments({ language }: CommentProps) {
 
         <div className="mb-8 p-6 bg-gray-50 rounded-lg">
           {isAuthenticated ? (
-            <CommentForm language={language} />
+            <CommentForm language={language} article={article} />
           ) : (
             <LoginForm language={language} />
           )}

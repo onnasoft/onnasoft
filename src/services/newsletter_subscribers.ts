@@ -1,6 +1,4 @@
 const baseUrl = process.env.NEXT_PUBLIC_API_URL!;
-const PAYLOAD_USERNAME = process.env.PAYLOAD_USERNAME!;
-const PAYLOAD_PASSWORD = process.env.PAYLOAD_PASSWORD!;
 
 interface NewsletterSubscriberArgs {
   email: string;

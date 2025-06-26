@@ -1,13 +1,12 @@
 "use server";
 
 import { Geist, Geist_Mono } from "next/font/google";
-import { suportedLanguages } from "@/types/languages";
-import { redirect } from "next/navigation";
+import Script from "next/script";
+import Session from "@/components/Session";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "katex/dist/katex.min.css";
 import "highlight.js/styles/github-dark.css";
 import "./globals.css";
-import Script from "next/script";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,6 +58,7 @@ export default async function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         {children}
+        <Session />
       </body>
     </html>
   );

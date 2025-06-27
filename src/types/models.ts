@@ -72,7 +72,7 @@ export interface Post {
   cover_thumbnail?: CoverImage | null;
   category?: Category;
   category_id?: number;
-  author: Author;
+  author?: Author;
   published: boolean;
   views: number;
   likes: number;

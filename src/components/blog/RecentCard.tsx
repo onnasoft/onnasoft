@@ -68,7 +68,7 @@ export default async function RecentCard({ article }: BlogCardProps) {
             className="w-8 h-8 rounded-full mr-2 hidden md:block"
           />
           <span className="text-gray-700 text-sm">
-            {article.author.name || "Unknown Author"}
+            {article.author?.name || "Unknown Author"}
           </span>
           <a
             href={`/${postUrl}`}

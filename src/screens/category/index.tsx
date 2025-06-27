@@ -44,6 +44,7 @@ export default async function CategoryPage({
     where: {
       category_id: categories.docs[0].id,
     },
+    relations: ["author", "author.photo", "category", "cover_image"],
     locale: language,
     page: currentPage,
   });

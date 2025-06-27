@@ -4,6 +4,7 @@ import { view } from "@/services/posts";
 import { Post } from "@/types/models";
 import Like from "./Like";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import ShareButton from "./ShareButton";
 
 const googleClientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "";
 
@@ -58,22 +59,7 @@ export default async function ShareContent({
             >
               <i className="fab fa-facebook text-lg"></i>
             </a>
-            <button
-              name="copy-link-button"
-              className="text-gray-400 hover:text-onnasoft-pink transition-colors"
-            >
-              <i className="fas fa-link text-lg"></i>
-            </button>
-            <script
-              dangerouslySetInnerHTML={{
-                __html: `
-                document.querySelector('button[name="copy-link-button"]').addEventListener('click', function() {
-                  navigator.clipboard.writeText('${url}');
-                  alert('Link copied to clipboard');
-                });
-              `,
-              }}
-            ></script>
+            <ShareButton url={url} />
           </div>
         </div>
         <div className="flex items-center space-x-4 text-sm text-gray-600">

@@ -1,14 +1,22 @@
 import Link from "next/link";
+import classnames from "classnames";
+import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
+  const pathname = usePathname();
+  const activeClass = "bg-primary/5 text-primary border-primary border-r-2";
+
   return (
     <aside className="fixed left-0 top-16 h-full w-64 bg-white shadow-sm border-r border-gray-200 z-30 lg:translate-x-0 -translate-x-full transition-transform duration-300 ease-in-out">
       <div className="p-4">
         <nav className="space-y-2">
           {/* Dashboard */}
           <Link
-            href="#"
-            className="flex items-center px-3 py-2  font-medium text-primary bg-primary/5 border-r-2 border-primary rounded-l-md"
+            href="/admin"
+            className={classnames({
+              [activeClass]: pathname === "/admin",
+              "flex items-center px-3 py-2  font-medium rounded-l-md": true,
+            })}
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -34,8 +42,11 @@ export default function Sidebar() {
 
           {/* Posts */}
           <Link
-            href="#"
-            className="flex items-center px-3 py-2  font-medium text-gray-700 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            href="/admin/posts"
+            className={classnames({
+              [activeClass]: pathname === "/admin/posts",
+              "flex items-center px-3 py-2  font-medium rounded-l-md": true,
+            })}
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -55,8 +66,11 @@ export default function Sidebar() {
 
           {/* Categorías */}
           <Link
-            href="#"
-            className="flex items-center px-3 py-2  font-medium text-gray-700 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            href="/admin/categories"
+            className={classnames({
+              [activeClass]: pathname === "/admin/categories",
+              "flex items-center px-3 py-2  font-medium rounded-l-md": true,
+            })}
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -71,13 +85,16 @@ export default function Sidebar() {
                 d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"
               />
             </svg>
-            Categorías
+            Categories
           </Link>
 
           {/* Configuración */}
           <Link
-            href="#"
-            className="flex items-center px-3 py-2  font-medium text-gray-700 rounded-md hover:bg-gray-50 hover:text-gray-900 transition-colors"
+            href="/admin/settings"
+            className={classnames({
+              [activeClass]: pathname === "/admin/settings",
+              "flex items-center px-3 py-2  font-medium rounded-l-md": true,
+            })}
           >
             <svg
               className="w-5 h-5 mr-3"
@@ -98,7 +115,7 @@ export default function Sidebar() {
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
             </svg>
-            Configuración
+            Settings
           </Link>
         </nav>
       </div>

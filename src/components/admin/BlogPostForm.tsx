@@ -13,13 +13,18 @@ import {
 import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
+import { generate } from "@/services/ai";
+import { useAuthStore } from "@/hooks/useAuthStore";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface FormData {
   initialContent: string;
   title: string;
   excerpt: string;
+  contentInstructions: string;
   content: string;
   imageUrl: File | null;
+  imagePrompt: string;
   published: boolean;
   published_date: Date | undefined;
 }
@@ -28,16 +33,21 @@ const initialFormData: FormData = {
   initialContent: "",
   title: "",
   excerpt: "",
+  contentInstructions: "",
   content: "",
+  imagePrompt: "",
   imageUrl: null,
   published: false,
   published_date: undefined,
 };
 
 const BlogPostForm = () => {
+  const auth = useAuthStore();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [activeTab, setActiveTab] = useState("summary");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -94,8 +104,56 @@ const BlogPostForm = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleNext = () => {
-    if (step === 1 && validateStep1()) setStep(2);
+  const getExcerpt = async (description: string, token: string) => {
+    const prompt = `Given this topic: "${description}", write a short and engaging excerpt (max 250 characters) for a blog post.`;
+    return await generate(prompt, token);
+  };
+
+  const getTitle = async (excerpt: string, token: string) => {
+    const prompt = `Given this excerpt: "${excerpt}", generate an engaging blog post title. Return only plain text.`;
+    return await generate(prompt, token);
+  };
+
+  const getContentInstructions = async (excerpt: string, token: string) => {
+    const prompt = `Given this blog post excerpt: "${excerpt}", write detailed step-by-step instructions for 
+      how to structure and write a high-quality blog post about it. 
+      Respond in Markdown with: "introduction", "sections", "tone", and "tips".`;
+    return await generate(prompt, token);
+  };
+
+  const getImagePrompt = async (excerpt: string, token: string) => {
+    const prompt = `Based on this excerpt: "${excerpt}", generate a prompt for an image that visually represents 
+    the blog post. Describe the scene in detail, without using any text.`;
+    return await generate(prompt, token);
+  };
+
+  const handleNext = async () => {
+    if (!auth.token) return;
+    const { initialContent } = formData;
+
+    if (!validateStep1()) return;
+
+    setIsLoading(true);
+
+    const { response: excerpt } = await getExcerpt(initialContent, auth.token);
+    const { response: title } = await getTitle(excerpt, auth.token);
+    const { response: contentInstructions } = await getContentInstructions(
+      excerpt,
+      auth.token
+    );
+    const { response: imagePrompt } = await getImagePrompt(excerpt, auth.token);
+
+    setIsLoading(false);
+
+    setFormData((prev) => ({
+      ...prev,
+      title,
+      excerpt,
+      contentInstructions,
+      imagePrompt,
+    }));
+
+    if (step === 1) setStep(2);
   };
 
   const handleBack = () => {
@@ -139,6 +197,7 @@ const BlogPostForm = () => {
               <Button
                 type="button"
                 className="bg-primary text-white hover:bg-primary/90 text-xl"
+                disabled={isLoading}
                 onClick={handleNext}
               >
                 Siguiente
@@ -149,90 +208,130 @@ const BlogPostForm = () => {
 
         {step === 2 && (
           <div className="space-y-6">
-            <div>
-              <Label htmlFor="title" className="block text-xl font-medium mb-2">
-                Título del Post
-              </Label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder="El mejor título para tu blog post"
-              />
-              {errors.title && (
-                <p className="text-xl text-primary mt-1">{errors.title}</p>
-              )}
-            </div>
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="w-full"
+            >
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="summary">Resumen</TabsTrigger>
+                <TabsTrigger value="instructions">Instrucciones</TabsTrigger>
+                <TabsTrigger value="image">Imagen</TabsTrigger>
+              </TabsList>
 
-            <div>
-              <Label
-                htmlFor="excerpt"
-                className="block text-xl font-medium mb-2"
-              >
-                Resumen / Excerpt
-              </Label>
-              <textarea
-                id="excerpt"
-                name="excerpt"
-                value={formData.excerpt}
-                onChange={handleChange}
-                rows={2}
-                className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder="Un breve resumen que enganche al lector..."
-              />
-              {errors.excerpt && (
-                <p className="text-xl text-primary mt-1">{errors.excerpt}</p>
-              )}
-            </div>
+              <TabsContent value="summary" className="space-y-4">
+                <div>
+                  <Label
+                    htmlFor="title"
+                    className="block text-xl font-medium mb-2"
+                  >
+                    Título del Post
+                  </Label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    value={formData.title}
+                    onChange={handleChange}
+                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="El mejor título para tu blog post"
+                  />
+                  {errors.title && (
+                    <p className="text-xl text-primary mt-1">{errors.title}</p>
+                  )}
+                </div>
 
-            <div>
-              <Label
-                htmlFor="content"
-                className="block text-xl font-medium mb-2"
-              >
-                Contenido Completo del Post
-              </Label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                rows={3}
-                className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                placeholder="Escribe aquí el contenido detallado de tu post..."
-              />
-              {errors.content && (
-                <p className="text-xl text-primary mt-1">{errors.content}</p>
-              )}
-            </div>
+                <div>
+                  <Label
+                    htmlFor="excerpt"
+                    className="block text-xl font-medium mb-2"
+                  >
+                    Resumen / Excerpt
+                  </Label>
+                  <textarea
+                    id="excerpt"
+                    name="excerpt"
+                    value={formData.excerpt}
+                    onChange={handleChange}
+                    rows={5}
+                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Un breve resumen que enganche al lector..."
+                  />
+                  {errors.excerpt && (
+                    <p className="text-xl text-primary mt-1">
+                      {errors.excerpt}
+                    </p>
+                  )}
+                </div>
+              </TabsContent>
 
-            <div>
-              <Label
-                htmlFor="imageUrl"
-                className="block text-xl font-medium mb-2"
-              >
-                Imagen Destacada
-              </Label>
-              <input
-                type="file"
-                id="imageUrl"
-                name="imageUrl"
-                onChange={handleFileChange}
-                accept="image/*"
-                className="block w-full text-xl text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xl file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-              />
-              {formData.imageUrl && (
-                <p className="text-xl text-gray-600 mt-2">
-                  Archivo seleccionado: {formData.imageUrl.name}
-                </p>
-              )}
-              {errors.imageUrl && (
-                <p className="text-xl text-primary mt-1">{errors.imageUrl}</p>
-              )}
-            </div>
+              <TabsContent value="instructions" className="space-y-4">
+                <div>
+                  <Label
+                    htmlFor="contentInstructions"
+                    className="block text-xl font-medium mb-2"
+                  >
+                    Instrucciones para el Contenido
+                  </Label>
+                  <textarea
+                    id="contentInstructions"
+                    name="contentInstructions"
+                    value={formData.contentInstructions}
+                    onChange={handleChange}
+                    rows={10}
+                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Instrucciones generadas para crear el contenido..."
+                  />
+                </div>
+              </TabsContent>
+
+              <TabsContent value="image" className="space-y-4">
+                <div>
+                  <Label
+                    htmlFor="imagePrompt"
+                    className="block text-xl font-medium mb-2"
+                  >
+                    Prompt para Generar Imagen
+                  </Label>
+                  <textarea
+                    id="imagePrompt"
+                    name="imagePrompt"
+                    value={formData.imagePrompt}
+                    onChange={handleChange}
+                    rows={8}
+                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Prompt generado para la imagen destacada..."
+                  />
+                </div>
+
+                <div>
+                  <Label
+                    htmlFor="imageUrl"
+                    className="block text-xl font-medium mb-2"
+                  >
+                    Subir Imagen Destacada
+                  </Label>
+                  <input
+                    type="file"
+                    id="imageUrl"
+                    name="imageUrl"
+                    onChange={handleFileChange}
+                    accept="image/*"
+                    className="block w-full text-xl text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xl file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
+                  />
+                  {formData.imageUrl && (
+                    <p className="text-xl text-gray-600 mt-2">
+                      Archivo seleccionado: {formData.imageUrl.name}
+                    </p>
+                  )}
+                  {errors.imageUrl && (
+                    <p className="text-xl text-primary mt-1">
+                      {errors.imageUrl}
+                    </p>
+                  )}
+                </div>
+              </TabsContent>
+            </Tabs>
 
             <div className="flex items-center space-x-2">
               <Checkbox

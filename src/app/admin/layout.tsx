@@ -6,6 +6,7 @@ import "@fortawesome/fontawesome-free/css/all.min.css";
 import "katex/dist/katex.min.css";
 import "highlight.js/styles/github-dark.css";
 import "../globals.css";
+import GoogleOAuthProvider from "@/components/post/GoogleOAuthProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,7 +36,7 @@ export default async function RootLayout({
         <title>Onnasoft | Smart Digital Solutions</title>
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        <GoogleOAuthProvider>{children}</GoogleOAuthProvider>
         <Session />
       </body>
     </html>

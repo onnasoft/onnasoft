@@ -33,7 +33,7 @@ export default async function CategoryPage({
   });
 
   if (!categories || categories.docs.length === 0) {
-    redirect(`/en/${category}`);
+    redirect(`/${language}`);
   }
 
   const {

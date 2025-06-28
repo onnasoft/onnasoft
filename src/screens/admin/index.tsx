@@ -16,7 +16,7 @@ const StatCard = ({ title, value, icon, loading }: StatCardProps) => (
   <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
     <div className="flex items-center">
       <div className="flex-1">
-        <p className="text-sm font-medium text-gray-600">{title}</p>
+        <p className=" font-medium text-gray-600">{title}</p>
         <p className="text-2xl font-bold text-gray-900">
           {loading ? "Cargando..." : value}
         </p>
@@ -83,22 +83,22 @@ const RecentPostsTable = () => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="px-6 py-4 border-b border-gray-200">
-        <h3 className="text-lg font-medium text-gray-900">Posts Recientes</h3>
+        <h3 className="font-medium text-gray-900">Posts Recientes</h3>
       </div>
       <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left  font-medium text-gray-500 uppercase tracking-wider">
                 Título
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left  font-medium text-gray-500 uppercase tracking-wider">
                 Categoría
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left  font-medium text-gray-500 uppercase tracking-wider">
                 Estado
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-6 py-3 text-left  font-medium text-gray-500 uppercase tracking-wider">
                 Fecha
               </th>
             </tr>
@@ -107,25 +107,25 @@ const RecentPostsTable = () => {
             {posts.map((post) => (
               <tr key={post.title}>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  <div className="text-sm font-medium text-gray-900">
+                  <div className=" font-medium text-gray-900">
                     {post.title}
                   </div>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`inline-flex px-2 py-1 text-xs font-semibold ${getColorClasses(post.categoryColor)} rounded-full`}
+                    className={`inline-flex px-2 py-1  font-semibold ${getColorClasses(post.categoryColor)} rounded-full`}
                   >
                     {post.category}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span
-                    className={`inline-flex px-2 py-1 text-xs font-semibold ${getColorClasses(post.statusColor)} rounded-full`}
+                    className={`inline-flex px-2 py-1  font-semibold ${getColorClasses(post.statusColor)} rounded-full`}
                   >
                     {post.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap  text-gray-500">
                   {post.date}
                 </td>
               </tr>

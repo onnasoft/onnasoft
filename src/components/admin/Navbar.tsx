@@ -23,11 +23,9 @@ export default function Navbar() {
             </svg>
           </button>
 
-          <h1 className="text-xl font-semibold text-gray-900">
-            <Link href="/admin" className="flex items-center">
-              CMS Admin
-            </Link>
-          </h1>
+          <Link href="/admin" className="flex items-center">
+            <h1 className="text-xl font-semibold text-gray-900">CMS Admin</h1>
+          </Link>
         </div>
 
         {/* Usuario */}

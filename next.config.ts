@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -40,4 +41,4 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
 };
 
-export default nextConfig;
+export default withFlowbiteReact(nextConfig);

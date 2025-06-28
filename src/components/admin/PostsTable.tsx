@@ -11,7 +11,7 @@ interface PostsTableProps {
 const PostsTable = ({ posts, onEdit, onDelete }: PostsTableProps) => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto h-[600px]">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
@@ -40,12 +40,12 @@ const PostsTable = ({ posts, onEdit, onDelete }: PostsTableProps) => {
                 <td className="px-6 py-4 whitespace-wrap">
                   <div className="font-medium text-gray-900">{post.title}</div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap align-top">
                   <span className="inline-flex px-2 py-1 font-semibold bg-primary/10 text-primary rounded-full">
                     {post.category?.name}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-6 py-4 whitespace-nowrap align-top">
                   <span
                     className={`inline-flex px-2 py-1 font-semibold rounded-full ${
                       post.published
@@ -56,7 +56,7 @@ const PostsTable = ({ posts, onEdit, onDelete }: PostsTableProps) => {
                     {post.published ? "Publicado" : "Borrador"}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-500">
+                <td className="px-6 py-4 whitespace-nowrap text-gray-500 align-top">
                   {post.published_date
                     ? new Date(post.published_date).toLocaleDateString("es-ES", {
                         year: "numeric",
@@ -66,7 +66,7 @@ const PostsTable = ({ posts, onEdit, onDelete }: PostsTableProps) => {
                     : "No publicado"}
                 </td>
                 {(onEdit || onDelete) && (
-                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2">
+                  <td className="px-6 py-4 whitespace-nowrap text-center text-sm font-medium space-x-2 align-top">
                     {onEdit && (
                       <Button
                         variant="ghost"

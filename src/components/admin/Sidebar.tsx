@@ -44,7 +44,7 @@ export default function Sidebar() {
           <Link
             href="/admin/posts"
             className={classnames({
-              [activeClass]: pathname === "/admin/posts",
+              [activeClass]: pathname.includes("/admin/posts"),
               "flex items-center px-3 py-2  font-medium rounded-l-md": true,
             })}
           >
@@ -68,7 +68,7 @@ export default function Sidebar() {
           <Link
             href="/admin/categories"
             className={classnames({
-              [activeClass]: pathname === "/admin/categories",
+              [activeClass]: pathname.includes("/admin/categories"),
               "flex items-center px-3 py-2  font-medium rounded-l-md": true,
             })}
           >
@@ -92,7 +92,7 @@ export default function Sidebar() {
           <Link
             href="/admin/settings"
             className={classnames({
-              [activeClass]: pathname === "/admin/settings",
+              [activeClass]: pathname.includes("/admin/settings"),
               "flex items-center px-3 py-2  font-medium rounded-l-md": true,
             })}
           >

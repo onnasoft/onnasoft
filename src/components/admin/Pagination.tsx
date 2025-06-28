@@ -1,17 +1,11 @@
 import React from "react";
-import {
-  AiFillStepBackward,
-  AiFillStepForward,
-} from "react-icons/ai";
-import {
-  BsFillCaretLeftFill,
-  BsFillCaretRightFill,
-} from "react-icons/bs";
+import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import { BsFillCaretLeftFill, BsFillCaretRightFill } from "react-icons/bs";
 
 interface PaginationProps {
-  currentPage?: number;
-  totalPages?: number;
-  onPageChange: (page: number) => void;
+  readonly currentPage?: number;
+  readonly totalPages?: number;
+  readonly onPageChange: (page: number) => void;
 }
 
 export default function Pagination({

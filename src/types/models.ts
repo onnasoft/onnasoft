@@ -68,6 +68,7 @@ export interface Post {
   slug: string;
   excerpt: string;
   content: string;
+  imagePrompt: string;
   cover_image?: CoverImage | null;
   cover_thumbnail?: CoverImage | null;
   category?: Category;

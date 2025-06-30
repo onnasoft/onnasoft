@@ -90,6 +90,46 @@ export async function getPosts({
   return data;
 }
 
+export async function createPost(
+  postData: {
+    title: string;
+    excerpt: string;
+    content: string;
+    imagePrompt: string;
+    published: boolean;
+    published_date: string | null;
+  },
+  token: string
+): Promise<Post> {
+  const formData = new FormData();
+  formData.append("title", postData.title);
+  formData.append("excerpt", postData.excerpt);
+  formData.append("content", postData.content);
+  formData.append("imagePrompt", postData.imagePrompt);
+  formData.append("published", String(postData.published));
+  if (postData.published_date) {
+    formData.append("published_date", postData.published_date);
+  } else {
+    formData.append("published_date", "");
+  }
+
+  const url = new URL(`${baseUrl}/posts`);
+  const res = await fetch(url.toString(), {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) {
+    throw new Error("Error creating post");
+  }
+
+  const createdPost: Post = await res.json();
+  return createdPost;
+}
+
 export async function updatePost(
   id: number,
   postData: Partial<Post>,

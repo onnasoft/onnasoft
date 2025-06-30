@@ -1,6 +1,11 @@
 "use client";
 
-import { EditorContent, Editor, Content } from "@tiptap/react";
+import {
+  EditorContent,
+  Editor,
+  Content,
+  EditorContentProps,
+} from "@tiptap/react";
 import React, { useState } from "react";
 import Picker from "@emoji-mart/react";
 import data from "@emoji-mart/data";
@@ -17,15 +22,13 @@ import {
   FaParagraph,
 } from "react-icons/fa";
 
-interface TiptapEditorProps {
-  readonly editor: Editor | null;
-}
+type TiptapEditorProps = Readonly<EditorContentProps>;
 
-export default function TiptapEditor({ editor }: TiptapEditorProps) {
+export default function TiptapEditor({ editor, ...props }: TiptapEditorProps) {
   if (!editor) return null;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 flex-1 flex flex-col">
       <div className="flex flex-wrap gap-2 border-b pb-2">
         <EditorButton editor={editor} action="bold" icon={<FaBold />} />
         <EditorButton editor={editor} action="italic" icon={<FaItalic />} />
@@ -62,7 +65,11 @@ export default function TiptapEditor({ editor }: TiptapEditorProps) {
 
       <EditorContent
         editor={editor}
-        className="border p-4 bg-white rounded-md min-h-[120px]"
+        {...props}
+        className={
+          "border p-4 bg-white rounded-md min-h-[120px] " +
+          (props.className ?? "")
+        }
       />
     </div>
   );

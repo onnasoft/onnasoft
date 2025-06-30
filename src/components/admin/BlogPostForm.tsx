@@ -1,413 +1,199 @@
 "use client";
 
 import React, { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { CalendarIcon } from "lucide-react";
-import { generate } from "@/services/ai";
 import { useAuthStore } from "@/hooks/useAuthStore";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-interface FormData {
-  initialContent: string;
-  title: string;
-  excerpt: string;
-  contentInstructions: string;
-  content: string;
-  imageUrl: File | null;
-  imagePrompt: string;
-  published: boolean;
-  published_date: Date | undefined;
-}
-
-const initialFormData: FormData = {
-  initialContent: "",
-  title: "",
-  excerpt: "",
-  contentInstructions: "",
-  content: "",
-  imagePrompt: "",
-  imageUrl: null,
-  published: false,
-  published_date: undefined,
-};
+import { generate } from "@/services/ai";
+import { Scene1InitialContent } from "./scenes/Scene1InitialContent";
+import { Scene2PostDetails } from "./scenes/Scene2PostDetails";
+import { FormData, initialFormData } from "./types";
+import { createPost } from "@/services/posts";
 
 const BlogPostForm = () => {
   const auth = useAuthStore();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<FormData>(initialFormData);
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const [activeTab, setActiveTab] = useState("summary");
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value, type } = e.target;
-    if (type === "checkbox") {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: (e.target as HTMLInputElement).checked,
-      }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
-    setErrors((prev) => ({ ...prev, [name]: "" }));
-  };
+  // Funciones de generación de contenido
+  const getTitle = async (excerpt: string) => {
+    return "React vs. Next.js: The Ultimate Showdown for Your Next Project";
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFormData((prev) => ({ ...prev, imageUrl: e.target.files![0] }));
-      setErrors((prev) => ({ ...prev, imageUrl: "" }));
-    }
-  };
-
-  const handleDateChange = (date: Date | undefined) => {
-    setFormData((prev) => ({ ...prev, published_date: date }));
-    setErrors((prev) => ({ ...prev, published_date: "" }));
-  };
-
-  const validateStep1 = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.initialContent.trim()) {
-      newErrors.initialContent = "El contenido inicial es requerido.";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const validateStep2 = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.title.trim()) {
-      newErrors.title = "El título es requerido.";
-    }
-    if (!formData.excerpt.trim()) {
-      newErrors.excerpt = "El resumen es requerido.";
-    }
-    if (!formData.content.trim()) {
-      newErrors.content = "El contenido del post es requerido.";
-    }
-    if (formData.published && !formData.published_date) {
-      newErrors.published_date =
-        "La fecha de publicación es requerida si el post es publicado.";
-    }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const getExcerpt = async (description: string, token: string) => {
-    const prompt = `Given this topic: "${description}", write a short and engaging excerpt (max 250 characters) for a blog post.`;
-    return await generate(prompt, token);
-  };
-
-  const getTitle = async (excerpt: string, token: string) => {
     const prompt = `Given this excerpt: "${excerpt}", generate an engaging blog post title. Return only plain text.`;
-    return await generate(prompt, token);
+    const { response } = await generate(prompt, auth.token!);
+
+    console.log("Generated title:", response);
+
+    return response;
   };
 
-  const getContentInstructions = async (excerpt: string, token: string) => {
-    const prompt = `Given this blog post excerpt: "${excerpt}", write detailed step-by-step instructions for 
-      how to structure and write a high-quality blog post about it. 
-      Respond in Markdown with: "introduction", "sections", "tone", and "tips".`;
-    return await generate(prompt, token);
+  const getExcerpt = async (description: string) => {
+    return "React vs. Next.js: Which framework reigns supreme?  Unlock blazing-fast performance and SEO magic with Next.js, or stick with React's flexibility.  Find out which best fits YOUR project! #reactjs #nextjs #webdev";
+
+    const prompt = `Given this topic: "${description}", write a short and engaging excerpt (max 250 characters) for a blog post.`;
+    const { response } = await generate(prompt, auth.token!);
+
+    console.log("Generated excerpt:", response);
+
+    return response;
   };
 
-  const getImagePrompt = async (excerpt: string, token: string) => {
-    const prompt = `Based on this excerpt: "${excerpt}", generate a prompt for an image that visually represents 
-    the blog post. Describe the scene in detail, without using any text.`;
-    return await generate(prompt, token);
+  const getcontent = async (excerpt: string) => {
+    return `Generated content instructions: ## React vs. Next.js: A Detailed Blog Post Outline
+
+**Introduction:**
+
+1. **Hook:** Start with a compelling hook that grabs the reader's attention.  This could be a question (e.g., "Is your next web project screaming for speed and SEO optimization?"), a surprising statistic (e.g., "Next.js projects load X% faster than comparable React apps."), or a relatable problem (e.g., "Choosing the right framework for your project can feel overwhelming...").
+
+2. **Brief Overview:** Briefly introduce React and Next.js, highlighting their core functionalities.  Keep it concise and accessible to a broad audience – not just experienced developers.  Mention that this post will compare and contrast the two frameworks to help readers make an informed decision.
+
+3. **Thesis Statement:** Clearly state the purpose of the blog post – to compare React and Next.js and guide readers towards choosing the best framework for their specific needs.  This could be something like: "This post will delve into a head-to-head comparison of React and Next.js, analyzing their strengths and weaknesses to help you determine which framework best suits your project's requirements."
+
+**Sections:**
+
+1. **What is React?**
+    * Briefly explain React's core concepts: component-based architecture, virtual DOM, JSX.
+    * Highlight its strengths: flexibility, vast community support, large ecosystem of libraries and tools, ease of learning for beginners.
+    * Mention its weaknesses:  Requires additional libraries for routing, SEO can be challenging, potential for performance bottlenecks in complex applications.
+    * Include examples (simple code snippets) to illustrate key features.
+
+2. **What is Next.js?**
+    * Briefly explain Next.js as a React framework.  Emphasize its server-side rendering (SSR) capabilities and features like static site generation (SSG).
+    * Highlight its strengths: improved SEO, faster loading times, built-in routing, API routes, improved developer experience.
+    * Mention its weaknesses:  Steeper learning curve than React alone, less flexibility than React, might be overkill for small, simple projects.
+    * Include examples (simple code snippets) to illustrate key features, comparing them to equivalent React implementations.
+
+3. **Head-to-Head Comparison:**
+    * Create a table comparing React and Next.js across key features:
+        * Performance (SSR, SSG, client-side rendering)
+        * SEO
+        * Routing
+        * Development experience
+        * Scalability
+        * Community & Ecosystem
+        * Learning Curve
+    * Provide detailed explanations for each comparison point, justifying your assessment.  Use concrete examples where possible.
+
+
+4. **Use Cases:**
+    * Describe scenarios where React is the better choice (e.g., small projects, single-page applications, situations where maximum flexibility is needed).
+    * Describe scenarios where Next.js is the better choice (e.g., large-scale applications, projects requiring high SEO performance, projects needing server-side rendering).
+
+5. **Choosing the Right Framework:**
+    * Offer a decision-making guide, possibly a flowchart or a series of questions, to help readers determine which framework suits their project's specific needs and goals.
+
+6. **Conclusion:**
+    * Briefly summarize the key takeaways from the comparison.
+    * Reiterate the strengths of each framework and when to choose one over the other.
+    * Offer a call to action (e.g., encourage readers to share their experiences, suggest further reading).
+
+
+**Tone:**
+
+* **Objective and Informative:** Avoid biased opinions; present facts and evidence to support your claims.
+* **Clear and Concise:** Use simple language and avoid technical jargon where possible.  Explain technical terms clearly when necessary.
+* **Engaging and Accessible:**  Maintain an engaging tone, using headings, subheadings, bullet points, and visuals (images, diagrams, code snippets) to make the content easy to digest.
+* **Friendly and Helpful:**  Aim to provide a helpful and supportive experience for the reader.
+
+
+**Tips:**
+
+* **Use visuals:** Include diagrams, screenshots, and code snippets to illustrate key concepts and make the post more visually appealing.
+* **Optimize for SEO:**  Use relevant keywords throughout the post (React, Next.js, JavaScript, web development, SEO, performance) and optimize the title and meta description.
+* **Proofread carefully:** Ensure the post is free of grammatical errors and typos.
+* **Get feedback:**  Before publishing, ask someone to review your post for clarity, accuracy, and engagement.
+* **Promote your post:** Share your post on social media and other relevant platforms.
+* **Include a call to action:** Encourage readers to leave comments, share the post, or visit your website.
+* **Link to relevant resources:** Provide links to official documentation, tutorials, and other helpful resources.
+
+By following these steps, you can create a high-quality and informative blog post that effectively compares React and Next.js and helps readers make an informed decision about which framework to use for their projects.`;
+
+    const prompt = `Given this blog post excerpt: "${excerpt}", write detailed step-by-step instructions for how to structure and write a high-quality blog post about it. Respond in Markdown with: "introduction", "sections", "tone", and "tips".`;
+    const { response } = await generate(prompt, auth.token!);
+
+    console.log("Generated content instructions:", response);
+
+    return response;
+  };
+
+  const getImagePrompt = async (excerpt: string) => {
+    return "A split screen.  On one side, a vibrant, colorful, and slightly chaotic scene depicting a multitude of interconnected React components, wires, and code snippets – conveying flexibility and complexity.  On the other, a sleek, minimalist, and fast-loading webpage smoothly renders, with subtly glowing elements indicating optimized performance and SEO.  A spotlight shines brightly on the Next.js side, highlighting its speed and clean design.  The overall style is modern and clean, using bold but not overly distracting colors. The split is not perfectly even, with the Next.js side occupying slightly more space to emphasize its supposed superiority.";
+
+    const prompt = `Based on this excerpt: "${excerpt}", generate a prompt for an image that visually represents the blog post. Describe the scene in detail, without using any text.`;
+    const { response } = await generate(prompt, auth.token!);
+
+    console.log("Generated image prompt:", response);
+
+    return response;
   };
 
   const handleNext = async () => {
     if (!auth.token) return;
-    const { initialContent } = formData;
-
-    if (!validateStep1()) return;
 
     setIsLoading(true);
 
-    const { response: excerpt } = await getExcerpt(initialContent, auth.token);
-    const { response: title } = await getTitle(excerpt, auth.token);
-    const { response: contentInstructions } = await getContentInstructions(
-      excerpt,
-      auth.token
-    );
-    const { response: imagePrompt } = await getImagePrompt(excerpt, auth.token);
+    try {
+      const excerpt = await getExcerpt(formData.initialContent);
+      const [title, content, imagePrompt] = await Promise.all([
+        getTitle(excerpt),
+        getcontent(excerpt),
+        getImagePrompt(excerpt),
+      ]);
 
-    setIsLoading(false);
+      setFormData((prev) => ({
+        ...prev,
+        title,
+        excerpt,
+        content,
+        imagePrompt,
+      }));
 
-    setFormData((prev) => ({
-      ...prev,
-      title,
-      excerpt,
-      contentInstructions,
-      imagePrompt,
-    }));
-
-    if (step === 1) setStep(2);
-  };
-
-  const handleBack = () => {
-    setStep(1);
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (step === 2 && validateStep2()) {
-      console.log("Datos del formulario:", formData);
-      alert("¡Formulario enviado con éxito! Revisa la consola.");
-      setFormData(initialFormData);
-      setStep(1);
+      setStep(2);
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const handleBack = () => setStep(1);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("¡Formulario enviado con éxito! Revisa la consola.");
+    setFormData(initialFormData);
+    setStep(1);
+
+    const payload = {
+      title: formData.title,
+      excerpt: formData.excerpt,
+      content: formData.content,
+      imagePrompt: formData.imagePrompt,
+      published: formData.published,
+      published_date: formData.published_date?.toISOString() ?? "",
+    };
+
+    await createPost(payload, auth.token!);
+  };
+
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10 flex flex-1 flex-col">
       <h2 className="text-2xl font-bold mb-6 text-center text-primary">
         Crear Nuevo Post de Blog - Paso {step} de 2
       </h2>
-      <form onSubmit={handleSubmit}>
-        {step === 1 && (
-          <div className="space-y-4">
-            <Label htmlFor="initialContent" className="font-medium text-xl">
-              Escribe el contenido inicial o una idea para tu post:
-            </Label>
-            <textarea
-              id="initialContent"
-              name="initialContent"
-              value={formData.initialContent}
-              onChange={handleChange}
-              rows={5}
-              placeholder="Empieza a escribir tu idea o un borrador completo aquí..."
-              className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            />
-            {errors.initialContent && (
-              <p className="text-xl text-primary">{errors.initialContent}</p>
-            )}
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                className="bg-primary text-white hover:bg-primary/90 text-xl"
-                disabled={isLoading}
-                onClick={handleNext}
-              >
-                Siguiente
-              </Button>
-            </div>
-          </div>
-        )}
 
-        {step === 2 && (
-          <div className="space-y-6">
-            <Tabs
-              value={activeTab}
-              onValueChange={setActiveTab}
-              className="w-full"
-            >
-              <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="summary">Resumen</TabsTrigger>
-                <TabsTrigger value="instructions">Instrucciones</TabsTrigger>
-                <TabsTrigger value="image">Imagen</TabsTrigger>
-              </TabsList>
-
-              <TabsContent value="summary" className="space-y-4">
-                <div>
-                  <Label
-                    htmlFor="title"
-                    className="block text-xl font-medium mb-2"
-                  >
-                    Título del Post
-                  </Label>
-                  <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    value={formData.title}
-                    onChange={handleChange}
-                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="El mejor título para tu blog post"
-                  />
-                  {errors.title && (
-                    <p className="text-xl text-primary mt-1">{errors.title}</p>
-                  )}
-                </div>
-
-                <div>
-                  <Label
-                    htmlFor="excerpt"
-                    className="block text-xl font-medium mb-2"
-                  >
-                    Resumen / Excerpt
-                  </Label>
-                  <textarea
-                    id="excerpt"
-                    name="excerpt"
-                    value={formData.excerpt}
-                    onChange={handleChange}
-                    rows={5}
-                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Un breve resumen que enganche al lector..."
-                  />
-                  {errors.excerpt && (
-                    <p className="text-xl text-primary mt-1">
-                      {errors.excerpt}
-                    </p>
-                  )}
-                </div>
-              </TabsContent>
-
-              <TabsContent value="instructions" className="space-y-4">
-                <div>
-                  <Label
-                    htmlFor="contentInstructions"
-                    className="block text-xl font-medium mb-2"
-                  >
-                    Instrucciones para el Contenido
-                  </Label>
-                  <textarea
-                    id="contentInstructions"
-                    name="contentInstructions"
-                    value={formData.contentInstructions}
-                    onChange={handleChange}
-                    rows={10}
-                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Instrucciones generadas para crear el contenido..."
-                  />
-                </div>
-              </TabsContent>
-
-              <TabsContent value="image" className="space-y-4">
-                <div>
-                  <Label
-                    htmlFor="imagePrompt"
-                    className="block text-xl font-medium mb-2"
-                  >
-                    Prompt para Generar Imagen
-                  </Label>
-                  <textarea
-                    id="imagePrompt"
-                    name="imagePrompt"
-                    value={formData.imagePrompt}
-                    onChange={handleChange}
-                    rows={8}
-                    className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Prompt generado para la imagen destacada..."
-                  />
-                </div>
-
-                <div>
-                  <Label
-                    htmlFor="imageUrl"
-                    className="block text-xl font-medium mb-2"
-                  >
-                    Subir Imagen Destacada
-                  </Label>
-                  <input
-                    type="file"
-                    id="imageUrl"
-                    name="imageUrl"
-                    onChange={handleFileChange}
-                    accept="image/*"
-                    className="block w-full text-xl text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xl file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
-                  />
-                  {formData.imageUrl && (
-                    <p className="text-xl text-gray-600 mt-2">
-                      Archivo seleccionado: {formData.imageUrl.name}
-                    </p>
-                  )}
-                  {errors.imageUrl && (
-                    <p className="text-xl text-primary mt-1">
-                      {errors.imageUrl}
-                    </p>
-                  )}
-                </div>
-              </TabsContent>
-            </Tabs>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="published"
-                name="published"
-                checked={formData.published}
-                onCheckedChange={(checked: boolean) =>
-                  setFormData((prev) => ({ ...prev, published: checked }))
-                }
-              />
-              <Label
-                htmlFor="published"
-                className="text-xl font-medium text-primary"
-              >
-                Publicar Post
-              </Label>
-            </div>
-
-            {formData.published && (
-              <div>
-                <Label
-                  htmlFor="published_date"
-                  className="block text-xl font-medium text-primary mb-2"
-                >
-                  Fecha de Publicación
-                </Label>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={`w-[240px] justify-start text-left font-normal border-primary text-primary hover:bg-primary/10 ${
-                        !formData.published_date && "text-muted-foreground"
-                      }`}
-                    >
-                      <CalendarIcon className="mr-2 h-4 w-4" />
-                      {formData.published_date
-                        ? format(formData.published_date, "PPP", { locale: es })
-                        : "Elige una fecha"}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <Calendar
-                      mode="single"
-                      selected={formData.published_date}
-                      onSelect={handleDateChange}
-                      locale={es}
-                    />
-                  </PopoverContent>
-                </Popover>
-                {errors.published_date && (
-                  <p className="text-xl text-primary mt-1">
-                    {errors.published_date}
-                  </p>
-                )}
-              </div>
-            )}
-
-            <div className="flex justify-between mt-6">
-              <Button
-                type="button"
-                variant="outline"
-                className="border-primary text-primary hover:bg-primary/10 text-xl"
-                onClick={handleBack}
-              >
-                Atrás
-              </Button>
-              <Button
-                type="submit"
-                className="bg-primary text-white hover:bg-primary/90 text-xl"
-              >
-                Crear Post
-              </Button>
-            </div>
-          </div>
-        )}
-      </form>
+      {step === 1 ? (
+        <Scene1InitialContent
+          formData={formData}
+          setFormData={setFormData}
+          onNext={handleNext}
+          isLoading={isLoading}
+        />
+      ) : (
+        <Scene2PostDetails
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleSubmit}
+          onBack={handleBack}
+        />
+      )}
     </div>
   );
 };

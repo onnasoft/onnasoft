@@ -38,6 +38,11 @@ export default async function RelatedPosts({
   }
 
   const { docs: articles } = await getPosts({
+    select: {
+      title: true,
+      slug: true,
+      published_date: true,
+    },
     where: {
       id: {
         op: "not",

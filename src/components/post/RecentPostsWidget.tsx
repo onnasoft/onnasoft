@@ -42,6 +42,11 @@ export default async function RecentPostsWidget({
   }
 
   const { docs: articles } = await getPosts({
+    select: {
+      title: true,
+      slug: true,
+      published_date: true,
+    },
     where: whereCondition,
     locale: language,
     relations: ["cover_thumbnail", "category"],
@@ -68,7 +73,7 @@ export default async function RecentPostsWidget({
             />
             <div className="flex-1">
               <h4 className="text-sm font-medium text-gray-900 hover:text-primary transition-colors">
-                <Link href={`/${language}/${article.slug}`}>
+                <Link href={`/${language}/${article.category?.slug}/${article.slug}`}>
                   {translation?.translated_title}
                 </Link>
               </h4>

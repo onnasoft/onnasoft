@@ -95,7 +95,6 @@ export async function createPost(
     title: string;
     excerpt: string;
     content: string;
-    imagePrompt: string;
     published: boolean;
     published_date: string | null;
   },
@@ -105,7 +104,6 @@ export async function createPost(
   formData.append("title", postData.title);
   formData.append("excerpt", postData.excerpt);
   formData.append("content", postData.content);
-  formData.append("imagePrompt", postData.imagePrompt);
   formData.append("published", String(postData.published));
   if (postData.published_date) {
     formData.append("published_date", postData.published_date);

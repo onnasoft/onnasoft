@@ -24,10 +24,6 @@ export const Scene1InitialContent: React.FC<Scene1Props> = ({
   };
 
   const validateAndNext = () => {
-    if (!formData.initialContent.trim()) {
-      setError("El contenido inicial es requerido.");
-      return;
-    }
     onNext();
   };
 
@@ -44,7 +40,7 @@ export const Scene1InitialContent: React.FC<Scene1Props> = ({
           onChange={handleChange}
           rows={5}
           placeholder="Empieza a escribir tu idea o un borrador completo aquí..."
-          className="resize-y text-xl w-full border-primary border p-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+          className="resize-y text-xl w-full border p-4 rounded-lg outline-none"
         />
         {error && <p className="text-xl text-primary">{error}</p>}
       </div>

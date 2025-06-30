@@ -14,7 +14,6 @@ const BlogPostForm = () => {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Funciones de generación de contenido
   const getTitle = async (excerpt: string) => {
     const prompt = `Given this excerpt: "${excerpt}", generate an engaging blog post title. Return only plain text.`;
     const { response } = await generate(prompt, auth.token!);
@@ -38,6 +37,11 @@ const BlogPostForm = () => {
 
   const handleNext = async () => {
     if (!auth.token) return;
+
+    if (!formData.initialContent.trim()) {
+      setStep(2);
+      return;
+    }
 
     setIsLoading(true);
 
@@ -65,42 +69,46 @@ const BlogPostForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("¡Formulario enviado con éxito! Revisa la consola.");
-    setFormData(initialFormData);
-    setStep(1);
-
     const payload = {
       title: formData.title,
       excerpt: formData.excerpt,
       content: formData.content,
+      category_id: formData.category_id,
       published: formData.published,
       published_date: formData.published_date?.toISOString() ?? "",
     };
 
     await createPost(payload, auth.token!);
+
+    setFormData(initialFormData);
+    setStep(1);
   };
 
   return (
-    <div className="mx-auto p-6 bg-white shadow-lg rounded-lg mt-10 flex flex-1 flex-col">
-      <h2 className="text-2xl font-bold mb-6 text-center text-primary">
-        Crear Nuevo Post de Blog - Paso {step} de 2
-      </h2>
+    <div className="flex flex-col flex-1">
+      <div className="mb-8">
+        <h2 className="text-4xl font-bold text-primary mb-2">
+          Crear Nuevo Post de Blog - Paso {step} de 2
+        </h2>
+      </div>
 
-      {step === 1 ? (
-        <Scene1InitialContent
-          formData={formData}
-          setFormData={setFormData}
-          onNext={handleNext}
-          isLoading={isLoading}
-        />
-      ) : (
-        <Scene2PostDetails
-          formData={formData}
-          setFormData={setFormData}
-          onSubmit={handleSubmit}
-          onBack={handleBack}
-        />
-      )}
+      <div className="mx-auto p-6 bg-white shadow-lg rounded-lg w-full flex flex-1 flex-col">
+        {step === 1 ? (
+          <Scene1InitialContent
+            formData={formData}
+            setFormData={setFormData}
+            onNext={handleNext}
+            isLoading={isLoading}
+          />
+        ) : (
+          <Scene2PostDetails
+            formData={formData}
+            setFormData={setFormData}
+            onSubmit={handleSubmit}
+            onBack={handleBack}
+          />
+        )}
+      </div>
     </div>
   );
 };

@@ -76,7 +76,7 @@ const AdminPage = () => {
     <DashboardLayout>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h2 className="text-2xl font-bold text-primary mb-2">Dashboard</h2>
+          <h2 className="text-4xl font-bold text-primary mb-2">Dashboard</h2>
           <p className="text-gray-600">Bienvenido al panel de administración</p>
         </div>
 

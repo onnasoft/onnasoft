@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import {
   FaCode,
@@ -189,6 +190,11 @@ const translations = {
   },
 };
 
+const hrefs = [
+  "/company/onnasoft-building-the-future-of-web-development-fast",
+  "/company/api-integration-its-not-just-http-requests",
+];
+
 const Services: React.FC<{ language: string }> = ({ language }) => {
   const t =
     translations[language as keyof typeof translations] || translations.en;
@@ -227,7 +233,12 @@ const Services: React.FC<{ language: string }> = ({ language }) => {
                 {icons[index]}
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-900 dark:text-white">
-                {service.title}
+                <Link
+                  href={`${language}${hrefs[index]}`}
+                  className="hover:underline"
+                >
+                  {service.title}
+                </Link>
               </h3>
               <p className="text-gray-600 dark:text-gray-300">
                 {service.description}

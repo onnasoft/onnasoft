@@ -3,6 +3,7 @@ export interface FormData {
   title: string;
   excerpt: string;
   content: string;
+  category_id?: number;
   published: boolean;
   published_date: Date | undefined;
 }

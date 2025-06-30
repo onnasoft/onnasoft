@@ -49,7 +49,7 @@ export default async function RelatedPosts({
       },
     },
     locale: language,
-    relations: ["cover_thumbnail"],
+    relations: ["cover_thumbnail", "category"],
     limit: 2,
   });
   const translation = article.translations?.[0];

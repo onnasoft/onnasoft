@@ -193,6 +193,10 @@ const translations = {
 const hrefs = [
   "/company/onnasoft-building-the-future-of-web-development-fast",
   "/company/api-integration-its-not-just-http-requests",
+  "/company/onnasoft-taming-big-data-for-smarter-decisions",
+  "/company/onnasoft-turning-your-data-into-actionable-insights",
+  "/it-outsourcing/onnasoft-scale-your-it-without-the-stress-or-stop-managing-it-start-growing-your-business-with-onnasoft-or-dedicated-it-teams--secure-cloud-solutions--onnasoft-has-you-covered",
+  "/cloud-migration/onnasoft-your-path-to-a-seamless--secure-aws-cloud-migration",
 ];
 
 const Services: React.FC<{ language: string }> = ({ language }) => {

@@ -18,6 +18,15 @@ import remarkDirective from "remark-directive";
 import remarkFrontmatter from "remark-frontmatter";
 import { getImageUrl } from "@/lib/image";
 
+function normalize(str: string) {
+  return str
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^\w\s]/g, "")
+    .trim();
+}
+
 interface PostContentProps {
   readonly article: Post;
   readonly language: string;
@@ -30,7 +39,14 @@ export default async function PostContent({
   const translation = article.translations?.[0];
 
   const translated_content = translation?.translated_content.trim() ?? "";
-  const contentWithNotTitle = translated_content.replace(/^#\s+(.+)/, "");
+  let contentWithNotTitle = translated_content.replace(/^#\s+.*\n?/i, "");
+  const lines = contentWithNotTitle.split("\n");
+  const firstLine = normalize(lines[0].trim());
+  const title = normalize(translation?.translated_title?.trim() || "");
+
+  if (title && firstLine.includes(title)) {
+    contentWithNotTitle = lines.slice(1).join("\n").trim();
+  }
 
   return (
     <article className="lg:col-span-3">

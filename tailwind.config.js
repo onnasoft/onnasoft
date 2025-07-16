@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 import tailwindcssAnimate from "tailwindcss-animate";
-const flowbiteReact = require("flowbite-react/plugin/tailwindcss");
+import flowbiteReact from "flowbite-react/plugin/tailwindcss";
 
 module.exports = {
   darkMode: ["class"],

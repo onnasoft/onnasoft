@@ -78,11 +78,11 @@ export default function Comment({ comment, language }: CommentProps) {
   return (
     <div className="group relative">
       {/* Línea conectora sutil */}
-      <div className="absolute left-6 top-16 bottom-0 w-px bg-gradient-to-b from-gray-200 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+      <div className="absolute left-6 top-16 bottom-0 w-px bg-linear-to-b from-gray-200 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
       <div className="flex gap-4 p-4 rounded-xl hover:bg-gray-50/50 transition-all duration-200">
         {/* Avatar mejorado */}
-        <div className="relative flex-shrink-0">
+        <div className="relative shrink-0">
           <div className="relative">
             <Image
               width={48}

@@ -5,7 +5,7 @@ export function ResetPasswordHero() {
     <div className="hidden lg:flex lg:w-1/2 bg-primary relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-primary opacity-90"></div>
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-primary/20 to-transparent"></div>
 
       {/* Content */}
       <div className="relative z-10 flex flex-col justify-center px-12 text-white">

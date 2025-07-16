@@ -140,7 +140,7 @@ export function LoginForm({ onToggleMode }: LoginFormProps) {
       {/* Error General */}
       {errors.general && (
         <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-center gap-3">
-          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+          <AlertCircle className="w-5 h-5 text-red-500 shrink-0" />
           <p className="text-red-700 ">{errors.general}</p>
         </div>
       )}

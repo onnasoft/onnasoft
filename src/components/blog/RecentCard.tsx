@@ -28,7 +28,7 @@ export default async function RecentCard({ article }: BlogCardProps) {
 
   return (
     <div className="blog-card bg-white shadow-sm flex flex-col md:flex-row gap-4 p-4">
-      <Link href={`/${postUrl}`} className="flex-shrink-0" prefetch={false}>
+      <Link href={`/${postUrl}`} className="shrink-0" prefetch={false}>
         <Image
           priority
           src={getImageUrl(article.cover_image?.filename)}

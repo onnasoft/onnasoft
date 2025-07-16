@@ -159,7 +159,7 @@ const Hero: React.FC<HeroProps> = ({ language }) => {
       id="home"
       className="relative min-h-screen flex items-center justify-center hero-pattern overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-white via-primary/10 to-purple-50"></div>
+      <div className="absolute inset-0 bg-linear-to-br from-white via-primary/10 to-purple-50"></div>
 
       <div className="floating-shapes">
         <div className="shape"></div>

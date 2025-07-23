@@ -138,6 +138,18 @@ export default async function ProductsMenu({ language }: ProductsMenuProps) {
             </Link>
           ))}
         </div>
+        <div className="p-2 pt-0 pb-4">
+          <Link
+            href="https://enterprise.onnasoft.us/"
+            target="_blank"
+            className="block px-4 py-2 hover:bg-gray-100"
+          >
+            <div className="text-gray-900 font-medium">Onnasoft Enterprise</div>
+            <div className="text-gray-500 text-sm">
+              Get started today — purchase powerful software for your business.
+            </div>
+          </Link>
+        </div>
       </div>
     </div>
   );

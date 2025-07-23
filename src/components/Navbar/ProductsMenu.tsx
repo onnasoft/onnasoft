@@ -2,6 +2,9 @@ import Link from "next/link";
 
 const translations = {
   en: {
+    getStarted: "Get started today",
+    getStartedDescription:
+      "Available now: deploy or purchase our enterprise-ready solution.",
     products: "Products",
     items: [
       { name: "CRM", description: "Manage customer relationships." },
@@ -18,6 +21,9 @@ const translations = {
     ],
   },
   es: {
+    getStarted: "Comienza hoy",
+    getStartedDescription:
+      "Disponible ahora: despliega o compra nuestra solución lista para empresas.",
     products: "Productos",
     items: [
       { name: "CRM", description: "Gestiona relaciones con clientes" },
@@ -34,6 +40,9 @@ const translations = {
     ],
   },
   fr: {
+    getStarted: "Commencez dès aujourd'hui",
+    getStartedDescription:
+      "Disponible maintenant : déployez ou achetez notre solution prête pour les entreprises.",
     products: "Produits",
     items: [
       { name: "CRM", description: "Gérez les relations clients." },
@@ -59,6 +68,9 @@ const translations = {
     ],
   },
   ja: {
+    getStarted: "今日から始めましょう",
+    getStartedDescription:
+      "今すぐ利用可能：エンタープライズ向けのソリューションを展開または購入してください。",
     products: "製品",
     items: [
       { name: "CRM", description: "顧客関係を管理します。" },
@@ -72,6 +84,8 @@ const translations = {
     ],
   },
   zh: {
+    getStarted: "今天就开始",
+    getStartedDescription: "现在就可以使用：部署或购买我们的企业级解决方案。",
     products: "产品",
     items: [
       { name: "CRM", description: "管理客户关系。" },
@@ -140,13 +154,13 @@ export default async function ProductsMenu({ language }: ProductsMenuProps) {
         </div>
         <div className="p-2 pt-0 pb-4">
           <Link
-            href="https://enterprise.onnasoft.us/"
+            href={`https://enterprise.onnasoft.us?lang=${language === "es" ? "es" : "en"}`}
             target="_blank"
             className="block px-4 py-2 hover:bg-gray-100"
           >
-            <div className="text-gray-900 font-medium">Onnasoft Enterprise</div>
-            <div className="text-gray-500 text-sm">
-              Get started today — purchase powerful software for your business.
+            <div className="text-gray-900 font-bold">{t.getStarted}</div>
+            <div className="text-gray-500 text-sm font-bold">
+              {t.getStartedDescription}
             </div>
           </Link>
         </div>

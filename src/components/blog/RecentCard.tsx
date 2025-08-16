@@ -4,8 +4,6 @@ import { Post } from "@/types/models";
 import Image from "next/image";
 import Link from "next/link";
 
-const mediaUrl = process.env.NEXT_PUBLIC_MEDIA_URL || "https://onnasoft.us";
-
 type BlogCardProps = {
   readonly article: Post;
 };

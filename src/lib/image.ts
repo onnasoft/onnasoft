@@ -3,6 +3,6 @@ export function getImageUrl(filename?: string): string {
     return "/default-image.jpg";
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_API_URL || "https://onnasoft.us";
+  const baseUrl = process.env.NEXT_PUBLIC_MEDIA_URL || "https://onnasoft.us";
   return `${baseUrl}/media/file/${filename}`;
 }

@@ -3,7 +3,7 @@ import classnames from "classnames";
 import { usePathname } from "next/navigation";
 
 export default function Sidebar() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
   const activeClass = "bg-primary/5 text-primary border-primary border-r-2";
 
   return (

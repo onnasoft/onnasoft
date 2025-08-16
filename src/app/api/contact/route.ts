@@ -2,7 +2,7 @@ import Joi from "joi";
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY ?? "-");
 
 const apiContactSchema = Joi.object({
   name: Joi.string().min(2).max(50).required(),

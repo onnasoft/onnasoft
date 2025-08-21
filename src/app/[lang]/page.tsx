@@ -14,7 +14,7 @@ import Testimonials from "@/components/Testimonials";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import WorkProcess from "@/components/WorkProcess";
 import { suportedLanguages } from "@/types/languages";
-import Head from "next/head";
+import { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -46,6 +46,16 @@ const metadataByLang = {
   },
 };
 
+export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
+  const lang = params.lang || "en";
+  const { title, description } = metadataByLang[lang as keyof typeof metadataByLang] || metadataByLang.en;
+
+  return {
+    title,
+    description,
+  };
+}
+
 interface HomeProps {
   readonly params: Promise<{
     lang: string;
@@ -61,19 +71,10 @@ export default async function Home({ params }: HomeProps) {
     redirect(`/en/${lang}`);
   }
   const language = lang.toLowerCase();
-
-  const { title, description } =
-    metadataByLang[language as keyof typeof metadataByLang] ||
-    metadataByLang.en;
-
   const pathname = h.get("x-pathname") || "";
 
   return (
     <div className="min-h-screen bg-white">
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content={description} />
-      </Head>
       <Navbar pathname={pathname} language={language} />
       <main>
         <Hero language={language} />

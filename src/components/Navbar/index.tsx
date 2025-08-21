@@ -82,7 +82,7 @@ const Navbar = async ({ language, pathname = "/", query }: NavbarProps) => {
             className="mr-2"
           />
           <Link
-            prefetch={false}
+            prefetch={true}
             href={`/${language}`}
             className="text-2xl font-bold text-gray-900"
           >

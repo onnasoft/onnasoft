@@ -6,6 +6,8 @@ import { suportedLanguages } from "@/types/languages";
 import { headers } from "next/headers";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { getPosts } from "@/services/posts";
+import { getImageUrl } from "@/lib/image";
 
 export interface PageProps {
   readonly params: Promise<{
@@ -45,36 +47,59 @@ const metadataByLang = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const args = await params;
-  const lang = args.lang || "en";
-  const post = args.post || "Post";
+  let language = (args.lang || "en").toLowerCase();
+  if (!suportedLanguages.includes(language)) language = "en";
 
-  let language = lang.toLowerCase();
-  if (!suportedLanguages.includes(lang)) {
-    language = "en";
-  }
+  const postSlug = args.post || "Post";
+  const category = args.category || "";
 
   const t = metadataByLang[language as keyof typeof metadataByLang] || metadataByLang.en;
 
-  return {
-    title: t.title(post),
-    description: t.description(post.replaceAll("-", " ")),
+  const { docs: articles } = await getPosts({
+    where: { slug: postSlug },
+    locale: language,
+    relations: ["cover_image"],
+  });
+
+  const article = articles[0];
+
+  const title = article?.translations?.[0]?.translated_title || t.title(postSlug);
+  const description =
+    article?.translations?.[0]?.translatedExcerpt || t.description(postSlug.replaceAll("-", " "));
+  const coverImage = article?.cover_image?.filename
+    ? getImageUrl(article.cover_image.filename)
+    : undefined;
+  const canonicalUrl = `${process.env.WEBSITE_URL}/${language}/${category}/${postSlug}`;
+
+  const metadata: Metadata = {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: canonicalUrl,
+      images: coverImage ? [coverImage] : undefined,
+    },
+    twitter: {
+      title,
+      description,
+      images: coverImage ? [coverImage] : undefined,
+    },
   };
+
+  return metadata;
 }
 
 export default async function Page({ params }: PageProps) {
   const h = await headers();
   const acceptLanguage = h.get("accept-language")?.split(",")[0];
   const args = await params;
-  const lang = args.lang || acceptLanguage || "en";
-  const pathname = h.get("x-pathname") || "";
-
-  let language = lang.toLowerCase();
-  if (!suportedLanguages.includes(lang)) {
-    language = "en";
-  }
+  let language = (args.lang || acceptLanguage || "en").toLowerCase();
+  if (!suportedLanguages.includes(language)) language = "en";
 
   const category = args.category || "";
   const post = args.post || "";
+  const pathname = h.get("x-pathname") || "";
 
   return (
     <Suspense

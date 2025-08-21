@@ -6,7 +6,6 @@ import Navbar from "@/components/Navbar";
 import PostContent from "@/components/post/PostContent";
 import PostSidebar from "@/components/post/PostSidebar";
 import { getPosts } from "@/services/posts";
-import Head from "next/head";
 import { redirect } from "next/navigation";
 
 const WEBSITE_URL = process.env.WEBSITE_URL || "https://onnasoft.us";
@@ -41,20 +40,8 @@ const PostPage: React.FC<PostPageProps> = async ({
     redirect(`/en`);
   }
 
-  const translation = articles[0]?.translations?.[0];
-
   return (
     <div className="min-h-screen bg-white">
-      <Head>
-        <title>{translation?.translated_title} - OnnaSoft</title>
-        <meta name="description" content={translation?.translatedExcerpt} />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        <link
-          rel="canonical"
-          href={`${WEBSITE_URL}/${language}/${category}/${post}`}
-        />
-      </Head>
       <Navbar language={language} pathname={pathname} />
       <main className="animate-fade-in-down">
         <div className="mt-16" />

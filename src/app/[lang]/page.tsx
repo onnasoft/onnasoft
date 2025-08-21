@@ -46,8 +46,8 @@ const metadataByLang = {
   },
 };
 
-export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
-  const lang = params.lang || "en";
+export async function generateMetadata({ params }: HomeProps): Promise<Metadata> {
+  const lang = (await params).lang || "en";
   const { title, description } = metadataByLang[lang as keyof typeof metadataByLang] || metadataByLang.en;
 
   return {

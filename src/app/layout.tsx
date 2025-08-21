@@ -2,6 +2,7 @@
 
 import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
+import { headers } from "next/headers";
 import Session from "@/components/Session";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "katex/dist/katex.min.css";
@@ -20,20 +21,16 @@ const geistMono = Geist_Mono({
 
 const GOOGLE_TAG_ID = process.env.NEXT_PUBLIC_GOOGLE_TAG_ID;
 
-export default async function RootLayout({
-  children,
-  params,
-}: Readonly<{
-  children: React.ReactNode;
-  readonly params: Promise<{
-    lang: string;
-  }>;
-}>) {
-  const lang = (await params).lang || "en";
-  const language = lang.toLowerCase();
+type RootLayoutProps = {
+  readonly children: React.ReactNode;
+};
+
+export default async function RootLayout(props: RootLayoutProps) {
+  const h = await headers();
+  const lang = h.get("x-lang") || "en";
 
   return (
-    <html lang={language}>
+    <html lang={lang}>
       <head>
         <title>Onnasoft | Smart Digital Solutions</title>
         {GOOGLE_TAG_ID ? (
@@ -54,10 +51,10 @@ export default async function RootLayout({
               }}
             ></Script>
           </>
-        ): null}
+        ) : null}
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
+        {props.children}
         <Session />
       </body>
     </html>

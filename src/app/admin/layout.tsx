@@ -1,13 +1,12 @@
-"use server";
 
 import { Geist, Geist_Mono } from "next/font/google";
 import Session from "@/components/Session";
 import GoogleOAuthProvider from "@/components/GoogleOAuthProvider";
+import AuthRequired from "@/components/AuthRequired";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import "katex/dist/katex.min.css";
 import "highlight.js/styles/github-dark.css";
 import "../globals.css";
-import AuthRequired from "@/components/AuthRequired";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -19,17 +18,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export default async function RootLayout({
+interface RootLayoutProps {
+  readonly children: React.ReactNode;
+}
+
+export default function RootLayout({
   children,
-  params,
-}: Readonly<{
-  children: React.ReactNode;
-  readonly params: Promise<{
-    lang: string;
-  }>;
-}>) {
-  const lang = (await params).lang || "en";
-  const language = lang.toLowerCase();
+}: RootLayoutProps) {
+  const language = "en";
 
   return (
     <html lang={language}>

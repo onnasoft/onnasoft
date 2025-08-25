@@ -154,7 +154,7 @@ export default async function ProductsMenu({ language }: ProductsMenuProps) {
         </div>
         <div className="p-2 pt-0 pb-4">
           <Link
-            href={`https://enterprise.onnasoft.us?lang=${language === "es" ? "es" : "en"}`}
+            href={`https://comunity.onnasoft.us?lang=${language === "es" ? "es" : "en"}`}
             target="_blank"
             className="block px-4 py-2 hover:bg-gray-100"
           >

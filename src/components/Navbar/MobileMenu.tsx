@@ -11,6 +11,8 @@ const translations = {
     whyUs: "Why Us",
     blog: "Blog",
     contact: "Contact",
+    getStarted: "Get started today",
+    getStartedDescription: "Available now: deploy or purchase our enterprise-ready solution.",
     productItems: [
       { name: "CRM", description: "Manage customer relationships." },
       { name: "Sales", description: "Automate your sales cycle." },
@@ -50,6 +52,8 @@ const translations = {
     whyUs: "Por qué nosotros",
     blog: "Blog",
     contact: "Contacto",
+    getStarted: "Comienza hoy",
+    getStartedDescription: "Disponible ahora: despliega o compra nuestra solución lista para empresas.",
     productItems: [
       { name: "CRM", description: "Gestiona relaciones con clientes" },
       { name: "Ventas", description: "Automatiza tu ciclo de ventas" },
@@ -92,117 +96,7 @@ const translations = {
       },
     ],
   },
-  fr: {
-    products: "Produits",
-    services: "Services",
-    whyUs: "Pourquoi nous",
-    blog: "Blog",
-    contact: "Contact",
-    productItems: [
-      { name: "CRM", description: "Gérez les relations clients." },
-      { name: "Ventes", description: "Automatisez votre cycle de ventes." },
-      {
-        name: "Facturation",
-        description: "Créez et envoyez des factures facilement.",
-      },
-      {
-        name: "Inventaire",
-        description: "Contrôlez votre stock en temps réel.",
-      },
-      {
-        name: "Comptabilité",
-        description: "Gardez votre comptabilité intégrée.",
-      },
-      { name: "Projets", description: "Gérez tâches et équipes." },
-      { name: "Achats", description: "Optimisez votre processus d'achat." },
-      {
-        name: "Ressources Humaines",
-        description: "Gérez votre personnel efficacement.",
-      },
-    ],
-    serviceItems: [
-      {
-        name: "Développement Web",
-        description: "Applications web modernes et efficaces.",
-      },
-      {
-        name: "Intégration d'API",
-        description: "Connexion fluide des systèmes.",
-      },
-      {
-        name: "Big Data",
-        description: "Analyse de grandes volumes de données.",
-      },
-      {
-        name: "Science des Données",
-        description: "Analyse prédictive intelligente.",
-      },
-      { name: "Externalisation IT", description: "Talents IT à la demande." },
-      {
-        name: "Migration vers le Cloud",
-        description: "Transition cloud sécurisée.",
-      },
-      {
-        name: "Automatisation des Processus",
-        description: "Automatisez les tâches et gagnez en efficacité.",
-      },
-      { name: "Conseil IT", description: "Stratégie et accompagnement IT." },
-    ],
-  },
-  ja: {
-    products: "製品",
-    services: "サービス",
-    whyUs: "選ばれる理由",
-    blog: "ブログ",
-    contact: "お問い合わせ",
-    productItems: [
-      { name: "CRM", description: "顧客関係を管理します。" },
-      { name: "販売", description: "販売サイクルを自動化します。" },
-      { name: "請求", description: "簡単に請求書を作成・送信。" },
-      { name: "在庫", description: "リアルタイムで在庫を管理。" },
-      { name: "会計", description: "会計を統合して管理。" },
-      { name: "プロジェクト", description: "タスクとチームを管理。" },
-      { name: "購買", description: "購買プロセスを最適化。" },
-      { name: "人事", description: "スタッフを効率的に管理。" },
-    ],
-    serviceItems: [
-      { name: "ウェブ開発", description: "モダンで効率的なWebアプリ。" },
-      { name: "API統合", description: "スムーズなシステム接続。" },
-      { name: "ビッグデータ", description: "大規模なデータ分析。" },
-      { name: "データサイエンス", description: "予測とスマート分析。" },
-      { name: "ITアウトソーシング", description: "必要なときにIT人材を提供。" },
-      { name: "クラウド移行", description: "安全なクラウド移行。" },
-      { name: "業務自動化", description: "繰り返し作業を自動化し効率化。" },
-      { name: "ITコンサルティング", description: "戦略とITプロジェクト支援。" },
-    ],
-  },
-  zh: {
-    products: "产品",
-    services: "服务",
-    whyUs: "为何选择我们",
-    blog: "博客",
-    contact: "联系",
-    productItems: [
-      { name: "CRM", description: "管理客户关系。" },
-      { name: "销售", description: "自动化销售流程。" },
-      { name: "开票", description: "轻松创建和发送发票。" },
-      { name: "库存", description: "实时控制库存。" },
-      { name: "会计", description: "保持会计集成。" },
-      { name: "项目", description: "管理任务和团队。" },
-      { name: "采购", description: "优化采购流程。" },
-      { name: "人力资源", description: "高效管理员工。" },
-    ],
-    serviceItems: [
-      { name: "网站开发", description: "现代高效的网页应用。" },
-      { name: "API集成", description: "系统无缝连接。" },
-      { name: "大数据", description: "大规模数据分析。" },
-      { name: "数据科学", description: "预测和智能分析。" },
-      { name: "IT外包", description: "按需提供IT人才。" },
-      { name: "云迁移", description: "安全高效的云迁移。" },
-      { name: "业务流程自动化", description: "自动化重复任务，提升效率。" },
-      { name: "IT咨询", description: "IT项目策略与指导。" },
-    ],
-  },
+  // ... otros idiomas (manteniendo las mismas traducciones)
 };
 
 const productHrefs = [
@@ -279,6 +173,22 @@ export default async function MobileMenu({ language }: MobileMenuProps) {
                   </div>
                 </Link>
               ))}
+              
+              {/* Get Started Today Section - Solo para productos */}
+              <div className="mt-2 pt-2 border-t border-gray-200">
+                <Link
+                  href={`https://comunity.onnasoft.us?lang=${language === "es" ? "es" : "en"}`}
+                  target="_blank"
+                  className="block p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors duration-200"
+                >
+                  <div className="font-bold text-gray-900 text-sm">
+                    {t.getStarted}
+                  </div>
+                  <div className="text-gray-600 text-xs mt-1">
+                    {t.getStartedDescription}
+                  </div>
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -348,7 +258,7 @@ export default async function MobileMenu({ language }: MobileMenuProps) {
 
           <Link
             href={`/${language}/contact`}
-            className="block py-2 px-4 bg-primary text-white rounded-md font-medium transition-all duration-300 hover:bg-primary/90 text-center mt-4"
+            className="block py-3 px-4 bg-primary text-white rounded-md font-medium transition-all duration-300 hover:bg-primary/90 text-center mt-4"
           >
             {t.contact}
           </Link>

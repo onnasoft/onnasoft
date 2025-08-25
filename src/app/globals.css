@@ -710,7 +710,7 @@ body {
 }
 
 .mobile-menu-toggle:checked ~ .mobile-menu {
-  max-height: 500px;
+  max-height: 550px;
   opacity: 1;
   visibility: visible;
 }
@@ -773,7 +773,7 @@ body {
 }
 
 .products-toggle:checked ~ .products-submenu {
-  max-height: 400px;
+  max-height: 450px;
   opacity: 1;
   visibility: visible;
 }

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { suportedLanguages } from "@/types/languages";
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
   const page = request.nextUrl.searchParams.get("page") || "1";
   const query = request.nextUrl.searchParams.get("q") || "";

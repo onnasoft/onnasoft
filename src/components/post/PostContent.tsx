@@ -32,6 +32,8 @@ interface PostContentProps {
   readonly language: string;
 }
 
+const HIDE_COMMENTS = process.env.NEXT_PUBLIC_HIDE_COMMENTS === "true";
+
 export default async function PostContent({
   article,
   language,
@@ -92,7 +94,7 @@ export default async function PostContent({
 
       <RelatedPosts language={language} article={article} />
 
-      <Comments language={language} article={article} />
+      {!HIDE_COMMENTS && <Comments language={language} article={article} />}
     </article>
   );
 }

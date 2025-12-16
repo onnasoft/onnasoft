@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
-import withFlowbiteReact from "flowbite-react/plugin/nextjs";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  allowedDevOrigins: [
+    "http://localhost:3000",
+    "http://localhost:4200",
+    "http://localhost:3200",
+    "https://onnasoft.us",
+    "https://www.onnasoft.us",
+  ],
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -41,4 +47,4 @@ const nextConfig: NextConfig = {
   outputFileTracingRoot: process.cwd(),
 };
 
-export default withFlowbiteReact(nextConfig);
+export default nextConfig;
